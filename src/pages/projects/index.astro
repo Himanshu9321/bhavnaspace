@@ -1,0 +1,9 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects';
+---
+<Layout title="Projects — Bhavna Space" description="Selected residential and commercial interior design projects by Bhavna Space.">
+  <section class="page-hero section-dark"><p class="eyebrow">Selected work</p><h1>Projects</h1><p class="page-hero-copy">Interiors shaped by context, material and the people who inhabit them.</p></section>
+  <section class="projects-section section-light section-pad"><div class="project-list">{projects.map((project) => <ProjectCard project={project} />)}</div></section>
+</Layout>

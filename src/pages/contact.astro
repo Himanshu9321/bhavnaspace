@@ -1,0 +1,8 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import { site } from '../data/site';
+---
+<Layout title="Contact — Bhavna Space" description="Start an interior design project with Bhavna Space.">
+  <section class="contact-page section-light section-pad"><div class="contact-heading"><p class="eyebrow">Start a project</p><h1>Let's create a space that feels like you.</h1><p>Tell us a little about the project. We will get back to you with the next steps.</p><div class="direct-contact"><a href={`https://wa.me/${site.whatsappNumber}`} target="_blank" rel="noreferrer">WhatsApp ↗</a><a href={`tel:${site.phone.replaceAll(' ', '')}`}>Call ↗</a><a href={`mailto:${site.email}`}>{site.email}</a></div></div><ContactForm /></section>
+</Layout>

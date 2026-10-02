@@ -1,0 +1,23 @@
+---
+import { nav, site } from '../data/site';
+---
+<header class="site-header" data-header>
+  <a class="brand" href="/" aria-label="Bhavna Space home">BHAVNA <span>SPACE</span></a>
+  <nav class="desktop-nav" aria-label="Primary navigation">
+    {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+  </nav>
+  <a class="header-cta" href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello Bhavna Space, I would like to discuss an interior design project.')}`} target="_blank" rel="noreferrer">Start a project ↗</a>
+  <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+    <span>Menu</span><span class="menu-icon" aria-hidden="true"><i></i><i></i></span>
+  </button>
+</header>
+
+<div class="mobile-menu" id="mobile-menu" data-mobile-menu aria-hidden="true">
+  <div class="mobile-menu-inner">
+    <p class="eyebrow">Bhavna Space</p>
+    <nav aria-label="Mobile navigation">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <a class="mobile-whatsapp" href={`https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello Bhavna Space, I would like to discuss an interior design project.')}`} target="_blank" rel="noreferrer">WhatsApp ↗</a>
+  </div>
+</div>

@@ -1,0 +1,62 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+import { site } from '../data/site';
+
+const featured = projects.slice(0, 3);
+const whatsapp = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello Bhavna Space, I would like to discuss an interior design project.')}`;
+---
+<Layout title="Bhavna Space — Interior Design Studio in {site.city}" description="Bhavna Space creates refined residential and commercial interiors shaped by light, material and everyday living.">
+  <section class="hero section-dark">
+    <div class="hero-top"><span>Interior Design Studio</span><span>{site.city} · India</span></div>
+    <div class="hero-title-wrap">
+      <p class="hero-kicker reveal-up">Spaces designed to be lived in.</p>
+      <h1 class="hero-title"><span>Bhavna</span><span>Space</span></h1>
+    </div>
+    <div class="hero-media image-reveal">
+      <img src="/images/hero.svg" alt="Contemporary interior by Bhavna Space" width="1800" height="1200" fetchpriority="high" />
+      <span class="hero-scroll">Scroll to explore ↓</span>
+    </div>
+  </section>
+
+  <section class="intro section-light section-pad">
+    <div class="section-label"><span>01</span><span>Studio</span></div>
+    <div class="intro-copy reveal-up">
+      <p class="display-text">We create <em>quietly expressive</em> interiors where architecture, material and everyday life come together.</p>
+      <a class="text-link" href="/about/">Discover the studio <span>↗</span></a>
+    </div>
+  </section>
+
+  <section class="projects-section section-light section-pad">
+    <div class="section-heading"><div><span class="eyebrow">Selected work</span><h2>Projects</h2></div><a class="text-link" href="/projects/">View all <span>↗</span></a></div>
+    <div class="project-list">
+      {featured.map((project, index) => <ProjectCard project={project} featured={index === 0} />)}
+    </div>
+  </section>
+
+  <section class="statement section-dark section-pad">
+    <div class="section-label"><span>02</span><span>Approach</span></div>
+    <p class="statement-text reveal-up">Good interiors do not ask for attention. They <em>earn it slowly.</em></p>
+  </section>
+
+  <section class="services-section section-light section-pad">
+    <div class="section-label"><span>03</span><span>Services</span></div>
+    <div class="services-layout">
+      <h2>From first sketch<br />to final detail.</h2>
+      <div class="service-list">
+        <div><span>01</span><h3>Residential Interiors</h3><p>Complete interior design for homes shaped around the people who live in them.</p></div>
+        <div><span>02</span><h3>Commercial Spaces</h3><p>Workplaces and customer-facing spaces designed to express the character of a brand.</p></div>
+        <div><span>03</span><h3>Styling & Detail</h3><p>Material palettes, furniture, lighting and finishing details that bring a space together.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta section-dark">
+    <div class="cta-inner">
+      <p class="eyebrow">Have a space in mind?</p>
+      <h2>Let's make<br /><em>room for living.</em></h2>
+      <div class="cta-actions"><a class="button button-light" href="/contact/">Start a project ↗</a><a class="button button-outline" href={whatsapp} target="_blank" rel="noreferrer">WhatsApp ↗</a></div>
+    </div>
+  </section>
+</Layout>

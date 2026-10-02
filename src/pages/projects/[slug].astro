@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const currentIndex = projects.findIndex((item) => item.slug === project.slug);
+const next = projects[(currentIndex + 1) % projects.length];
+---
+<Layout title={`${project.title} — Bhavna Space`} description={project.excerpt} image={project.hero}>
+  <article class="project-detail section-light">
+    <header class="project-detail-hero section-pad">
+      <div class="project-detail-top"><span>{project.number}</span><span>{project.category}</span><span>{project.year}</span></div>
+      <h1>{project.title}</h1>
+      <p>{project.excerpt}</p>
+      <div class="project-detail-image image-reveal"><img src={project.hero} alt={project.title} width="1800" height="1200" fetchpriority="high" /></div>
+    </header>
+
+    <section class="project-info section-pad">
+      <div class="section-label"><span>Project</span><span>{project.location}</span></div>
+      <div class="project-info-grid"><div><p class="large-copy">{project.description}</p></div><dl><div><dt>Location</dt><dd>{project.location}</dd></div><div><dt>Area</dt><dd>{project.area}</dd></div><div><dt>Type</dt><dd>{project.category}</dd></div><div><dt>Year</dt><dd>{project.year}</dd></div></dl></div>
+    </section>
+
+    <section class="project-gallery section-pad"><div class="gallery-grid">{project.images.map((image, index) => <div class:list={["gallery-image", { wide: index === 0 }]}><img src={image} alt={`${project.title} — view ${index + 1}`} width="1600" height="1100" loading="lazy" /></div>)}</div></section>
+
+    <section class="materials section-dark section-pad"><div class="section-label"><span>Material palette</span><span>Details</span></div><div class="material-list">{project.materials.map((material, index) => <span><small>0{index + 1}</small>{material}</span>)}</div></section>
+
+    <a class="next-project section-light" href={`/projects/${next.slug}/`}>
+      <span>Next project</span>
+      <strong>{next.title} ↗</strong>
+    </a>
+  </article>
+</Layout>

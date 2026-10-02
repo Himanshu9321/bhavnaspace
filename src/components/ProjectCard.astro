@@ -1,0 +1,27 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+---
+<a class:list={["project-card", { featured }]} href={`/projects/${project.slug}/`}>
+  <div class="project-image image-reveal">
+    <img src={project.hero} alt={project.title} width="1600" height="1100" loading={featured ? 'eager' : 'lazy'} decoding="async" />
+    <span class="project-hover">View project ↗</span>
+  </div>
+  <div class="project-meta">
+    <div>
+      <span class="project-number">{project.number}</span>
+      <h3>{project.title}</h3>
+    </div>
+    <div class="project-details">
+      <span>{project.category}</span>
+      <span>{project.location}</span>
+      <span>{project.year}</span>
+    </div>
+  </div>
+</a>

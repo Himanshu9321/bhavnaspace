@@ -5,25 +5,63 @@
 }
 
 :root {
-  --ink: #171714;
-  --paper: #f3f0e9;
-  --paper-2: #e9e4da;
-  --muted: #777269;
-  --line: rgba(23, 23, 20, .16);
-  --white: #f7f5f0;
-  --serif: Georgia, 'Times New Roman', serif;
-  --sans: 'Bhavna Sans', Arial, sans-serif;
-  --pad: clamp(20px, 4vw, 64px);
+  /* Brand Primary Colors */
+  --color-primary: #DB9558;
+  --color-primary-hover: #C9803F;
+  --color-background: #FCF9EA;
+  --color-secondary: #97A87A;
+  --color-sage: #A8BBA3;
+
+  /* Text & Support Colors */
+  --color-text: #2B2A26;
+  --color-text-muted: #5E5B52;
+  --color-primary-text: #8A5420;
+  --color-secondary-text: #4F5E38;
+  --color-border: #E3DCC4;
+
+  /* Shape & Spacing */
+  --radius: 2px;
+  --radius-lg: 4px;
+  --space-section: clamp(4rem, 10vw, 9rem);
+  --space-gutter: clamp(1.25rem, 4vw, 3rem);
+
+  /* Typography */
+  --font-heading: 'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-base: 1.0625rem;
+  --text-lg: 1.25rem;
+  --text-xl: clamp(1.5rem, 2.5vw, 2rem);
+  --text-2xl: clamp(2rem, 4vw, 3.25rem);
+  --text-hero: clamp(2.75rem, 7vw, 6rem);
+
+  /* Workspace aliases mapped to brand variables */
+  --ink: var(--color-text);
+  --paper: var(--color-background);
+  --paper-2: var(--color-sage);
+  --muted: var(--color-text-muted);
+  --line: var(--color-border);
+  --white: #FCF9EA;
+  --serif: var(--font-heading);
+  --sans: var(--font-body);
+  --pad: var(--space-gutter);
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: auto; background: var(--paper); }
-body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.5; }
-body, button, input, textarea, select { font-family: var(--sans); }
+html { scroll-behavior: auto; background: var(--color-background); }
+body { margin: 0; background: var(--color-background); color: var(--color-text); font-family: var(--font-body); font-size: 16px; line-height: 1.6; }
+body, button, input, textarea, select { font-family: var(--font-body); }
 a { color: inherit; text-decoration: none; }
 img { display: block; width: 100%; height: auto; }
 button { color: inherit; }
-::selection { background: var(--ink); color: var(--paper); }
+::selection { background: var(--color-primary); color: var(--color-text); }
+
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
+}
 
 .skip-link { position: fixed; left: 16px; top: -100px; z-index: 100; background: var(--ink); color: var(--white); padding: 10px 14px; }
 .skip-link:focus { top: 16px; }

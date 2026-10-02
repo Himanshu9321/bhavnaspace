@@ -2,10 +2,11 @@ node_modules/
 dist/
 .wrangler/
 .astro/
+.agent/
 
 .env
 .env.*
 !.env.example
-
+AGENTS.md
 .DS_Store
 *.log

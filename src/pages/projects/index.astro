@@ -2,8 +2,211 @@
 import Layout from '../../layouts/Layout.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import { projects } from '../../data/projects';
+import { site } from '../../data/site';
+
+const categories = [
+  { label: 'All Projects', slug: 'all' },
+  { label: 'Kitchens', slug: 'kitchens' },
+  { label: 'Residential', slug: 'residential' },
+  { label: 'Living Spaces', slug: 'living' },
+  { label: 'Complete Homes', slug: 'complete-homes' },
+];
 ---
-<Layout title="Projects — Bhavna Space" description="Selected residential and commercial interior design projects by Bhavna Space.">
-  <section class="page-hero section-dark"><p class="eyebrow">Selected work</p><h1>Projects</h1><p class="page-hero-copy">Interiors shaped by context, material and the people who inhabit them.</p></section>
-  <section class="projects-section section-light section-pad"><div class="project-list">{projects.map((project) => <ProjectCard project={project} />)}</div></section>
+
+<Layout
+  title={`Projects & Portfolio — ${site.name}`}
+  description="Explore selected residential and commercial interior architecture projects by Bhavna Space, crafted with honest materials, considered light, and tailored joinery."
+>
+  <!-- Publication Editorial Header -->
+  <header class="inner-page-hero theme-ivory">
+    <div class="container">
+      <div class="section-divider">
+        <span>Selected Works</span>
+        <span>2024 &mdash; 2026 Archive</span>
+      </div>
+
+      <span class="eyebrow eyebrow-teal">Studio Portfolio</span>
+      <h1 class="inner-page-hero-title">
+        Spaces shaped by<br /><em>context and living.</em>
+      </h1>
+      <p class="inner-page-hero-lead">
+        Each project begins with listening—to the qualities of natural light, the structural rhythms of the building, and the quiet rituals of everyday life.
+      </p>
+
+      <!-- Interactive Category Filter Bar -->
+      <nav class="project-filter-nav" aria-label="Project Categories" data-project-filters>
+        <ul class="filter-list">
+          {categories.map((cat, idx) => (
+            <li>
+              <button
+                type="button"
+                class:list={['filter-btn', { 'filter-btn--active': idx === 0 }]}
+                data-filter={cat.slug}
+                aria-pressed={idx === 0 ? 'true' : 'false'}
+              >
+                {cat.label}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Project Gallery Grid -->
+  <section class="section-pad theme-ivory project-gallery-section" aria-label="Projects List">
+    <div class="container">
+      <div class="projects-editorial-grid" data-projects-grid>
+        {projects.map((project, idx) => (
+          <div
+            class="project-grid-item"
+            data-category={project.categorySlug}
+          >
+            <ProjectCard project={project} featured={idx === 0} />
+          </div>
+        ))}
+      </div>
+
+      <!-- Additional Archive Note / Commission Banner -->
+      <div class="archive-commission-card theme-cream">
+        <div class="archive-copy">
+          <span class="eyebrow">Studio Inquiries</span>
+          <h3 class="archive-title">Looking for a specific spatial typology?</h3>
+          <p class="archive-desc">
+            We take on a limited number of residential commissions each year to ensure uncompromising craftsmanship and attention to detail.
+          </p>
+        </div>
+        <a href="/contact/" class="btn btn-teal">
+          <span>Inquire About Your Project</span>
+          <span class="btn-icon" aria-hidden="true">&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<script>
+  const filterButtons = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const projectItems = document.querySelectorAll<HTMLElement>('[data-category]');
+
+  filterButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const filter = btn.getAttribute('data-filter');
+
+      // Update button state
+      filterButtons.forEach((b) => {
+        b.classList.remove('filter-btn--active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('filter-btn--active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      // Filter project cards
+      projectItems.forEach((item) => {
+        const itemCat = item.getAttribute('data-category');
+        if (filter === 'all' || itemCat === filter || filter === 'residential') {
+          item.style.display = 'block';
+          item.style.opacity = '1';
+        } else {
+          item.style.display = 'none';
+          item.style.opacity = '0';
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  /* ── Filter Bar ─────────────────────────────────────────────────────── */
+  .project-filter-nav {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .filter-list {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    padding: 8px 18px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-espresso);
+    cursor: pointer;
+    transition: all 200ms ease;
+  }
+
+  .filter-btn:hover {
+    border-color: var(--color-teal);
+    color: var(--color-teal);
+  }
+
+  .filter-btn--active {
+    background-color: var(--color-teal);
+    border-color: var(--color-teal);
+    color: var(--color-ivory);
+  }
+
+  /* ── Projects Grid ──────────────────────────────────────────────────── */
+  .projects-editorial-grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 5rem);
+  }
+
+  .project-grid-item {
+    transition: opacity 300ms ease;
+  }
+
+  /* ── Archive Commission Card ────────────────────────────────────────── */
+  .archive-commission-card {
+    margin-top: clamp(4rem, 8vw, 7rem);
+    padding: clamp(2.5rem, 5vw, 4rem);
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .archive-title {
+    margin: 0 0 0.5rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    font-weight: 400;
+    color: var(--color-espresso);
+  }
+
+  .archive-desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    max-width: 580px;
+  }
+
+  @media (max-width: 767px) {
+    .archive-commission-card {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .archive-commission-card .btn {
+      width: 100%;
+    }
+  }
+</style>

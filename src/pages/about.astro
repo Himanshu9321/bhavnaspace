@@ -1,7 +1,437 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+
+const whatsappInquiry = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Hello Bhavna Space, I would like to schedule an introductory design consultation.")}`;
+
+const processStages = [
+  {
+    step: '01',
+    title: 'Discovery & Spatial Listening',
+    desc: 'We begin by studying the orientation of daylight, the structural skeleton, and your personal daily rituals—how you prepare morning coffee, unwind at dusk, or entertain friends.',
+  },
+  {
+    step: '02',
+    title: 'Concept & Material Direction',
+    desc: 'Translating spatial intentions into cohesive material moodboards: tactile timber samples, stone finishes, mineral plaster palettes, and custom furniture sketches.',
+  },
+  {
+    step: '03',
+    title: 'Detailed Architectural Joinery',
+    desc: 'Translating vision into millimeter-precise architectural drawings, custom cabinetry details, electrical and ambient lighting layouts, and plumbing schedules.',
+  },
+  {
+    step: '04',
+    title: 'Execution & Tactile Styling',
+    desc: 'Overseeing on-site artisan craft, verifying alignment and tolerances, and curating the final layer of bespoke furniture, textiles, lighting, and ceramics.',
+  },
+];
 ---
-<Layout title="About — Bhavna Space" description="Meet Bhavna Space, an interior design studio focused on thoughtful, material-led spaces.">
-  <section class="page-hero section-dark"><p class="eyebrow">The studio</p><h1>About</h1><p class="page-hero-copy">We believe the most memorable rooms are not the loudest ones. They are the ones that feel unmistakably yours.</p></section>
-  <section class="section-light section-pad about-copy"><div class="section-label"><span>Philosophy</span><span>Bhavna Space</span></div><div><p class="display-text">Our work starts with listening — to the architecture, the light, the routines and the people who will call the space home.</p><p>From residential interiors to commercial environments, we build cohesive spaces through considered planning, honest materials and details that reveal themselves over time.</p></div></section>
+
+<Layout
+  title={`About the Studio — ${site.name}`}
+  description="Learn about Bhavna Space, an interior architecture and design studio in Mumbai committed to quiet luxury, architectural proportion, and timeless materiality."
+  preloadImage="/images/studio-editorial.jpg"
+>
+  <!-- Page Header -->
+  <header class="inner-page-hero theme-ivory">
+    <div class="container">
+      <div class="section-divider">
+        <span>About Bhavna Space</span>
+        <span>Studio Story &bull; Architectural Ethos</span>
+      </div>
+
+      <span class="eyebrow eyebrow-teal">The Practice</span>
+      <h1 class="inner-page-hero-title">
+        Spaces shaped by light,<br /><em>material, and living.</em>
+      </h1>
+      <p class="inner-page-hero-lead">
+        We believe the most memorable rooms are not the loudest ones. They are the ones that feel quietly effortless, welcoming, and unmistakably yours.
+      </p>
+    </div>
+  </header>
+
+  <!-- Studio Story & Editorial Portrait Split -->
+  <section class="section-pad theme-ivory studio-story-section" aria-labelledby="story-heading">
+    <div class="container">
+      <div class="story-split-grid">
+        <div class="story-media-box image-reveal">
+          <img
+            src="/images/studio-editorial.jpg"
+            alt="Bhavna Space architectural alcove with natural lime-wash plaster, tactile stone pedestal, and warm natural daylight"
+            width="800"
+            height="1066"
+            class="story-img"
+            fetchpriority="high"
+          />
+          <div class="story-img-badge">
+            <span>Bhavna Space Studio &bull; {site.location}</span>
+          </div>
+        </div>
+
+        <div class="story-copy-box">
+          <span class="eyebrow eyebrow-teal">Our Heritage</span>
+          <h2 id="story-heading" class="section-heading-editorial">
+            Architecture with <em>a quiet heart.</em>
+          </h2>
+          <div class="story-text-paragraphs">
+            <p>
+              Founded with a conviction that residential design should celebrate human comfort rather than short-lived trends, Bhavna Space creates bespoke interiors across Mumbai and surrounding regions.
+            </p>
+            <p>
+              Our studio combines the structural discipline of architecture with the sensory warmth of luxury editorial craft. We believe every space holds an intrinsic voice—dictated by the path of the sun, the framing of windows, and the rhythm of the walls.
+            </p>
+            <p>
+              By treating furniture, joinery, and surfaces as a single integrated ecosystem, we deliver homes that feel complete, tranquil, and deeply restorative from the moment you turn the key.
+            </p>
+          </div>
+
+          <div class="story-highlights-row">
+            <div class="highlight-item">
+              <span class="highlight-label">Typologies</span>
+              <span class="highlight-val">Bespoke Residential, Kitchens, Custom Furniture</span>
+            </div>
+            <div class="highlight-item">
+              <span class="highlight-label">Location</span>
+              <span class="highlight-val">{site.location}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Pillars -->
+  <section class="section-pad theme-cream pillars-section" aria-labelledby="pillars-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>Guiding Principles</span>
+        <span>What Shapes Our Work</span>
+      </div>
+
+      <div class="editorial-header-split">
+        <div class="editorial-header-left">
+          <span class="eyebrow">Studio Principles</span>
+          <h2 id="pillars-heading" class="section-heading-editorial">
+            Three anchors of <em>our practice.</em>
+          </h2>
+        </div>
+        <div class="editorial-header-right">
+          <p class="editorial-subhead">
+            Every drawing we produce and every timber batten we specify is measured against these three timeless commitments.
+          </p>
+        </div>
+      </div>
+
+      <div class="pillars-grid">
+        <div class="pillar-card">
+          <span class="pillar-num">01</span>
+          <h3 class="pillar-title">Context &amp; Light</h3>
+          <p class="pillar-desc">
+            We orient spaces around the natural path of light. Subtle changes in morning clarity and golden afternoon shadow inform our ceiling heights, window drapery, and plaster textures.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <span class="pillar-num">02</span>
+          <h3 class="pillar-title">Honesty of Materials</h3>
+          <p class="pillar-desc">
+            We celebrate genuine stone with its geological veining, natural hardwoods that deepen with age, and tactile natural textiles that invite touch rather than delicate observation.
+          </p>
+        </div>
+
+        <div class="pillar-card">
+          <span class="pillar-num">03</span>
+          <h3 class="pillar-title">Everyday Living Rituals</h3>
+          <p class="pillar-desc">
+            A beautiful kitchen that is awkward to cook in has failed. We engineer spatial flow to serve family breakfast, quiet reading hours, and lively gatherings with effortless grace.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Process & Approach -->
+  <section class="section-pad theme-ivory process-section" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>Methodology</span>
+        <span>From First Sketch to Moving In</span>
+      </div>
+
+      <div class="editorial-header-split">
+        <div class="editorial-header-left">
+          <span class="eyebrow eyebrow-teal">Our Process</span>
+          <h2 id="process-heading" class="section-heading-editorial">
+            A considered, <em>transparent journey.</em>
+          </h2>
+        </div>
+        <div class="editorial-header-right">
+          <p class="editorial-subhead">
+            Designing a home is an intimate journey. We provide structured phases, rigorous documentation, and open collaboration throughout.
+          </p>
+        </div>
+      </div>
+
+      <div class="process-steps-grid">
+        {processStages.map((stage) => (
+          <article class="process-step-card">
+            <span class="step-badge">{stage.step}</span>
+            <h3 class="step-title">{stage.title}</h3>
+            <p class="step-desc">{stage.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA Banner -->
+  <section class="section-pad theme-teal about-cta-banner">
+    <div class="container about-cta-inner">
+      <span class="eyebrow">Next Chapter</span>
+      <h2 class="consultation-headline">
+        Begin your home's <em>transformation.</em>
+      </h2>
+      <p class="consultation-lead">
+        Explore our selected project archives, or contact our team directly to discuss your spatial vision and timeline.
+      </p>
+      <div class="consultation-actions">
+        <a href="/contact/" class="btn btn-gold">
+          <span>Book a Consultation</span>
+          <span class="btn-icon" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href={whatsappInquiry} target="_blank" rel="noreferrer" class="btn btn-outline-light">
+          <span>WhatsApp Studio ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ── Story Split ────────────────────────────────────────────────────── */
+  .story-split-grid {
+    display: grid;
+    grid-template-columns: 0.95fr 1.15fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .story-media-box {
+    position: relative;
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background-color: #D6CEC2;
+  }
+
+  .story-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .story-img-badge {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background-color: rgba(246, 242, 234, 0.92);
+    backdrop-filter: blur(8px);
+    padding: 10px 16px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-espresso);
+  }
+
+  .story-text-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.75;
+    color: var(--color-text-muted);
+    margin-bottom: 2.25rem;
+  }
+
+  .story-highlights-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+  }
+
+  .highlight-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 4px;
+  }
+
+  .highlight-val {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-espresso);
+    line-height: 1.4;
+  }
+
+  /* ── Pillars Grid ───────────────────────────────────────────────────── */
+  .pillars-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .pillar-card {
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+    padding: clamp(2rem, 3.5vw, 3rem);
+    border-radius: var(--radius-xs);
+  }
+
+  .pillar-num {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--color-gold);
+    display: block;
+    margin-bottom: 1.25rem;
+  }
+
+  .pillar-title {
+    margin: 0 0 1rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 2.4vw, 2.1rem);
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-espresso);
+  }
+
+  .pillar-desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Process Steps Grid ─────────────────────────────────────────────── */
+  .process-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+
+  .process-step-card {
+    background-color: var(--color-cream);
+    border: 1px solid var(--color-border);
+    padding: 28px 24px;
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step-badge {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-teal);
+    margin-bottom: 1rem;
+    display: inline-block;
+  }
+
+  .step-title {
+    margin: 0 0 0.75rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    color: var(--color-espresso);
+  }
+
+  .step-desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* ── About CTA Banner ───────────────────────────────────────────────── */
+  .about-cta-inner {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .consultation-headline {
+    margin: 0.5rem 0 1.5rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    color: var(--color-ivory);
+  }
+
+  .consultation-headline em {
+    font-style: italic;
+    color: var(--color-gold);
+  }
+
+  .consultation-lead {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.65;
+    color: var(--color-text-light-muted);
+    max-width: 620px;
+    margin: 0 0 2.5rem 0;
+  }
+
+  .consultation-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 991px) {
+    .story-split-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .pillars-grid {
+      grid-template-columns: 1fr;
+    }
+    .process-steps-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .story-highlights-row {
+      grid-template-columns: 1fr;
+    }
+    .process-steps-grid {
+      grid-template-columns: 1fr;
+    }
+    .consultation-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .consultation-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

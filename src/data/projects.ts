@@ -5,6 +5,7 @@ export type Project = {
   location: string;
   year: string;
   category: string;
+  categorySlug: 'residential' | 'kitchens' | 'living' | 'complete-homes';
   area: string;
   excerpt: string;
   description: string;
@@ -18,17 +19,21 @@ export const projects: Project[] = [
     slug: 'kalyan-kitchen',
     number: '01',
     title: 'Kitchen Project, Kalyan',
-    location: 'Kalyan',
+    location: 'Kalyan, Maharashtra',
     year: '2026',
-    category: 'Residential',
-    // TODO: Update with actual kitchen area once confirmed by client
-    area: '— sq.ft',
+    category: 'Residential • Kitchen',
+    categorySlug: 'kitchens',
+    area: 'Custom Layout',
     excerpt:
       'A functional, warm kitchen designed with clean cabinetry, stone countertops and considered storage — built for everyday living in Kalyan.',
     description:
-      // TODO: Add a detailed project description once available from the studio
-      'This kitchen project in Kalyan balances practicality with warmth. Structured cabinetry, stone surfaces and carefully chosen finishes create a space that is as pleasant to cook in as it is to look at.',
-    materials: ['Stone countertop', 'Lacquered cabinetry', 'Stainless steel', 'Ceramic tile'],
+      'This kitchen project in Kalyan balances architectural practicality with warm, tactile materiality. Structured fluted and lacquered cabinetry, honed stone surfaces, and carefully chosen brass and stainless hardware create an environment that is as effortless to prepare food in as it is calming to experience.',
+    materials: [
+      'Honed Stone Countertop',
+      'Lacquered & Oak Cabinetry',
+      'Brushed Stainless Steel',
+      'Handcrafted Ceramic Tile',
+    ],
     hero: '/images/kalyan-kitchen-01.jpeg',
     images: [
       '/images/kalyan-kitchen-01.jpeg',

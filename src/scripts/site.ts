@@ -5,16 +5,15 @@ gsap.registerPlugin(ScrollTrigger);
 
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// ─── Navbar scroll behaviour ────────────────────────────────────────────────
-const header     = document.querySelector<HTMLElement>('[data-header]');
-const SHRINK_AT  = 40;   // px — switch to compact height
-let   lastY      = 0;
-let   menuIsOpen = false;
-let   isMobile   = window.matchMedia('(max-width: 1023px)').matches;
+// ─── Header Scroll Behavior ────────────────────────────────────────────────
+const header = document.querySelector<HTMLElement>('[data-header]');
+const SHRINK_AT = 50; // px
+let lastY = 0;
+let menuIsOpen = false;
+let isMobile = window.matchMedia('(max-width: 1023px)').matches;
 
 window.matchMedia('(max-width: 1023px)').addEventListener('change', (e) => {
   isMobile = e.matches;
-  // if user resizes to desktop while menu open, close it
   if (!isMobile && menuIsOpen) closeMenu();
 });
 
@@ -22,16 +21,16 @@ function onScroll() {
   if (!header) return;
   const y = window.scrollY;
 
-  // Shrink on scroll
+  // Shrink height on scroll
   if (y > SHRINK_AT) {
     header.classList.add('is-shrunk');
   } else {
     header.classList.remove('is-shrunk');
   }
 
-  // Hide on scroll-down / show on scroll-up — mobile only, and never when menu open
+  // Mobile scroll hide/reveal
   if (isMobile && !menuIsOpen && !reducedMotion) {
-    if (y > lastY && y > 80) {
+    if (y > lastY && y > 100) {
       header.classList.add('is-hidden');
     } else {
       header.classList.remove('is-hidden');
@@ -43,12 +42,11 @@ function onScroll() {
 
 window.addEventListener('scroll', onScroll, { passive: true });
 
-// ─── Mobile menu open / close ───────────────────────────────────────────────
-const menuButton  = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
-const mobileMenu  = document.querySelector<HTMLElement>('[data-mobile-menu]');
+// ─── Mobile Menu Drawer Management ─────────────────────────────────────────
+const menuButton = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+const mobileMenu = document.querySelector<HTMLElement>('[data-mobile-menu]');
 const mobileLinks = document.querySelectorAll<HTMLElement>('[data-mobile-link]');
 
-// Focus-trap helpers
 function getFocusable(container: HTMLElement): HTMLElement[] {
   return Array.from(
     container.querySelectorAll<HTMLElement>(
@@ -63,7 +61,7 @@ function trapFocus(e: KeyboardEvent) {
   if (!focusable.length) return;
 
   const first = focusable[0];
-  const last  = focusable[focusable.length - 1];
+  const last = focusable[focusable.length - 1];
 
   if (e.key === 'Tab') {
     if (e.shiftKey) {
@@ -85,15 +83,12 @@ function openMenu() {
   menuButton?.setAttribute('aria-expanded', 'true');
   mobileMenu?.removeAttribute('inert');
   mobileMenu?.setAttribute('aria-hidden', 'false');
-  document.documentElement.classList.add('menu-open');
-  document.body.style.overflow = 'hidden';
+  document.body.classList.add('menu-open');
 
-  // Always show header when menu is open
   header?.classList.remove('is-hidden');
 
-  // Move focus into the menu
   const firstLink = mobileMenu?.querySelector<HTMLElement>('a, button');
-  setTimeout(() => firstLink?.focus(), 50);
+  setTimeout(() => firstLink?.focus(), 60);
 
   document.addEventListener('keydown', onKeyDown);
 }
@@ -103,12 +98,9 @@ function closeMenu() {
   menuButton?.setAttribute('aria-expanded', 'false');
   mobileMenu?.setAttribute('inert', '');
   mobileMenu?.setAttribute('aria-hidden', 'true');
-  document.documentElement.classList.remove('menu-open');
-  document.body.style.overflow = '';
+  document.body.classList.remove('menu-open');
 
-  // Return focus to toggle button
   menuButton?.focus();
-
   document.removeEventListener('keydown', onKeyDown);
 }
 
@@ -128,56 +120,52 @@ menuButton?.addEventListener('click', () => {
   }
 });
 
-// Close when any mobile link is tapped
 mobileLinks.forEach((link) => {
   link.addEventListener('click', () => {
     if (menuIsOpen) closeMenu();
   });
 });
 
-// ─── GSAP page animations ───────────────────────────────────────────────────
+// ─── Refined GSAP Scroll Animations ────────────────────────────────────────
 if (!reducedMotion) {
-  if (document.querySelector('.hero-title span')) {
+  // Smooth scroll reveals for text blocks
+  gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((elem) => {
     gsap.fromTo(
-      '.hero-title span',
-      { yPercent: 110 },
-      { yPercent: 0, duration: 1.15, stagger: 0.08, ease: 'power4.out', delay: 0.15 }
-    );
-  }
-
-  if (document.querySelector('.hero-media')) {
-    gsap.fromTo(
-      '.hero-media',
-      { clipPath: 'inset(12% 12% 12% 12%)', scale: 1.05 },
-      { clipPath: 'inset(0% 0% 0% 0%)', scale: 1, duration: 1.4, ease: 'power3.inOut', delay: 0.35 }
-    );
-  }
-
-  gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((element) => {
-    gsap.fromTo(
-      element,
-      { y: 50, opacity: 0 },
+      elem,
+      { y: 35, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 1,
+        duration: 0.9,
         ease: 'power3.out',
-        scrollTrigger: { trigger: element, start: 'top 82%', once: true },
+        scrollTrigger: {
+          trigger: elem,
+          start: 'top 88%',
+          once: true,
+        },
       }
     );
   });
 
-  gsap.utils.toArray<HTMLElement>('.image-reveal').forEach((element) => {
-    if (element.classList.contains('hero-media')) return;
-    gsap.fromTo(
-      element,
-      { clipPath: 'inset(7% 7% 7% 7%)' },
-      {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 1.2,
-        ease: 'power3.inOut',
-        scrollTrigger: { trigger: element, start: 'top 85%', once: true },
-      }
-    );
+  // Smooth scroll reveals for imagery
+  gsap.utils.toArray<HTMLElement>('.image-reveal').forEach((elem) => {
+    const img = elem.querySelector('img');
+    if (img) {
+      gsap.fromTo(
+        img,
+        { scale: 1.06, opacity: 0.9 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: elem,
+            start: 'top 90%',
+            once: true,
+          },
+        }
+      );
+    }
   });
 }

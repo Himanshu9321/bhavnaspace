@@ -1,18 +1,444 @@
 ---
-import { site } from '../data/site';
+import { nav, site } from '../data/site';
+
+const currentYear = new Date().getFullYear();
+const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Hello Bhavna Space, I would like to inquire about your interior architecture and furniture design services.")}`;
 ---
-<footer class="site-footer">
-  <div class="footer-top">
-    <div>
-      <p class="eyebrow">Bhavna Space</p>
-      <h2>Spaces with a sense of place.</h2>
+
+<footer class="site-footer" id="site-footer" aria-label="Footer">
+  <!-- Top Marquee / Brand Anchor Statement -->
+  <div class="footer-hero-bar">
+    <div class="container footer-hero-inner">
+      <div class="footer-hero-copy">
+        <span class="footer-eyebrow">Studio Inquiries</span>
+        <h2 class="footer-hero-title">Spaces with a sense of place.</h2>
+      </div>
+      <a
+        href={whatsappUrl}
+        class="footer-cta-circle"
+        target="_blank"
+        rel="noreferrer noopener"
+        aria-label="Start conversation on WhatsApp"
+      >
+        <span class="circle-text">Start a Project</span>
+        <span class="circle-arrow" aria-hidden="true">↗</span>
+      </a>
     </div>
-    <a class="footer-arrow" href="/contact/" aria-label="Go to contact">↗</a>
   </div>
-  <div class="footer-grid">
-    <div><span>Studio</span><p>{site.city}, India</p></div>
-    <div><span>Contact</span><p><a href={`mailto:${site.email}`}>{site.email}</a><br /><a href={`tel:${site.phone.replaceAll(' ', '')}`}>{site.phone}</a></p></div>
-    <div><span>Social</span><p><a href={site.instagram} target="_blank" rel="noreferrer">Instagram ↗</a></p></div>
+
+  <!-- Main Multi-Column Footer Grid -->
+  <div class="container footer-main">
+    <div class="footer-grid">
+      <!-- Col 1: Brand & Ethos -->
+      <div class="footer-col footer-col--brand">
+        <div class="footer-brand-lockup">
+          <img
+            src="/images/logo-navbar.webp"
+            alt="Bhavna Space Monogram"
+            width="46"
+            height="46"
+            class="footer-logo-img"
+            loading="lazy"
+          />
+          <div>
+            <span class="footer-brand-name">Bhavna Space</span>
+            <span class="footer-brand-desc">{site.descriptor}</span>
+          </div>
+        </div>
+        <p class="footer-about-text">
+          A bespoke interior architecture and design studio creating considered residential environments, custom furniture pieces, and enduring material stories.
+        </p>
+        <div class="footer-location-tag">
+          <span class="status-indicator"></span>
+          <span>Studio based in {site.location}</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Navigation Links -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Exploration</h3>
+        <ul class="footer-link-list">
+          {nav.map((item) => (
+            <li>
+              <a href={item.href} class="footer-nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Col 3: Disciplines -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Disciplines</h3>
+        <ul class="footer-link-list">
+          <li><a href="/services/" class="footer-nav-link">Residential Interiors</a></li>
+          <li><a href="/services/" class="footer-nav-link">Spatial Planning</a></li>
+          <li><a href="/furniture/" class="footer-nav-link">Bespoke Furniture</a></li>
+          <li><a href="/services/" class="footer-nav-link">Material Direction</a></li>
+          <li><a href="/services/" class="footer-nav-link">Design Consultation</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Contact & Social -->
+      <div class="footer-col">
+        <h3 class="footer-col-title">Connect</h3>
+        <div class="footer-contact-block">
+          <div class="footer-contact-row">
+            <span class="contact-label">Telephone</span>
+            <a href={`tel:${site.phone.replaceAll(' ', '')}`} class="contact-val">
+              {site.phone}
+            </a>
+          </div>
+          <div class="footer-contact-row">
+            <span class="contact-label">Direct Email</span>
+            <a href={`mailto:${site.email}`} class="contact-val">
+              {site.email}
+            </a>
+          </div>
+          <div class="footer-contact-row">
+            <span class="contact-label">Studio Direct</span>
+            <a href={whatsappUrl} target="_blank" rel="noreferrer" class="contact-val contact-val--link">
+              WhatsApp Concierge ↗
+            </a>
+          </div>
+          <div class="footer-contact-row">
+            <span class="contact-label">Editorial Feed</span>
+            <a href={site.instagram} target="_blank" rel="noreferrer" class="contact-val contact-val--link">
+              Instagram @bhavnaspace ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="footer-bottom"><span>© {new Date().getFullYear()} Bhavna Space</span><span>Interior Design Studio</span></div>
+
+  <!-- Bottom Legal Strip -->
+  <div class="footer-bottom-bar">
+    <div class="container footer-bottom-inner">
+      <div class="footer-copy-text">
+        <span>&copy; {currentYear} {site.name}. All rights reserved.</span>
+        <span class="footer-sep">&bull;</span>
+        <span>{site.concept}</span>
+      </div>
+      <div class="footer-legal-links">
+        <a href="#main-content" class="back-to-top">
+          <span>Back to Top</span>
+          <span aria-hidden="true">&uarr;</span>
+        </a>
+      </div>
+    </div>
+  </div>
 </footer>
+
+<style>
+  /* ── Footer Container ───────────────────────────────────────────────── */
+  .site-footer {
+    background-color: var(--color-teal);
+    color: var(--color-ivory);
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* ── Top Hero Bar ───────────────────────────────────────────────────── */
+  .footer-hero-bar {
+    border-bottom: 1px solid var(--color-border-dark);
+    padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+  }
+
+  .footer-hero-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+
+  .footer-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background-color: currentColor;
+  }
+
+  .footer-hero-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--color-ivory);
+  }
+
+  .footer-cta-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 0 32px;
+    border: 1px solid var(--color-gold);
+    border-radius: var(--radius-xs);
+    background-color: transparent;
+    color: var(--color-ivory);
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 250ms ease;
+  }
+
+  .footer-cta-circle:hover {
+    background-color: var(--color-gold);
+    color: var(--color-teal-dark);
+    transform: translateY(-2px);
+  }
+
+  .circle-arrow {
+    font-size: 1.1rem;
+    transition: transform 200ms ease;
+  }
+
+  .footer-cta-circle:hover .circle-arrow {
+    transform: translate(2px, -2px);
+  }
+
+  /* ── Main Multi-Column Grid ─────────────────────────────────────────── */
+  .footer-main {
+    padding-top: clamp(3.5rem, 6vw, 5.5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 0.8fr 0.9fr 1.1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+
+  .footer-col-title {
+    margin: 0 0 1.5rem 0;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+  }
+
+  /* Brand Column */
+  .footer-brand-lockup {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1.5rem;
+  }
+
+  .footer-logo-img {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    filter: brightness(1.05);
+  }
+
+  .footer-brand-name {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: 1.6rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-ivory);
+    line-height: 1.1;
+  }
+
+  .footer-brand-desc {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-light-muted);
+    margin-top: 2px;
+  }
+
+  .footer-about-text {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-light-muted);
+    max-width: 380px;
+    margin: 0 0 1.75rem 0;
+  }
+
+  .footer-location-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--color-text-light-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .status-indicator {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: var(--color-gold);
+    display: inline-block;
+  }
+
+  /* Link Lists */
+  .footer-link-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .footer-nav-link {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-text-light-muted);
+    text-decoration: none;
+    transition: color 200ms ease, transform 200ms ease;
+    display: inline-block;
+  }
+
+  .footer-nav-link:hover {
+    color: var(--color-ivory);
+    transform: translateX(4px);
+  }
+
+  /* Contact Block */
+  .footer-contact-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .footer-contact-row {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .contact-label {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-light-muted);
+    opacity: 0.7;
+  }
+
+  .contact-val {
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-ivory);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .contact-val:hover {
+    color: var(--color-gold);
+  }
+
+  .contact-val--link {
+    border-bottom: 1px solid rgba(246, 242, 234, 0.25);
+    padding-bottom: 2px;
+    width: fit-content;
+  }
+
+  /* ── Bottom Legal Bar ───────────────────────────────────────────────── */
+  .footer-bottom-bar {
+    border-top: 1px solid var(--color-border-dark);
+    padding: 24px 0;
+  }
+
+  .footer-bottom-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    color: var(--color-text-light-muted);
+    letter-spacing: 0.04em;
+  }
+
+  .footer-copy-text {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .footer-sep {
+    opacity: 0.4;
+  }
+
+  .back-to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-ivory);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .back-to-top:hover {
+    color: var(--color-gold);
+  }
+
+  /* ── Responsive Adaptations ─────────────────────────────────────────── */
+  @media (max-width: 1023px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 36px;
+    }
+    .footer-col--brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .footer-hero-inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .footer-cta-circle {
+      width: 100%;
+    }
+    .footer-bottom-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
+</style>

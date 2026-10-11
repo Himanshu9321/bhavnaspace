@@ -1,0 +1,455 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+
+const whatsappInquiry = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Hello Bhavna Space, I would like to inquire about your bespoke furniture design and curation services.")}`;
+
+const furnitureStories = [
+  {
+    num: '01',
+    title: 'The Solis Curved Armchair',
+    category: 'Sculptural Seating',
+    materials: 'Cream Bouclé & Solid Walnut Underframe',
+    description: 'Designed as an architectural focal point, Solis features a continuous embracing curvature wrapped in textured bouclé fabric, supported by a low-profile recessed timber base.',
+    dimensions: '880mm W × 820mm D × 740mm H',
+  },
+  {
+    num: '02',
+    title: 'Fluted Walnut Low Table',
+    category: 'Living & Surface',
+    materials: 'American Black Walnut & Matte Natural Oil',
+    description: 'A study in rhythm and proportion. The table base is articulated with precision fluted vertical battens beneath a softly chamfered solid timber top.',
+    dimensions: '1200mm L × 750mm W × 380mm H',
+  },
+  {
+    num: '03',
+    title: 'Honed Travertine Monolith Console',
+    category: 'Architectural Joinery',
+    materials: 'Unfilled Honed Roman Travertine',
+    description: 'Substantial, balanced, and elemental. Sawn from natural stone blocks with soft rounded pilasters that celebrate the organic sedimentary geology of the earth.',
+    dimensions: '1500mm L × 400mm W × 850mm H',
+  },
+];
+---
+
+<Layout
+  title={`Furniture & Bespoke Joinery — ${site.name}`}
+  description="Explore Bhavna Space's bespoke furniture collections and material craftsmanship. Sculptural seating, fluted timber joinery, and natural stone consoles tailored for quiet luxury."
+  preloadImage="/images/furniture-lifestyle.jpg"
+>
+  <!-- Page Header -->
+  <header class="inner-page-hero theme-ivory">
+    <div class="container">
+      <div class="section-divider">
+        <span>Disciplines &bull; 02</span>
+        <span>Curated Pieces &bull; Custom Joinery</span>
+      </div>
+
+      <span class="eyebrow eyebrow-teal">Design Collection</span>
+      <h1 class="inner-page-hero-title">
+        Form, timber, and<br /><em>tactile comfort.</em>
+      </h1>
+      <p class="inner-page-hero-lead">
+        We conceive furniture not as standalone objects, but as architectural anchor points. Every piece is proportioned to dialogue with natural light, structural space, and human touch.
+      </p>
+    </div>
+  </header>
+
+  <!-- Large Lifestyle Visual Hero -->
+  <section class="furniture-hero-visual-section theme-ivory">
+    <div class="container">
+      <div class="furniture-hero-frame image-reveal">
+        <img
+          src="/images/furniture-lifestyle.jpg"
+          alt="Curated living interior featuring Bhavna Space Solis armchair, fluted walnut table, and travertine console"
+          width="1600"
+          height="900"
+          class="furniture-hero-img"
+          fetchpriority="high"
+        />
+        <div class="furniture-hero-caption">
+          <span>The Residence Collection &bull; Living Suite in Warm Plaster &amp; Walnut</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Curated Pieces Showcase -->
+  <section class="section-pad theme-cream furniture-curation-section" aria-labelledby="curation-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>Curated Pieces</span>
+        <span>Made to Order &bull; Bespoke Scale</span>
+      </div>
+
+      <div class="editorial-header-split">
+        <div class="editorial-header-left">
+          <span class="eyebrow">Studio Pieces</span>
+          <h2 id="curation-heading" class="section-heading-editorial">
+            Crafted for endurance, <em>proportioned for life.</em>
+          </h2>
+        </div>
+        <div class="editorial-header-right">
+          <p class="editorial-subhead">
+            Each bespoke piece is custom-commissioned for our interior architecture clients, with dimensions and wood species tailored to the specific residence.
+          </p>
+          <a href={whatsappInquiry} target="_blank" rel="noreferrer" class="btn-text-link">
+            <span>Inquire About Bespoke Pieces</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <div class="furniture-cards-grid">
+        {furnitureStories.map((piece) => (
+          <article class="furniture-editorial-card">
+            <div class="piece-top">
+              <span class="piece-num">{piece.num}</span>
+              <span class="piece-category">{piece.category}</span>
+            </div>
+            <h3 class="piece-title">{piece.title}</h3>
+            <p class="piece-desc">{piece.description}</p>
+            <div class="piece-specs">
+              <div class="spec-item">
+                <span class="spec-label">Materiality:</span>
+                <span class="spec-val">{piece.materials}</span>
+              </div>
+              <div class="spec-item">
+                <span class="spec-label">Dimensions:</span>
+                <span class="spec-val">{piece.dimensions}</span>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Materiality & Craftsmanship Deep Dive -->
+  <section class="section-pad theme-ivory craftsmanship-section" aria-labelledby="craft-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>The Workshop</span>
+        <span>Artisan Collaboration</span>
+      </div>
+
+      <div class="craftsmanship-split">
+        <div class="craft-media-col image-reveal">
+          <img
+            src="/images/material-craftsmanship.jpg"
+            alt="Artisan detail: fluted walnut timber battening meeting polished travertine stone"
+            width="1000"
+            height="750"
+            class="craft-detail-img"
+            loading="lazy"
+          />
+        </div>
+
+        <div class="craft-copy-col">
+          <span class="eyebrow eyebrow-teal">Our Material Philosophy</span>
+          <h2 id="craft-heading" class="section-heading-editorial">
+            Honest materials that <em>gather grace over time.</em>
+          </h2>
+          <div class="craft-paragraphs">
+            <p>
+              We collaborate with skilled local joiners, stone masons, and master upholsterers. Every timber is hand-selected for tone and grain orientation; every stone slab is cut to honor natural fossils and crystallization.
+            </p>
+            <p>
+              We avoid synthetic coatings in favor of plant-based oils and natural waxes, allowing wood and stone to breathe, patina, and register the passage of family life without losing structural integrity.
+            </p>
+          </div>
+
+          <div class="craft-steps-list">
+            <div class="step-card">
+              <span class="step-num">01</span>
+              <div>
+                <strong>Spatial Sizing:</strong> Proportioned directly within architectural floorplans.
+              </div>
+            </div>
+            <div class="step-card">
+              <span class="step-num">02</span>
+              <div>
+                <strong>Timber &amp; Stone Hand-Selection:</strong> Matching grain continuity across joints.
+              </div>
+            </div>
+            <div class="step-card">
+              <span class="step-num">03</span>
+              <div>
+                <strong>Hand-Finishing:</strong> Subtle chamfers and tactile matte oil application.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consultation Banner -->
+  <section class="section-pad theme-teal cta-furniture-banner">
+    <div class="container cta-banner-inner">
+      <span class="eyebrow">Bespoke Commissions</span>
+      <h2 class="consultation-headline">
+        Commission a piece tailored<br /><em>to your space.</em>
+      </h2>
+      <p class="consultation-lead">
+        Whether you require a custom dining table, built-in library joinery, or tailored seating, our studio works directly with you to realize your vision.
+      </p>
+      <div class="consultation-actions">
+        <a href="/contact/" class="btn btn-gold">
+          <span>Inquire About Custom Pieces</span>
+          <span class="btn-icon" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href={whatsappInquiry} target="_blank" rel="noreferrer" class="btn btn-outline-light">
+          <span>WhatsApp Studio Concierge ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .furniture-hero-visual-section {
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+
+  .furniture-hero-frame {
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background-color: #DCD4C8;
+  }
+
+  .furniture-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .furniture-hero-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(21, 63, 59, 0.85), transparent);
+    color: var(--color-ivory);
+    padding: 24px 28px 16px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* ── Furniture Cards Grid ───────────────────────────────────────────── */
+  .furniture-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .furniture-editorial-card {
+    background-color: var(--color-ivory);
+    border: 1px solid var(--color-border);
+    padding: clamp(2rem, 3vw, 2.75rem);
+    border-radius: var(--radius-xs);
+    display: flex;
+    flex-direction: column;
+    transition: transform 250ms ease, box-shadow 250ms ease;
+  }
+
+  .furniture-editorial-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(48, 42, 37, 0.05);
+  }
+
+  .piece-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .piece-num {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-gold);
+  }
+
+  .piece-category {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .piece-title {
+    margin: 0 0 1rem 0;
+    font-family: var(--font-heading);
+    font-size: 1.75rem;
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--color-espresso);
+  }
+
+  .piece-desc {
+    margin: 0 0 1.5rem 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+    flex-grow: 1;
+  }
+
+  .piece-specs {
+    border-top: 1px solid var(--color-border);
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+  }
+
+  .spec-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .spec-label {
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    font-size: 0.6875rem;
+    letter-spacing: 0.06em;
+  }
+
+  .spec-val {
+    color: var(--color-espresso);
+    font-weight: 600;
+    text-align: right;
+  }
+
+  /* ── Craftsmanship Split ────────────────────────────────────────────── */
+  .craftsmanship-split {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .craft-media-col {
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background-color: #DCD4C8;
+  }
+
+  .craft-detail-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .craft-paragraphs {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+    margin-bottom: 2rem;
+  }
+
+  .craft-steps-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-top: 1px solid var(--color-border);
+    padding-top: 1.5rem;
+  }
+
+  .step-card {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .step-num {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .step-card strong {
+    color: var(--color-espresso);
+  }
+
+  /* ── CTA Banner ─────────────────────────────────────────────────────── */
+  .cta-banner-inner {
+    text-align: center;
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .consultation-headline {
+    margin: 0.5rem 0 1.5rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    color: var(--color-ivory);
+  }
+
+  .consultation-headline em {
+    font-style: italic;
+    color: var(--color-gold);
+  }
+
+  .consultation-lead {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.65;
+    color: var(--color-text-light-muted);
+    max-width: 620px;
+    margin: 0 0 2.5rem 0;
+  }
+
+  .consultation-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 991px) {
+    .furniture-cards-grid {
+      grid-template-columns: 1fr;
+    }
+    .craftsmanship-split {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .consultation-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .consultation-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

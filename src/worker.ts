@@ -1,5 +1,5 @@
 interface Env {
-  ASSETS: Fetcher;
+  ASSETS: { fetch: (request: Request) => Promise<Response> };
   TURNSTILE_SECRET_KEY?: string;
   RESEND_API_KEY?: string;
   CONTACT_TO_EMAIL?: string;

@@ -1,49 +1,275 @@
 ---
 import Turnstile from './Turnstile.astro';
 ---
-<form class="contact-form" data-contact-form>
-  <div class="form-grid">
-    <label><span>Name</span><input name="name" type="text" autocomplete="name" required maxlength="80" placeholder="Your name" /></label>
-    <label><span>Email</span><input name="email" type="email" autocomplete="email" required maxlength="160" placeholder="you@example.com" /></label>
+
+<form class="bespoke-contact-form" data-contact-form novalidate>
+  <div class="form-row-grid">
+    <div class="form-field">
+      <label class="form-label" for="contact-name">
+        <span>Your Name <span class="req">*</span></span>
+      </label>
+      <input
+        id="contact-name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        maxlength="80"
+        placeholder="e.g. Alistair & Meera"
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="contact-email">
+        <span>Email Address <span class="req">*</span></span>
+      </label>
+      <input
+        id="contact-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        maxlength="160"
+        placeholder="you@domain.com"
+        class="form-input"
+      />
+    </div>
   </div>
-  <div class="form-grid">
-    <label><span>Phone / WhatsApp</span><input name="phone" type="tel" autocomplete="tel" maxlength="30" placeholder="+91 ..." /></label>
-    <label><span>Project type</span><select name="projectType"><option value="Residential">Residential</option><option value="Commercial">Commercial</option><option value="Hospitality">Hospitality</option><option value="Other">Other</option></select></label>
+
+  <div class="form-row-grid">
+    <div class="form-field">
+      <label class="form-label" for="contact-phone">
+        <span>Phone / WhatsApp</span>
+        <span class="label-opt">Direct contact</span>
+      </label>
+      <input
+        id="contact-phone"
+        name="phone"
+        type="tel"
+        autocomplete="tel"
+        maxlength="30"
+        placeholder="+91 98765 43210"
+        class="form-input"
+      />
+    </div>
+
+    <div class="form-field">
+      <label class="form-label" for="contact-project-type">
+        <span>Project Nature <span class="req">*</span></span>
+      </label>
+      <select id="contact-project-type" name="projectType" class="form-select" required>
+        <option value="Residential">Residential Interior (Complete)</option>
+        <option value="Kitchens">Kitchen & Joinery Architecture</option>
+        <option value="Furniture">Custom Furniture & Decor</option>
+        <option value="Commercial">Commercial & Workplace</option>
+        <option value="Consultation">Design Consultation & Styling</option>
+        <option value="Other">Other Bespoke Collaboration</option>
+      </select>
+    </div>
   </div>
-  <label><span>Tell us about the space</span><textarea name="message" rows="6" required maxlength="3000" placeholder="Location, approximate area, timeline and what you have in mind..."></textarea></label>
-  <div class="honeypot" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
-  <Turnstile />
-  <button class="button button-dark" type="submit"><span data-submit-label>Send enquiry</span><span>↗</span></button>
-  <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+
+  <div class="form-field">
+    <label class="form-label" for="contact-message">
+      <span>Project Details & Scope <span class="req">*</span></span>
+      <span class="label-opt">Location, timeline, area</span>
+    </label>
+    <textarea
+      id="contact-message"
+      name="message"
+      rows="5"
+      required
+      maxlength="3000"
+      placeholder="Tell us about the property, your aspirations, preferred materials, and target timelines..."
+      class="form-textarea"
+    ></textarea>
+  </div>
+
+  <!-- Anti-spam Honeypot -->
+  <div class="honeypot" aria-hidden="true">
+    <label for="contact-website">Website</label>
+    <input id="contact-website" name="website" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <!-- Turnstile Security -->
+  <div class="turnstile-container">
+    <Turnstile />
+  </div>
+
+  <!-- Submit Action -->
+  <div class="form-action-row">
+    <button class="btn btn-teal btn-submit" type="submit">
+      <span data-submit-label>Send Inquiry</span>
+      <span class="btn-icon" aria-hidden="true">&rarr;</span>
+    </button>
+    <p class="form-notice">
+      We typically respond to inquiries within 24–48 business hours.
+    </p>
+  </div>
+
+  <div class="form-feedback-wrapper">
+    <p class="form-status" data-form-status role="status" aria-live="polite"></p>
+  </div>
 </form>
+
 <script>
-  const form = document.querySelector('[data-contact-form]');
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
   if (form) {
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      const status = form.querySelector('[data-form-status]');
-      const button = form.querySelector('button[type="submit"]');
-      const label = form.querySelector('[data-submit-label]');
+      const status = form.querySelector<HTMLElement>('[data-form-status]');
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      const label = form.querySelector<HTMLElement>('[data-submit-label]');
+
+      if (!status || !button || !label) return;
+
+      // Basic client validation
+      const name = (form.elements.namedItem('name') as HTMLInputElement)?.value.trim();
+      const email = (form.elements.namedItem('email') as HTMLInputElement)?.value.trim();
+      const message = (form.elements.namedItem('message') as HTMLTextAreaElement)?.value.trim();
+
+      if (!name) {
+        status.textContent = 'Please enter your name.';
+        status.className = 'form-status form-status--error';
+        return;
+      }
+      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        status.textContent = 'Please provide a valid email address.';
+        status.className = 'form-status form-status--error';
+        return;
+      }
+      if (!message) {
+        status.textContent = 'Please tell us a little about your project.';
+        status.className = 'form-status form-status--error';
+        return;
+      }
+
       button.disabled = true;
-      label.textContent = 'Sending…';
+      label.textContent = 'Submitting Inquiry…';
       status.textContent = '';
+      status.className = 'form-status';
+
       try {
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
         const response = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(Object.fromEntries(new FormData(form)))
+          body: JSON.stringify(payload),
         });
+
         const result = await response.json();
-        if (!response.ok) throw new Error(result.error || 'Something went wrong.');
+        if (!response.ok) {
+          throw new Error(result.error || 'Something went wrong. Please try again.');
+        }
+
         form.reset();
-        status.textContent = 'Thank you. Your enquiry has been sent.';
-        if (window.turnstile) window.turnstile.reset();
+        status.textContent = 'Thank you. Your inquiry has been received. Our studio will be in touch shortly.';
+        status.className = 'form-status form-status--success';
+        if ((window as any).turnstile) (window as any).turnstile.reset();
       } catch (error) {
-        status.textContent = error instanceof Error ? error.message : 'Please try again or contact us on WhatsApp.';
+        const msg = error instanceof Error ? error.message : 'Please try again or contact us directly on WhatsApp.';
+        status.textContent = msg;
+        status.className = 'form-status form-status--error';
       } finally {
         button.disabled = false;
-        label.textContent = 'Send enquiry';
+        label.textContent = 'Send Inquiry';
       }
     });
   }
 </script>
+
+<style>
+  .bespoke-contact-form {
+    width: 100%;
+  }
+
+  .form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .req {
+    color: var(--color-gold);
+  }
+
+  .label-opt {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .turnstile-container {
+    margin: 1.5rem 0;
+  }
+
+  .form-action-row {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+
+  .btn-submit {
+    min-width: 200px;
+  }
+
+  .form-notice {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .form-feedback-wrapper {
+    margin-top: 1.25rem;
+    min-height: 24px;
+  }
+
+  .form-status {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .form-status--success {
+    color: var(--color-teal);
+    font-weight: 600;
+    padding: 12px 16px;
+    background-color: rgba(21, 63, 59, 0.08);
+    border-left: 3px solid var(--color-teal);
+    border-radius: var(--radius-xs);
+  }
+
+  .form-status--error {
+    color: #9C332B;
+    font-weight: 500;
+    padding: 12px 16px;
+    background-color: rgba(156, 51, 43, 0.08);
+    border-left: 3px solid #9C332B;
+    border-radius: var(--radius-xs);
+  }
+
+  @media (max-width: 639px) {
+    .form-row-grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .btn-submit {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,4 +1,69 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
 ---
-<Layout title="Page not found — Bhavna Space" noindex><section class="page-hero section-dark"><p class="eyebrow">404</p><h1>Nothing here.</h1><p class="page-hero-copy">The page you are looking for has moved or does not exist.</p><a class="button button-light" href="/">Back home ↗</a></section></Layout>
+
+<Layout title={`Page Not Found — ${site.name}`} noindex>
+  <section class="error-hero theme-ivory">
+    <div class="container error-hero-inner">
+      <span class="eyebrow eyebrow-teal">Error 404</span>
+      <h1 class="error-title">Page not found.</h1>
+      <p class="error-lead">
+        The spatial destination you are seeking has been moved, archived, or does not exist.
+      </p>
+      <div class="error-actions">
+        <a href="/" class="btn btn-teal">
+          <span>Return Home</span>
+          <span class="btn-icon" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href="/projects/" class="btn btn-outline-dark">
+          <span>View Projects</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .error-hero {
+    min-height: 75svh;
+    display: flex;
+    align-items: center;
+    padding-top: 100px;
+    padding-bottom: 60px;
+  }
+
+  .error-hero-inner {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .error-title {
+    margin: 0.5rem 0 1rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--color-espresso);
+  }
+
+  .error-lead {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.4vw, 1.15rem);
+    line-height: 1.65;
+    color: var(--color-text-muted);
+    margin: 0 0 2.5rem 0;
+  }
+
+  .error-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+</style>

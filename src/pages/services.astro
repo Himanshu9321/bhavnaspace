@@ -1,7 +1,490 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { site } from '../data/site';
+
+const whatsappInquiry = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent("Hello Bhavna Space, I would like to inquire about your interior architecture and design services.")}`;
+
+const serviceOfferings = [
+  {
+    num: '01',
+    title: 'Complete Residential Interiors',
+    eyebrow: 'Turnkey Spatial Transformation',
+    suitedFor: 'Homeowners building, gut-renovating, or refurnishing complete apartments and residences seeking cohesive architectural quiet luxury.',
+    includes: [
+      'Architectural space planning & wall reconfiguration',
+      'Custom kitchen, wardrobe & millwork design',
+      'Comprehensive electrical, lighting & plumbing drawings',
+      'Material curation: stone, hardwood, mineral plasters, tiles',
+      'Selection of custom & designer furniture, rugs & drapery',
+      'Rigorous on-site contractor coordination & finishing oversight',
+    ],
+    image: '/images/hero.webp',
+  },
+  {
+    num: '02',
+    title: 'Kitchen & Joinery Architecture',
+    eyebrow: 'Bespoke Functional Craft',
+    suitedFor: 'Clients seeking high-performance culinary spaces, ergonomic storage systems, and handcrafted kitchen cabinetry built for daily living.',
+    includes: [
+      'Tailored ergonomic work-triangle & circulation analysis',
+      'Integrated fluted, lacquered, or natural timber cabinetry',
+      'Honed natural stone & engineered quartz worktop specification',
+      'Concealed appliances, pantry organization & hardware detailing',
+      'Under-cabinet ambient & task lighting design',
+      'Fabrication drawings & artisan installation supervision',
+    ],
+    image: '/images/kalyan-kitchen-02.jpeg',
+  },
+  {
+    num: '03',
+    title: 'Bespoke Furniture & Styling Curation',
+    eyebrow: 'Tactile Anchors & Objects',
+    suitedFor: 'Spaces that possess sound architecture but require bespoke furniture pieces, textural depth, art curation, and elevated styling.',
+    includes: [
+      'Design of custom dining tables, consoles, beds & sculptural seating',
+      'Direct coordination with local master timber and stone artisans',
+      'Textile curation: bouclé, Belgian linens, wool, and natural silks',
+      'Selection of architectural decorative lighting fixtures',
+      'Art direction, pottery, books, and vintage decor acquisition',
+      'Turnkey delivery, placement, and final white-glove styling',
+    ],
+    image: '/images/furniture-lifestyle.jpg',
+  },
+  {
+    num: '04',
+    title: 'Design Direction & Consultation',
+    eyebrow: 'Strategic Advisory',
+    suitedFor: 'Clients managing their own renovation or developers wanting high-level aesthetic guidance, material palettes, and architectural critique.',
+    includes: [
+      'In-depth review of existing structural plans and layout options',
+      'Comprehensive physical material and finish palette presentation',
+      'Lighting schemes, color palette direction & moodboard synthesis',
+      'Fixture, plumbing, and surface specification guides',
+      'Actionable recommendations document for client contractor teams',
+    ],
+    image: '/images/studio-editorial.jpg',
+  },
+];
+
+const faqs = [
+  {
+    q: 'At what stage of our project should we engage Bhavna Space?',
+    a: 'We recommend involving our studio as early as possible—ideally before civil construction or demolition begins. This allows us to optimize wall positions, structural openings, electrical drops, and window placements to best capture natural light and ergonomics.',
+  },
+  {
+    q: 'Do you take on projects outside Mumbai?',
+    a: 'Yes. While our primary design studio is located in Mumbai, Maharashtra, we accept selected residential commissions across India and offer remote design direction for select clients.',
+  },
+  {
+    q: 'How are budgets and project timelines established?',
+    a: 'Every project begins with an introductory spatial study where we define scope, material selections, and joinery requirements. We establish realistic, transparent milestones and collaborate closely with vetted artisans to respect your timeline.',
+  },
+  {
+    q: 'Can we commission standalone furniture pieces without a full interior design project?',
+    a: 'Yes. Through our furniture studio, we design and produce custom tables, consoles, and upholstered pieces for clients seeking bespoke heirlooms tailored to specific room dimensions.',
+  },
+];
 ---
-<Layout title="Services — Bhavna Space" description="Interior design services by Bhavna Space, from concept and planning to materials, styling and final detailing.">
-  <section class="page-hero section-dark"><p class="eyebrow">What we do</p><h1>Services</h1><p class="page-hero-copy">A considered process from the first conversation to the final layer of detail.</p></section>
-  <section class="services-section section-light section-pad"><div class="service-list service-list-large"><div><span>01</span><h2>Residential Interiors</h2><p>Spatial planning, material direction, furniture, lighting, custom details and styling for homes that feel personal and enduring.</p></div><div><span>02</span><h2>Commercial Interiors</h2><p>Brand-led spaces for offices, studios, retail and hospitality with a strong focus on flow, function and experience.</p></div><div><span>03</span><h2>Design Direction</h2><p>For clients who need a clear visual direction, we provide concept development, palettes, furniture and finishing guidance.</p></div></div></section>
+
+<Layout
+  title={`Services & Practice — ${site.name}`}
+  description="Explore Bhavna Space's interior architecture and design services: complete residential interiors, bespoke kitchen joinery, custom furniture, and strategic design consultation."
+>
+  <!-- Page Header -->
+  <header class="inner-page-hero theme-ivory">
+    <div class="container">
+      <div class="section-divider">
+        <span>Disciplines &bull; 03</span>
+        <span>Architectural Interior Services</span>
+      </div>
+
+      <span class="eyebrow eyebrow-teal">Our Practice</span>
+      <h1 class="inner-page-hero-title">
+        From first sketch to<br /><em>the final detail.</em>
+      </h1>
+      <p class="inner-page-hero-lead">
+        A considered architectural methodology tailored to the unique rhythms of each client. We guide projects from conceptual spatial studies to on-site artisan craft and white-glove styling.
+      </p>
+    </div>
+  </header>
+
+  <!-- Detailed Service Pillars -->
+  <section class="section-pad theme-ivory services-pillars-section" aria-label="Services Offerings">
+    <div class="container">
+      <div class="services-vertical-stack">
+        {serviceOfferings.map((service, index) => (
+          <article class:list={['service-pillar-row', { 'service-pillar-row--reverse': index % 2 === 1 }]}>
+            <div class="pillar-media-frame image-reveal">
+              <img
+                src={service.image}
+                alt={`${service.title} by Bhavna Space`}
+                width="1200"
+                height="800"
+                class="pillar-image"
+                loading="lazy"
+              />
+              <div class="pillar-media-tag">
+                <span>№ {service.num} &bull; {service.eyebrow}</span>
+              </div>
+            </div>
+
+            <div class="pillar-content-box">
+              <span class="eyebrow eyebrow-teal">{service.eyebrow}</span>
+              <h2 class="pillar-service-title">{service.title}</h2>
+
+              <div class="pillar-suited">
+                <strong class="suited-label">Suited for:</strong>
+                <p class="suited-desc">{service.suitedFor}</p>
+              </div>
+
+              <div class="pillar-includes">
+                <strong class="includes-label">Scope includes:</strong>
+                <ul class="includes-list">
+                  {service.includes.map((inc) => (
+                    <li>
+                      <span class="inc-bullet">&bull;</span>
+                      <span>{inc}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="pillar-cta-row">
+                <a href="/contact/" class="btn btn-teal">
+                  <span>Inquire About This Service</span>
+                  <span class="btn-icon" aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="section-pad theme-cream faq-section" aria-labelledby="faq-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>Information &bull; Inquiries</span>
+        <span>Common Inquiries</span>
+      </div>
+
+      <div class="faq-layout">
+        <div class="faq-left">
+          <span class="eyebrow">Clarity &amp; Transparency</span>
+          <h2 id="faq-heading" class="section-heading-editorial">
+            Frequently asked<br /><em>questions.</em>
+          </h2>
+          <p class="editorial-subhead">
+            Have questions about how we work, project scopes, or timelines? Here is what to anticipate when embarking on a collaboration with Bhavna Space.
+          </p>
+          <div class="faq-contact-prompt">
+            <span class="prompt-text">Have a specific question not covered here?</span>
+            <a href={`tel:${site.phone.replaceAll(' ', '')}`} class="btn-text-link">
+              <span>Speak with our team &rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="faq-right">
+          <div class="faq-accordion-list">
+            {faqs.map((faq, i) => (
+              <div class="faq-item">
+                <span class="faq-num">0{i + 1}</span>
+                <div class="faq-body">
+                  <h3 class="faq-q">{faq.q}</h3>
+                  <p class="faq-a">{faq.a}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA Banner -->
+  <section class="section-pad theme-teal services-cta-banner">
+    <div class="container services-cta-inner">
+      <span class="eyebrow">Studio Inquiries</span>
+      <h2 class="consultation-headline">
+        Let's discuss your<br /><em>spatial requirements.</em>
+      </h2>
+      <p class="consultation-lead">
+        Share your floorplans, timeline, or design aspirations. Our studio will review your project and propose next steps.
+      </p>
+      <div class="consultation-actions">
+        <a href="/contact/" class="btn btn-gold">
+          <span>Book Design Consultation</span>
+          <span class="btn-icon" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href={whatsappInquiry} target="_blank" rel="noreferrer" class="btn btn-outline-light">
+          <span>WhatsApp Studio Concierge ↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* ── Services Vertical Stack ────────────────────────────────────────── */
+  .services-vertical-stack {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(4rem, 8vw, 8rem);
+  }
+
+  .service-pillar-row {
+    display: grid;
+    grid-template-columns: 1fr 1.05fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .service-pillar-row--reverse {
+    grid-template-columns: 1.05fr 1fr;
+  }
+
+  .service-pillar-row--reverse .pillar-media-frame {
+    order: 2;
+  }
+
+  .service-pillar-row--reverse .pillar-content-box {
+    order: 1;
+  }
+
+  .pillar-media-frame {
+    position: relative;
+    border-radius: var(--radius-xs);
+    overflow: hidden;
+    aspect-ratio: 16 / 11;
+    background-color: #D6CEC2;
+  }
+
+  .pillar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pillar-media-tag {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    background-color: rgba(246, 242, 234, 0.92);
+    backdrop-filter: blur(8px);
+    padding: 8px 14px;
+    border-radius: var(--radius-xs);
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-espresso);
+  }
+
+  .pillar-service-title {
+    margin: 0.5rem 0 1.25rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.2rem, 3.8vw, 3.25rem);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--color-espresso);
+  }
+
+  .pillar-suited {
+    background-color: var(--color-cream);
+    border-left: 2px solid var(--color-gold);
+    padding: 14px 18px;
+    border-radius: var(--radius-xs);
+    margin-bottom: 1.75rem;
+  }
+
+  .suited-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-espresso);
+    margin-bottom: 4px;
+  }
+
+  .suited-desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .pillar-includes {
+    margin-bottom: 2rem;
+  }
+
+  .includes-label {
+    display: block;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-espresso);
+    margin-bottom: 0.75rem;
+  }
+
+  .includes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .includes-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-text-muted);
+  }
+
+  .inc-bullet {
+    color: var(--color-teal);
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  /* ── FAQ Section ────────────────────────────────────────────────────── */
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: flex-start;
+  }
+
+  .faq-contact-prompt {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .prompt-text {
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+  }
+
+  .faq-accordion-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .faq-item {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 16px;
+    padding: clamp(1.5rem, 3vw, 2.25rem) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .faq-num {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--color-gold);
+    padding-top: 4px;
+  }
+
+  .faq-q {
+    margin: 0 0 0.75rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+    font-weight: 400;
+    line-height: 1.25;
+    color: var(--color-espresso);
+  }
+
+  .faq-a {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: var(--color-text-muted);
+  }
+
+  /* ── CTA Banner ─────────────────────────────────────────────────────── */
+  .services-cta-inner {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .consultation-headline {
+    margin: 0.5rem 0 1.5rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300;
+    color: var(--color-ivory);
+  }
+
+  .consultation-headline em {
+    font-style: italic;
+    color: var(--color-gold);
+  }
+
+  .consultation-lead {
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.3vw, 1.15rem);
+    line-height: 1.65;
+    color: var(--color-text-light-muted);
+    max-width: 620px;
+    margin: 0 0 2.5rem 0;
+  }
+
+  .consultation-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  @media (max-width: 991px) {
+    .service-pillar-row,
+    .service-pillar-row--reverse {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .service-pillar-row--reverse .pillar-media-frame {
+      order: 0;
+    }
+    .service-pillar-row--reverse .pillar-content-box {
+      order: 1;
+    }
+    .faq-layout {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .consultation-actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .consultation-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,19 +1,22 @@
 ---
+import { site } from '../data/site';
+
 interface Props {
+  approachUrl?: string;
   consultationUrl?: string;
 }
 
-const { consultationUrl = '/contact/' } = Astro.props;
+const { approachUrl = '/about/', consultationUrl } = Astro.props;
 ---
 
-<section class="hero-section" id="hero" aria-label="Hero">
+<section class="hero-section" id="hero" aria-label="Bhavna Space Hero">
   <!-- Photograph Column (Desktop Left / Mobile Full-Bleed Background) -->
   <div class="hero-media-wrapper">
     <picture class="hero-picture">
       <source srcset="/images/hero.webp" type="image/webp" />
       <img
         src="/images/hero.png"
-        alt="Luxurious minimalist living room featuring curved cream seating, natural stone, warm woodwork, and panoramic window landscape by Bhavna Space"
+        alt="Bhavna Space luxury minimalist living interior with sculptural seating, fluted timber joinery, honed travertine, and sweeping panoramic window landscape"
         class="hero-image"
         width="829"
         height="801"
@@ -22,44 +25,46 @@ const { consultationUrl = '/contact/' } = Astro.props;
         decoding="sync"
       />
     </picture>
-    <!-- Mobile bottom gradient scrim for readable text contrast -->
+    <!-- Mobile bottom dark gradient scrim for crystal clear contrast -->
     <div class="hero-mobile-scrim" aria-hidden="true"></div>
   </div>
 
-  <!-- Content Column (Desktop Right Editorial Panel / Mobile Bottom Overlay) -->
+  <!-- Editorial Content Column (Desktop Right Ivory Panel / Mobile Lower Overlay) -->
   <div class="hero-content-wrapper">
     <div class="hero-content-inner">
-      <!-- Fine bronze / muted earthy accent line (Desktop) -->
-      <span class="hero-accent-rule" aria-hidden="true"></span>
+      <!-- Antique Gold Decorative Line Accent (Desktop) -->
+      <div class="hero-accent-mark" aria-hidden="true">
+        <span class="gold-line"></span>
+        <span class="gold-dot"></span>
+      </div>
 
-      <!-- Eyebrow text -->
+      <!-- Eyebrow Tag -->
       <p class="hero-eyebrow">
-        <span class="eyebrow-text-desktop">Interior Design &bull; Thoughtfully Curated</span>
-        <span class="eyebrow-text-mobile">Bhavna Space</span>
+        <span class="hero-eyebrow-text">{site.descriptor}</span>
       </p>
 
-      <!-- Main Headline: Semantic H1 for SEO -->
+      <!-- Main Editorial Headline: Semantic H1 -->
       <h1 class="hero-headline">
-        <span class="headline-line headline-line-1">Spaces that feel</span>
-        <span class="headline-line headline-line-2">like you.</span>
+        <span class="headline-row">Spaces that feel</span>
+        <span class="headline-row headline-row--accent"><em>like you.</em></span>
       </h1>
 
-      <!-- Supporting description -->
+      <!-- Supporting Editorial Narrative -->
       <p class="hero-description hero-description--desktop">
-        We create thoughtful interiors that balance timeless design, everyday comfort, and the beauty of natural materials.
+        Thoughtfully designed interiors that bring together timeless aesthetics, everyday comfort, and meaningful details.
       </p>
       <p class="hero-description hero-description--mobile">
-        Thoughtfully designed interiors. Beautifully lived in.
+        Thoughtfully designed interiors that bring together timeless aesthetics, everyday comfort, and meaningful details.
       </p>
 
-      <!-- Action buttons -->
+      <!-- Action Buttons -->
       <div class="hero-actions">
-        <a href="/projects/" class="hero-btn hero-btn--primary">
+        <a href="/projects/" class="hero-cta-primary">
           <span>Explore Our Projects</span>
-          <span class="hero-btn-arrow" aria-hidden="true">&rarr;</span>
+          <span class="hero-cta-arrow" aria-hidden="true">&rarr;</span>
         </a>
-        <a href={consultationUrl} class="hero-btn hero-btn--secondary">
-          Book a Consultation
+        <a href={consultationUrl || approachUrl} class="hero-cta-secondary">
+          <span>Discover Our Approach</span>
         </a>
       </div>
     </div>
@@ -68,7 +73,7 @@ const { consultationUrl = '/contact/' } = Astro.props;
 
 <style>
   /* ==========================================================================
-     HERO SECTION BASE (Mobile-First: Full-Bleed Portrait Immersive Experience)
+     HERO SECTION BASE (Mobile-First: Immersive Full-Bleed Photography)
      ========================================================================== */
   .hero-section {
     position: relative;
@@ -76,13 +81,13 @@ const { consultationUrl = '/contact/' } = Astro.props;
     height: 100svh;
     min-height: 100svh;
     overflow: hidden;
-    background-color: var(--color-background, #FCF9EA);
+    background-color: var(--color-ivory);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
   }
 
-  /* ── Media Wrapper (Full-bleed on mobile) ───────────────────────────────── */
+  /* ── Media Wrapper ──────────────────────────────────────────────────────── */
   .hero-media-wrapper {
     position: absolute;
     inset: 0;
@@ -90,7 +95,7 @@ const { consultationUrl = '/contact/' } = Astro.props;
     height: 100%;
     z-index: 1;
     overflow: hidden;
-    background-color: #E7D9C7;
+    background-color: #DDD4C6;
   }
 
   .hero-picture {
@@ -103,13 +108,13 @@ const { consultationUrl = '/contact/' } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 45% 40%; /* Carefully crops to showcase sofa, table & landscape */
+    object-position: 45% 35%; /* Showcases curved seating, woodwork and daylight */
     display: block;
     transform-origin: center center;
-    animation: heroImgFadeIn 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: heroImageSettle 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* Subtle dark espresso/warm-brown scrim on mobile to guarantee contrast */
+  /* Refined dark espresso gradient scrim for mobile reading comfort */
   .hero-mobile-scrim {
     position: absolute;
     inset: 0;
@@ -117,19 +122,19 @@ const { consultationUrl = '/contact/' } = Astro.props;
     z-index: 2;
     background: linear-gradient(
       to top,
-      rgba(43, 42, 38, 0.94) 0%,
-      rgba(43, 42, 38, 0.72) 36%,
-      rgba(43, 42, 38, 0.28) 60%,
-      rgba(43, 42, 38, 0.0) 80%
+      rgba(16, 47, 45, 0.94) 0%,
+      rgba(21, 63, 59, 0.78) 38%,
+      rgba(21, 63, 59, 0.35) 64%,
+      rgba(21, 63, 59, 0.0) 85%
     );
   }
 
-  /* ── Content Panel (Overlay on mobile) ──────────────────────────────────── */
+  /* ── Content Panel (Mobile Overlay) ─────────────────────────────────────── */
   .hero-content-wrapper {
     position: relative;
     z-index: 3;
     width: 100%;
-    padding: 0 24px max(32px, env(safe-area-inset-bottom, 32px));
+    padding: 0 var(--space-gutter) max(36px, env(safe-area-inset-bottom, 36px));
     box-sizing: border-box;
   }
 
@@ -141,58 +146,68 @@ const { consultationUrl = '/contact/' } = Astro.props;
     align-items: flex-start;
   }
 
-  /* Accent rule (hidden on mobile for maximum clean visual impact) */
-  .hero-accent-rule {
+  /* Accent detail (desktop only) */
+  .hero-accent-mark {
     display: none;
   }
 
   /* ── Eyebrow ────────────────────────────────────────────────────────────── */
   .hero-eyebrow {
     margin: 0 0 10px 0;
-    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
-    font-size: 0.75rem;
-    font-weight: 500;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-primary, #DB9558);
+    color: var(--color-gold);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     opacity: 0;
-    animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+    animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
   }
 
-  .eyebrow-text-desktop {
-    display: none;
-  }
-  .eyebrow-text-mobile {
-    display: inline;
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 1px;
+    background-color: currentColor;
   }
 
   /* ── Headline ───────────────────────────────────────────────────────────── */
   .hero-headline {
-    margin: 0 0 12px 0;
-    font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
-    font-size: clamp(2.35rem, 9.5vw, 3.25rem);
+    margin: 0 0 14px 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 10vw, 3.4rem);
     font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.03em;
-    color: #FFFDF9; /* Pure warm white for crisp contrast on mobile scrim */
+    color: #FFFFFF;
     opacity: 0;
-    animation: heroTextSlideUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 280ms forwards;
+    animation: heroTextReveal 850ms cubic-bezier(0.16, 1, 0.3, 1) 320ms forwards;
   }
 
-  .headline-line {
+  .headline-row {
     display: block;
+  }
+
+  .headline-row--accent em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--color-ivory);
   }
 
   /* ── Descriptions ───────────────────────────────────────────────────────── */
   .hero-description {
-    margin: 0 0 24px 0;
-    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+    margin: 0 0 26px 0;
+    font-family: var(--font-body);
     font-size: 0.9375rem;
-    line-height: 1.5;
-    color: rgba(255, 253, 249, 0.9);
-    max-width: 340px;
+    line-height: 1.6;
+    color: rgba(246, 242, 234, 0.92);
+    max-width: 360px;
     opacity: 0;
-    animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
+    animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 450ms forwards;
   }
 
   .hero-description--desktop {
@@ -209,76 +224,68 @@ const { consultationUrl = '/contact/' } = Astro.props;
     gap: 12px;
     width: 100%;
     opacity: 0;
-    animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 500ms forwards;
+    animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 560ms forwards;
   }
 
-  .hero-btn {
+  .hero-cta-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    height: 48px;
-    min-height: 48px;
+    gap: 10px;
+    height: 52px;
+    min-height: 52px;
     padding: 0 24px;
-    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+    background-color: var(--color-gold);
+    color: var(--color-teal-dark);
+    font-family: var(--font-body);
     font-size: 0.8125rem;
-    font-weight: 500;
+    font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: var(--radius, 2px);
-    transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease, transform 200ms ease;
+    border-radius: var(--radius-xs);
+    border: 1px solid var(--color-gold);
+    transition: all 250ms ease;
+    width: 100%;
     box-sizing: border-box;
   }
 
-  .hero-btn:focus-visible {
-    outline: 2px solid var(--color-text, #2B2A26);
-    outline-offset: 3px;
-  }
-
-  .hero-btn--primary {
-    background-color: var(--color-primary, #DB9558);
-    color: var(--color-text, #2B2A26);
-    border: 1px solid var(--color-primary, #DB9558);
-    width: 100%;
-  }
-
-  .hero-btn--primary:hover {
-    background-color: var(--color-primary-hover, #C9803F);
-    border-color: var(--color-primary-hover, #C9803F);
+  .hero-cta-primary:hover {
+    background-color: var(--color-gold-hover);
+    border-color: var(--color-gold-hover);
     transform: translateY(-1px);
   }
 
-  .hero-btn-arrow {
+  .hero-cta-arrow {
     display: inline-block;
-    transition: transform 250ms ease;
+    transition: transform 200ms ease;
   }
 
-  .hero-btn--primary:hover .hero-btn-arrow {
+  .hero-cta-primary:hover .hero-cta-arrow {
     transform: translateX(4px);
   }
 
-  .hero-btn--secondary {
-    display: none; /* Desktop only */
+  .hero-cta-secondary {
+    display: none;
   }
 
   /* ==========================================================================
-     DESKTOP LAYOUT (>= 768px: Split-Screen Editorial Design)
+     DESKTOP LAYOUT (>= 900px: Split-Screen Editorial Composition)
      ========================================================================== */
-  @media (min-width: 768px) {
+  @media (min-width: 900px) {
     .hero-section {
-      height: 94vh;
-      min-height: 640px;
+      height: 94svh;
+      min-height: 660px;
       max-height: 1080px;
-      padding-top: 72px; /* Accounts for fixed top navbar */
+      margin-top: 76px; /* Offset fixed header */
+      height: calc(100svh - 76px);
       flex-direction: row;
       justify-content: stretch;
       align-items: stretch;
-      box-sizing: border-box;
-      background-color: #F5F0E8;
+      background-color: var(--color-ivory);
     }
 
-    /* Left side: Interior photograph (approx 60% width) */
+    /* Left 60%: Architectural Photograph Edge-to-Edge */
     .hero-media-wrapper {
       position: relative;
       flex: 0 0 60%;
@@ -290,22 +297,22 @@ const { consultationUrl = '/contact/' } = Astro.props;
       object-position: center center;
     }
 
-    /* No dark overlay scrim on desktop; photograph is viewed cleanly */
     .hero-mobile-scrim {
       display: none;
     }
 
-    /* Right side: Content panel (approx 40% width) */
+    /* Right 40%: Warm Ivory Editorial Content Panel */
     .hero-content-wrapper {
       position: relative;
       flex: 0 0 40%;
       width: 40%;
       height: 100%;
-      background-color: #F5F0E8;
+      background-color: var(--color-ivory);
+      border-left: 1px solid var(--color-border);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: clamp(32px, 5vw, 64px) clamp(36px, 4.5vw, 72px);
+      padding: clamp(36px, 5vw, 72px) clamp(36px, 4.5vw, 68px);
     }
 
     .hero-content-inner {
@@ -313,44 +320,55 @@ const { consultationUrl = '/contact/' } = Astro.props;
       width: 100%;
     }
 
-    /* Fine bronze / muted earthy accent line */
-    .hero-accent-rule {
-      display: block;
-      width: 36px;
-      height: 1.5px;
-      background-color: #A9855B;
-      margin-bottom: 22px;
+    /* Antique Gold Accent Mark */
+    .hero-accent-mark {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 24px;
       opacity: 0;
-      animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+      animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+    }
+
+    .gold-line {
+      display: block;
+      width: 32px;
+      height: 1.5px;
+      background-color: var(--color-gold);
+    }
+
+    .gold-dot {
+      display: block;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background-color: var(--color-gold);
     }
 
     .hero-eyebrow {
       margin-bottom: 16px;
       font-size: 0.75rem;
       letter-spacing: 0.14em;
-      color: #8A5420; /* Darker terracotta text for AA contrast on ivory */
-    }
-
-    .eyebrow-text-desktop {
-      display: inline;
-    }
-    .eyebrow-text-mobile {
-      display: none;
+      color: var(--color-teal);
     }
 
     .hero-headline {
       margin-bottom: 20px;
-      font-size: clamp(2.6rem, 3.8vw, 4.25rem);
+      font-size: clamp(2.8rem, 4.2vw, 4.4rem);
       line-height: 1.05;
       letter-spacing: -0.035em;
-      color: #382D24; /* Dark espresso */
+      color: var(--color-espresso);
+    }
+
+    .headline-row--accent em {
+      color: var(--color-teal);
     }
 
     .hero-description {
-      margin-bottom: 32px;
-      font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+      margin-bottom: 36px;
+      font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
       line-height: 1.65;
-      color: #5E5B52; /* Muted text on ivory */
+      color: var(--color-text-muted);
       max-width: 440px;
     }
 
@@ -368,30 +386,48 @@ const { consultationUrl = '/contact/' } = Astro.props;
       width: auto;
     }
 
-    .hero-btn--primary {
+    .hero-cta-primary {
       width: auto;
       padding: 0 28px;
+      background-color: var(--color-teal);
+      border-color: var(--color-teal);
+      color: var(--color-ivory);
     }
 
-    .hero-btn--secondary {
+    .hero-cta-primary:hover {
+      background-color: var(--color-teal-dark);
+      border-color: var(--color-teal-dark);
+      box-shadow: 0 6px 18px rgba(21, 63, 59, 0.18);
+    }
+
+    .hero-cta-secondary {
       display: inline-flex;
-      width: auto;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      min-height: 52px;
+      padding: 0 24px;
       background-color: transparent;
-      color: #382D24;
-      border: 1px solid #382D24;
+      color: var(--color-espresso);
+      border: 1px solid var(--color-espresso);
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: var(--radius-xs);
+      transition: all 250ms ease;
     }
 
-    .hero-btn--secondary:hover {
-      background-color: #382D24;
-      color: #FFFDF9;
+    .hero-cta-secondary:hover {
+      background-color: var(--color-espresso);
+      color: var(--color-ivory);
       transform: translateY(-1px);
     }
   }
 
   @media (min-width: 1280px) {
-    .hero-section {
-      height: 96vh;
-    }
     .hero-media-wrapper {
       flex: 0 0 61%;
       width: 61%;
@@ -399,20 +435,15 @@ const { consultationUrl = '/contact/' } = Astro.props;
     .hero-content-wrapper {
       flex: 0 0 39%;
       width: 39%;
-      padding-left: clamp(48px, 5vw, 84px);
-    }
-    .hero-headline {
-      font-size: clamp(3.2rem, 4vw, 4.6rem);
+      padding-left: clamp(48px, 5.5vw, 84px);
     }
   }
 
-  /* ==========================================================================
-     KEYFRAME ANIMATIONS & ACCESSIBILITY
-     ========================================================================== */
-  @keyframes heroImgFadeIn {
+  /* ── Keyframes & Accessibility ───────────────────────────────────────── */
+  @keyframes heroImageSettle {
     0% {
       opacity: 0;
-      transform: scale(1.035);
+      transform: scale(1.04);
     }
     100% {
       opacity: 1;
@@ -420,10 +451,10 @@ const { consultationUrl = '/contact/' } = Astro.props;
     }
   }
 
-  @keyframes heroTextSlideUp {
+  @keyframes heroTextReveal {
     0% {
       opacity: 0;
-      transform: translateY(16px);
+      transform: translateY(18px);
     }
     100% {
       opacity: 1;
@@ -433,8 +464,8 @@ const { consultationUrl = '/contact/' } = Astro.props;
 
   @media (prefers-reduced-motion: reduce) {
     .hero-image,
+    .hero-accent-mark,
     .hero-eyebrow,
-    .hero-accent-rule,
     .hero-headline,
     .hero-description,
     .hero-actions {
@@ -442,8 +473,9 @@ const { consultationUrl = '/contact/' } = Astro.props;
       opacity: 1 !important;
       transform: none !important;
     }
-    .hero-btn,
-    .hero-btn-arrow {
+    .hero-cta-primary,
+    .hero-cta-secondary,
+    .hero-cta-arrow {
       transition: none !important;
     }
   }

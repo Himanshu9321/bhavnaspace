@@ -28,9 +28,16 @@ const next = projects[(currentIndex + 1) % projects.length];
 
     <section class="materials section-dark section-pad"><div class="section-label"><span>Material palette</span><span>Details</span></div><div class="material-list">{project.materials.map((material, index) => <span><small>0{index + 1}</small>{material}</span>)}</div></section>
 
-    <a class="next-project section-light" href={`/projects/${next.slug}/`}>
-      <span>Next project</span>
-      <strong>{next.title} ↗</strong>
-    </a>
+    {projects.length > 1 ? (
+      <a class="next-project section-light" href={`/projects/${next.slug}/`}>
+        <span>Next project</span>
+        <strong>{next.title} ↗</strong>
+      </a>
+    ) : (
+      <a class="next-project section-light" href="/projects/">
+        <span>All work</span>
+        <strong>View Projects ↗</strong>
+      </a>
+    )}
   </article>
 </Layout>

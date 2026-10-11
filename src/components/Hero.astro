@@ -1,0 +1,450 @@
+---
+interface Props {
+  consultationUrl?: string;
+}
+
+const { consultationUrl = '/contact/' } = Astro.props;
+---
+
+<section class="hero-section" id="hero" aria-label="Hero">
+  <!-- Photograph Column (Desktop Left / Mobile Full-Bleed Background) -->
+  <div class="hero-media-wrapper">
+    <picture class="hero-picture">
+      <source srcset="/images/hero.webp" type="image/webp" />
+      <img
+        src="/images/hero.png"
+        alt="Luxurious minimalist living room featuring curved cream seating, natural stone, warm woodwork, and panoramic window landscape by Bhavna Space"
+        class="hero-image"
+        width="829"
+        height="801"
+        fetchpriority="high"
+        loading="eager"
+        decoding="sync"
+      />
+    </picture>
+    <!-- Mobile bottom gradient scrim for readable text contrast -->
+    <div class="hero-mobile-scrim" aria-hidden="true"></div>
+  </div>
+
+  <!-- Content Column (Desktop Right Editorial Panel / Mobile Bottom Overlay) -->
+  <div class="hero-content-wrapper">
+    <div class="hero-content-inner">
+      <!-- Fine bronze / muted earthy accent line (Desktop) -->
+      <span class="hero-accent-rule" aria-hidden="true"></span>
+
+      <!-- Eyebrow text -->
+      <p class="hero-eyebrow">
+        <span class="eyebrow-text-desktop">Interior Design &bull; Thoughtfully Curated</span>
+        <span class="eyebrow-text-mobile">Bhavna Space</span>
+      </p>
+
+      <!-- Main Headline: Semantic H1 for SEO -->
+      <h1 class="hero-headline">
+        <span class="headline-line headline-line-1">Spaces that feel</span>
+        <span class="headline-line headline-line-2">like you.</span>
+      </h1>
+
+      <!-- Supporting description -->
+      <p class="hero-description hero-description--desktop">
+        We create thoughtful interiors that balance timeless design, everyday comfort, and the beauty of natural materials.
+      </p>
+      <p class="hero-description hero-description--mobile">
+        Thoughtfully designed interiors. Beautifully lived in.
+      </p>
+
+      <!-- Action buttons -->
+      <div class="hero-actions">
+        <a href="/projects/" class="hero-btn hero-btn--primary">
+          <span>Explore Our Projects</span>
+          <span class="hero-btn-arrow" aria-hidden="true">&rarr;</span>
+        </a>
+        <a href={consultationUrl} class="hero-btn hero-btn--secondary">
+          Book a Consultation
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ==========================================================================
+     HERO SECTION BASE (Mobile-First: Full-Bleed Portrait Immersive Experience)
+     ========================================================================== */
+  .hero-section {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 100svh;
+    overflow: hidden;
+    background-color: var(--color-background, #FCF9EA);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* ── Media Wrapper (Full-bleed on mobile) ───────────────────────────────── */
+  .hero-media-wrapper {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    overflow: hidden;
+    background-color: #E7D9C7;
+  }
+
+  .hero-picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 45% 40%; /* Carefully crops to showcase sofa, table & landscape */
+    display: block;
+    transform-origin: center center;
+    animation: heroImgFadeIn 1100ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Subtle dark espresso/warm-brown scrim on mobile to guarantee contrast */
+  .hero-mobile-scrim {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+      to top,
+      rgba(43, 42, 38, 0.94) 0%,
+      rgba(43, 42, 38, 0.72) 36%,
+      rgba(43, 42, 38, 0.28) 60%,
+      rgba(43, 42, 38, 0.0) 80%
+    );
+  }
+
+  /* ── Content Panel (Overlay on mobile) ──────────────────────────────────── */
+  .hero-content-wrapper {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    padding: 0 24px max(32px, env(safe-area-inset-bottom, 32px));
+    box-sizing: border-box;
+  }
+
+  .hero-content-inner {
+    max-width: 480px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  /* Accent rule (hidden on mobile for maximum clean visual impact) */
+  .hero-accent-rule {
+    display: none;
+  }
+
+  /* ── Eyebrow ────────────────────────────────────────────────────────────── */
+  .hero-eyebrow {
+    margin: 0 0 10px 0;
+    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-primary, #DB9558);
+    opacity: 0;
+    animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+  }
+
+  .eyebrow-text-desktop {
+    display: none;
+  }
+  .eyebrow-text-mobile {
+    display: inline;
+  }
+
+  /* ── Headline ───────────────────────────────────────────────────────────── */
+  .hero-headline {
+    margin: 0 0 12px 0;
+    font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+    font-size: clamp(2.35rem, 9.5vw, 3.25rem);
+    font-weight: 400;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: #FFFDF9; /* Pure warm white for crisp contrast on mobile scrim */
+    opacity: 0;
+    animation: heroTextSlideUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 280ms forwards;
+  }
+
+  .headline-line {
+    display: block;
+  }
+
+  /* ── Descriptions ───────────────────────────────────────────────────────── */
+  .hero-description {
+    margin: 0 0 24px 0;
+    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: rgba(255, 253, 249, 0.9);
+    max-width: 340px;
+    opacity: 0;
+    animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 400ms forwards;
+  }
+
+  .hero-description--desktop {
+    display: none;
+  }
+  .hero-description--mobile {
+    display: block;
+  }
+
+  /* ── Actions / CTAs ─────────────────────────────────────────────────────── */
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    opacity: 0;
+    animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 500ms forwards;
+  }
+
+  .hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 24px;
+    font-family: var(--font-body, 'Inter', system-ui, sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: var(--radius, 2px);
+    transition: background-color 250ms ease, color 250ms ease, border-color 250ms ease, transform 200ms ease;
+    box-sizing: border-box;
+  }
+
+  .hero-btn:focus-visible {
+    outline: 2px solid var(--color-text, #2B2A26);
+    outline-offset: 3px;
+  }
+
+  .hero-btn--primary {
+    background-color: var(--color-primary, #DB9558);
+    color: var(--color-text, #2B2A26);
+    border: 1px solid var(--color-primary, #DB9558);
+    width: 100%;
+  }
+
+  .hero-btn--primary:hover {
+    background-color: var(--color-primary-hover, #C9803F);
+    border-color: var(--color-primary-hover, #C9803F);
+    transform: translateY(-1px);
+  }
+
+  .hero-btn-arrow {
+    display: inline-block;
+    transition: transform 250ms ease;
+  }
+
+  .hero-btn--primary:hover .hero-btn-arrow {
+    transform: translateX(4px);
+  }
+
+  .hero-btn--secondary {
+    display: none; /* Desktop only */
+  }
+
+  /* ==========================================================================
+     DESKTOP LAYOUT (>= 768px: Split-Screen Editorial Design)
+     ========================================================================== */
+  @media (min-width: 768px) {
+    .hero-section {
+      height: 94vh;
+      min-height: 640px;
+      max-height: 1080px;
+      padding-top: 72px; /* Accounts for fixed top navbar */
+      flex-direction: row;
+      justify-content: stretch;
+      align-items: stretch;
+      box-sizing: border-box;
+      background-color: #F5F0E8;
+    }
+
+    /* Left side: Interior photograph (approx 60% width) */
+    .hero-media-wrapper {
+      position: relative;
+      flex: 0 0 60%;
+      width: 60%;
+      height: 100%;
+    }
+
+    .hero-image {
+      object-position: center center;
+    }
+
+    /* No dark overlay scrim on desktop; photograph is viewed cleanly */
+    .hero-mobile-scrim {
+      display: none;
+    }
+
+    /* Right side: Content panel (approx 40% width) */
+    .hero-content-wrapper {
+      position: relative;
+      flex: 0 0 40%;
+      width: 40%;
+      height: 100%;
+      background-color: #F5F0E8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(32px, 5vw, 64px) clamp(36px, 4.5vw, 72px);
+    }
+
+    .hero-content-inner {
+      max-width: 480px;
+      width: 100%;
+    }
+
+    /* Fine bronze / muted earthy accent line */
+    .hero-accent-rule {
+      display: block;
+      width: 36px;
+      height: 1.5px;
+      background-color: #A9855B;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: heroTextSlideUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 100ms forwards;
+    }
+
+    .hero-eyebrow {
+      margin-bottom: 16px;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      color: #8A5420; /* Darker terracotta text for AA contrast on ivory */
+    }
+
+    .eyebrow-text-desktop {
+      display: inline;
+    }
+    .eyebrow-text-mobile {
+      display: none;
+    }
+
+    .hero-headline {
+      margin-bottom: 20px;
+      font-size: clamp(2.6rem, 3.8vw, 4.25rem);
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: #382D24; /* Dark espresso */
+    }
+
+    .hero-description {
+      margin-bottom: 32px;
+      font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+      line-height: 1.65;
+      color: #5E5B52; /* Muted text on ivory */
+      max-width: 440px;
+    }
+
+    .hero-description--desktop {
+      display: block;
+    }
+    .hero-description--mobile {
+      display: none;
+    }
+
+    .hero-actions {
+      flex-direction: row;
+      align-items: center;
+      gap: 16px;
+      width: auto;
+    }
+
+    .hero-btn--primary {
+      width: auto;
+      padding: 0 28px;
+    }
+
+    .hero-btn--secondary {
+      display: inline-flex;
+      width: auto;
+      background-color: transparent;
+      color: #382D24;
+      border: 1px solid #382D24;
+    }
+
+    .hero-btn--secondary:hover {
+      background-color: #382D24;
+      color: #FFFDF9;
+      transform: translateY(-1px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .hero-section {
+      height: 96vh;
+    }
+    .hero-media-wrapper {
+      flex: 0 0 61%;
+      width: 61%;
+    }
+    .hero-content-wrapper {
+      flex: 0 0 39%;
+      width: 39%;
+      padding-left: clamp(48px, 5vw, 84px);
+    }
+    .hero-headline {
+      font-size: clamp(3.2rem, 4vw, 4.6rem);
+    }
+  }
+
+  /* ==========================================================================
+     KEYFRAME ANIMATIONS & ACCESSIBILITY
+     ========================================================================== */
+  @keyframes heroImgFadeIn {
+    0% {
+      opacity: 0;
+      transform: scale(1.035);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes heroTextSlideUp {
+    0% {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-image,
+    .hero-eyebrow,
+    .hero-accent-rule,
+    .hero-headline,
+    .hero-description,
+    .hero-actions {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+    .hero-btn,
+    .hero-btn-arrow {
+      transition: none !important;
+    }
+  }
+</style>

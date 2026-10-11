@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   image?: string;
   noindex?: boolean;
+  preloadImage?: string;
 }
 
 const {
@@ -16,6 +17,7 @@ const {
   description = site.description,
   image = '/images/og-default.svg',
   noindex = false,
+  preloadImage,
 } = Astro.props;
 
 const canonical = new URL(Astro.url.pathname, site.url).toString();
@@ -26,10 +28,19 @@ const ogImage = new URL(image, site.url).toString();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#f3f0e9" />
+    <meta name="theme-color" content="#FCF9EA" />
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <!-- Google Fonts: Cormorant Garamond (headings) + Inter (body/UI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Inter:wght@400;500&display=swap" />
+
+    {preloadImage && (
+      <link rel="preload" as="image" href={preloadImage} type="image/webp" fetchpriority="high" />
+    )}
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />

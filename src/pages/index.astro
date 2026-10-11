@@ -1,24 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
 import { site } from '../data/site';
 
-const featured = projects.slice(0, 3);
+const featured = projects;
 const whatsapp = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello Bhavna Space, I would like to discuss an interior design project.')}`;
 ---
-<Layout title="Bhavna Space — Interior Design Studio in {site.city}" description="Bhavna Space creates refined residential and commercial interiors shaped by light, material and everyday living.">
-  <section class="hero section-dark">
-    <div class="hero-top"><span>Interior Design Studio</span><span>{site.city} · India</span></div>
-    <div class="hero-title-wrap">
-      <p class="hero-kicker reveal-up">Spaces designed to be lived in.</p>
-      <h1 class="hero-title"><span>Bhavna</span><span>Space</span></h1>
-    </div>
-    <div class="hero-media image-reveal">
-      <img src="/images/hero.svg" alt="Contemporary interior by Bhavna Space" width="1800" height="1200" fetchpriority="high" />
-      <span class="hero-scroll">Scroll to explore ↓</span>
-    </div>
-  </section>
+<Layout
+  title={`Bhavna Space — Interior Design Studio in ${site.city}`}
+  description="Bhavna Space creates refined residential and commercial interiors shaped by light, material and everyday living."
+  preloadImage="/images/hero.webp"
+>
+  <Hero consultationUrl={whatsapp} />
 
   <section class="intro section-light section-pad">
     <div class="section-label"><span>01</span><span>Studio</span></div>
@@ -47,7 +42,7 @@ const whatsapp = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent
       <div class="service-list">
         <div><span>01</span><h3>Residential Interiors</h3><p>Complete interior design for homes shaped around the people who live in them.</p></div>
         <div><span>02</span><h3>Commercial Spaces</h3><p>Workplaces and customer-facing spaces designed to express the character of a brand.</p></div>
-        <div><span>03</span><h3>Styling & Detail</h3><p>Material palettes, furniture, lighting and finishing details that bring a space together.</p></div>
+        <div><span>03</span><h3>Styling &amp; Detail</h3><p>Material palettes, furniture, lighting and finishing details that bring a space together.</p></div>
       </div>
     </div>
   </section>

@@ -1,0 +1,119 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  requireAuth?: boolean;
+}
+
+const { title = 'Admin Console — Bhavna Space', requireAuth = true } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta name="theme-color" content="#FCF9EA" />
+
+    <!-- Google Fonts: Cormorant Garamond & Manrope -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Manrope:wght@300;400;500;600;700&display=swap"
+    />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>{title}</title>
+  </head>
+  <body class="admin-body theme-ivory" data-require-auth={requireAuth ? 'true' : 'false'}>
+    <a class="skip-link" href="#admin-main">Skip to main content</a>
+    
+    <div id="admin-shell" class="admin-shell">
+      <slot />
+    </div>
+
+    <script>
+      // Purge any legacy localStorage tokens to prevent XSS exposure
+      try {
+        localStorage.removeItem('bhavna_admin_token');
+      } catch {}
+
+      const requireAuth = document.body.dataset.requireAuth === 'true';
+      const pathSegments = window.location.pathname.split('/').filter(Boolean);
+      const dynamicPrefix = pathSegments[0]?.match(/^\d{8}$/) ? `/${pathSegments[0]}` : '';
+      const isLoginPage = window.location.pathname.endsWith('/login') || window.location.pathname.includes('/login/');
+      const loginUrl = `${dynamicPrefix}/login`;
+      const dashboardUrl = dynamicPrefix ? `${dynamicPrefix}/` : '/';
+
+      // Check session via HttpOnly Cookie (sent automatically with credentials: 'same-origin')
+      fetch('/api/admin/me', {
+        credentials: 'same-origin',
+        headers: {
+          'Cache-Control': 'no-cache',
+        },
+      })
+        .then((res) => {
+          if (res.ok) {
+            // If already authenticated and on login page, redirect to dynamic admin console
+            if (isLoginPage) {
+              window.location.replace(dashboardUrl);
+            }
+          } else {
+            // If unauthenticated and on protected page, redirect to dynamic login
+            if (requireAuth) {
+              window.location.replace(`${loginUrl}?reason=unauthenticated`);
+            }
+          }
+        })
+        .catch(() => {
+          if (requireAuth) {
+            window.location.replace(`${loginUrl}?reason=network_error`);
+          }
+        });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    --color-primary: #DB9558;
+    --color-primary-hover: #C9803F;
+    --color-background: #FCF9EA;
+    --color-secondary: #97A87A;
+    --color-sage: #A8BBA3;
+
+    --color-text: #2B2A26;
+    --color-text-muted: #5E5B52;
+    --color-primary-text: #8A5420;
+    --color-secondary-text: #4F5E38;
+    --color-border: #E3DCC4;
+
+    --radius: 2px;
+    --radius-lg: 4px;
+    --space-section: clamp(3rem, 6vw, 6rem);
+    --space-gutter: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  body.admin-body {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-body, 'Manrope', system-ui, sans-serif);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .admin-shell {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-text);
+    outline-offset: 3px;
+  }
+</style>

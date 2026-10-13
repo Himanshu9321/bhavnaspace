@@ -1,10 +1,16 @@
+import { handleAdminApi } from './server/admin-api';
+import { isValidAdminDateSlug } from './server/admin-path';
+
 interface Env {
   ASSETS: { fetch: (request: Request) => Promise<Response> };
   TURNSTILE_SECRET_KEY?: string;
   RESEND_API_KEY?: string;
-  CONTACT_TO_EMAIL?: string;
   CONTACT_FROM_EMAIL?: string;
   PUBLIC_SITE_URL?: string;
+  ADMIN_EMAIL?: string;
+  ADMIN_PASSWORD?: string;
+  ADMIN_SESSION_SECRET?: string;
+  ADMIN_ROUTE_OVERRIDE?: string;
 }
 
 type ContactPayload = {
@@ -36,7 +42,7 @@ async function validateTurnstile(token: string, secret: string, ip: string | nul
 
 async function handleContact(request: Request, env: Env) {
   if (request.method !== 'POST') return json({ error: 'Method not allowed.' }, 405);
-  if (!env.TURNSTILE_SECRET_KEY || !env.RESEND_API_KEY || !env.CONTACT_TO_EMAIL || !env.CONTACT_FROM_EMAIL) {
+  if (!env.TURNSTILE_SECRET_KEY || !env.RESEND_API_KEY || !env.ADMIN_EMAIL || !env.CONTACT_FROM_EMAIL) {
     return json({ error: 'Contact service is not configured.' }, 503);
   }
 
@@ -80,7 +86,7 @@ async function handleContact(request: Request, env: Env) {
     headers: { Authorization: `Bearer ${env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
     body: JSON.stringify({
       from: env.CONTACT_FROM_EMAIL,
-      to: [env.CONTACT_TO_EMAIL],
+      to: [env.ADMIN_EMAIL],
       reply_to: email,
       subject: `New ${projectType} enquiry — ${name}`,
       html,
@@ -91,18 +97,55 @@ async function handleContact(request: Request, env: Env) {
   return json({ ok: true });
 }
 
+function applySecurityHeaders(response: Response): Response {
+  const headers = new Headers(response.headers);
+  headers.set('X-Content-Type-Options', 'nosniff');
+  headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+  headers.set('X-Frame-Options', 'DENY');
+  headers.set(
+    'Content-Security-Policy',
+    "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com https://api.resend.com; font-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'"
+  );
+  return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
+
+    // 1. API Handlers
+    if (url.pathname.startsWith('/api/admin/')) {
+      const adminResponse = await handleAdminApi(request, env);
+      if (adminResponse) return adminResponse;
+    }
     if (url.pathname === '/api/contact') return handleContact(request, env);
 
+    // 2. Hide static /admin path directly from public access (returns 404)
+    if (url.pathname === '/admin' || url.pathname.startsWith('/admin/')) {
+      return new Response('Not Found', { status: 404 });
+    }
+
+    // 3. Dynamic admin link: domain/ddmmyyyy/login and domain/ddmmyyyy/
+    const dynamicAdminMatch = url.pathname.match(/^\/(\d{8})(\/login)?\/?$/);
+    if (dynamicAdminMatch) {
+      const dateSlug = dynamicAdminMatch[1];
+      const isLogin = dynamicAdminMatch[2] === '/login';
+
+      if (!isValidAdminDateSlug(dateSlug, new Date(), env.ADMIN_ROUTE_OVERRIDE)) {
+        return new Response('Not Found', { status: 404 });
+      }
+
+      // Rewrite internally to the built admin static asset
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = isLogin ? '/admin/login/index.html' : '/admin/index.html';
+      const assetRequest = new Request(assetUrl.toString(), request);
+      const assetResponse = await env.ASSETS.fetch(assetRequest);
+      return applySecurityHeaders(assetResponse);
+    }
+
+    // 4. Standard static asset fetch
     const response = await env.ASSETS.fetch(request);
-    const headers = new Headers(response.headers);
-    headers.set('X-Content-Type-Options', 'nosniff');
-    headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-    headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
-    headers.set('X-Frame-Options', 'DENY');
-    headers.set('Content-Security-Policy', "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://challenges.cloudflare.com https://api.resend.com; font-src 'self' data:; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; object-src 'none'");
-    return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
+    return applySecurityHeaders(response);
   },
 };

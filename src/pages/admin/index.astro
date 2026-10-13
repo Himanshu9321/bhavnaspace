@@ -1,0 +1,1772 @@
+---
+import AdminLayout from '../../layouts/AdminLayout.astro';
+---
+
+<AdminLayout title="Admin Console — Bhavna Space" requireAuth={true}>
+  <!-- Top Navigation Bar -->
+  <header class="admin-topbar">
+    <div class="admin-topbar-inner">
+      <div class="topbar-brand">
+        <a href="#" id="adminBrandLink" class="brand-link">
+          <span class="brand-name">BHAVNA SPACE</span>
+          <span class="brand-node-tag">Admin Console</span>
+        </a>
+      </div>
+
+      <div class="topbar-status">
+        <div class="status-indicator">
+          <span class="status-dot"></span>
+          <span class="status-text">Resend Email API Connected</span>
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <div class="user-chip" id="currentUserChip">
+          <span class="user-icon">👤</span>
+          <span class="user-email" id="currentUserEmail">admin@bhavnaspace.com</span>
+        </div>
+        <a href="/" target="_blank" rel="noopener noreferrer" class="topbar-link">
+          View Studio Site ↗
+        </a>
+        <button type="button" id="logoutBtn" class="logout-btn">
+          Sign Out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Node Navigation Bar -->
+  <nav class="admin-nodes-nav" aria-label="Admin Sections">
+    <div class="admin-nodes-container">
+      <ul class="nodes-list">
+        <li class="node-item">
+          <button type="button" class="node-tab active" data-node="send-emails" aria-current="page">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Send Emails</span>
+            <span class="node-badge">Primary Node</span>
+          </button>
+        </li>
+        <li class="node-item">
+          <button type="button" class="node-tab disabled" title="Coming soon in next studio release" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+            <span>Client Enquiries</span>
+            <span class="node-badge node-badge-muted">Coming Soon</span>
+          </button>
+        </li>
+        <li class="node-item">
+          <button type="button" class="node-tab disabled" title="Coming soon in next studio release" disabled>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+              <circle cx="8.5" cy="8.5" r="1.5"></circle>
+              <polyline points="21 15 16 10 5 21"></polyline>
+            </svg>
+            <span>Portfolio Media</span>
+            <span class="node-badge node-badge-muted">Coming Soon</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Main Content Workspace -->
+  <main id="admin-main" class="admin-workspace">
+    <div class="admin-container">
+      <!-- Node Header -->
+      <section class="node-intro">
+        <div class="node-intro-copy">
+          <span class="eyebrow eyebrow-terracotta">Active Node</span>
+          <h1 class="node-title">Send Emails</h1>
+          <p class="node-lead">
+            Author and dispatch branded correspondence directly to clients, partners, and collaborators via the Resend API.
+          </p>
+        </div>
+        <div class="sender-info-card">
+          <span class="sender-label">Verified Dispatch Sender</span>
+          <span class="sender-address">Bhavna Space &lt;connect@bhavnaspace.com&gt;</span>
+          <span class="sender-note">DKIM & SPF verified domain for authentic inbox delivery</span>
+        </div>
+      </section>
+
+      <!-- Alert Box -->
+      <div id="emailAlert" class="alert-box alert-hidden" role="alert" aria-live="polite">
+        <div class="alert-content">
+          <span id="emailAlertIcon" class="alert-icon"></span>
+          <div id="emailAlertText" class="alert-text"></div>
+        </div>
+        <button type="button" id="dismissAlertBtn" class="alert-dismiss" aria-label="Dismiss alert">&times;</button>
+      </div>
+
+      <!-- Send Email Grid / Workspace -->
+      <div class="email-layout-grid">
+        <!-- Main Composer Column -->
+        <div class="composer-column">
+          <div class="composer-card">
+            <form id="emailComposerForm" novalidate>
+              <!-- Recipient Field -->
+              <div class="form-group">
+                <div class="field-header">
+                  <label for="recipientEmail" class="form-label">
+                    Recipient Email Address <span class="required-star">*</span>
+                  </label>
+                  <div class="quick-recipients">
+                    <span class="quick-label">Quick insert:</span>
+                    <button type="button" class="quick-pill" id="quickInsertAdminBtn">
+                      + Admin Email
+                    </button>
+                    <button type="button" class="quick-pill" data-email="connect@bhavnaspace.com">
+                      + connect@bhavnaspace.com
+                    </button>
+                  </div>
+                </div>
+                <input
+                  type="text"
+                  id="recipientEmail"
+                  name="to"
+                  required
+                  placeholder="client@example.com, partner@studio.com"
+                  class="form-control"
+                />
+                <span class="field-hint">Supports single email or comma-separated multiple recipients.</span>
+              </div>
+
+              <!-- Subject Line -->
+              <div class="form-group">
+                <div class="field-header">
+                  <label for="emailSubject" class="form-label">
+                    Subject Line <span class="required-star">*</span>
+                  </label>
+                </div>
+                <input
+                  type="text"
+                  id="emailSubject"
+                  name="subject"
+                  required
+                  placeholder="Bhavna Space — Project Proposal & Material Palette"
+                  class="form-control"
+                />
+              </div>
+
+              <!-- Quick Template Selectors -->
+              <div class="templates-bar">
+                <span class="templates-label">Starters:</span>
+                <button type="button" class="template-btn" data-template="proposal">
+                  Design Proposal
+                </button>
+                <button type="button" class="template-btn" data-template="consultation">
+                  Consultation Follow-Up
+                </button>
+                <button type="button" class="template-btn" data-template="materials">
+                  Material Palette
+                </button>
+                <button type="button" class="template-btn" data-template="blank">
+                  Clear Blank
+                </button>
+              </div>
+
+              <!-- Rich Text Editor Section -->
+              <div class="form-group editor-group">
+                <div class="editor-header">
+                  <label class="form-label">Email Content (Rich Text) <span class="required-star">*</span></label>
+                  
+                  <!-- Tabs: Visual / Preview / HTML -->
+                  <div class="editor-tabs" role="tablist">
+                    <button type="button" class="tab-btn active" id="tabVisualBtn" role="tab" aria-selected="true">
+                      Visual Editor
+                    </button>
+                    <button type="button" class="tab-btn" id="tabPreviewBtn" role="tab" aria-selected="false">
+                      Inbox Preview
+                    </button>
+                    <button type="button" class="tab-btn" id="tabHtmlBtn" role="tab" aria-selected="false">
+                      HTML Source
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Rich Text Toolbar -->
+                <div class="editor-toolbar" id="editorToolbar">
+                  <div class="toolbar-group">
+                    <select id="formatBlockSelect" class="toolbar-select" aria-label="Text Style">
+                      <option value="p">Paragraph</option>
+                      <option value="h2">Heading 2</option>
+                      <option value="h3">Heading 3</option>
+                      <option value="blockquote">Editorial Quote</option>
+                    </select>
+                  </div>
+
+                  <div class="toolbar-divider"></div>
+
+                  <div class="toolbar-group">
+                    <button type="button" class="tb-btn" data-cmd="bold" title="Bold (Ctrl+B)">
+                      <strong>B</strong>
+                    </button>
+                    <button type="button" class="tb-btn" data-cmd="italic" title="Italic (Ctrl+I)">
+                      <em>I</em>
+                    </button>
+                    <button type="button" class="tb-btn" data-cmd="underline" title="Underline (Ctrl+U)">
+                      <u>U</u>
+                    </button>
+                    <button type="button" class="tb-btn" data-cmd="strikeThrough" title="Strikethrough">
+                      <s>S</s>
+                    </button>
+                  </div>
+
+                  <div class="toolbar-divider"></div>
+
+                  <div class="toolbar-group">
+                    <button type="button" class="tb-btn" data-cmd="insertUnorderedList" title="Bullet List">
+                      &bull; List
+                    </button>
+                    <button type="button" class="tb-btn" data-cmd="insertOrderedList" title="Numbered List">
+                      1. List
+                    </button>
+                    <button type="button" class="tb-btn" data-cmd="insertHorizontalRule" title="Divider Line">
+                      &mdash; Line
+                    </button>
+                  </div>
+
+                  <div class="toolbar-divider"></div>
+
+                  <div class="toolbar-group">
+                    <button type="button" class="tb-btn" id="insertLinkBtn" title="Insert Link">
+                      Link ↗
+                    </button>
+                    <button type="button" class="tb-btn" data-cmd="removeFormat" title="Clear Formatting">
+                      Clear
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Visual Editor Surface -->
+                <div
+                  id="richTextSurface"
+                  class="rich-text-surface"
+                  contenteditable="true"
+                  role="textbox"
+                  aria-multiline="true"
+                  spellcheck="true"
+                >
+                  <h2>Thank you for connecting with Bhavna Space.</h2>
+                  <p>We are delighted to share the initial conceptual direction for your residential space. Our studio approaches each residence through quiet luxury, honest materiality, and spatial harmony.</p>
+                  <blockquote>"A home shaped by light, authentic texture, and timeless living."</blockquote>
+                  <p>Here are the immediate next milestones in our design process:</p>
+                  <ul>
+                    <li>Site dimension verification and ambient lighting analysis</li>
+                    <li>Tailored spatial layout and material finish boards</li>
+                    <li>Bespoke furniture joinery specifications</li>
+                  </ul>
+                  <p>Please review and let us know if you have any questions or schedule changes.</p>
+                </div>
+
+                <!-- HTML Source Editor (Hidden by default) -->
+                <textarea
+                  id="htmlSourceSurface"
+                  class="html-source-surface form-hidden"
+                  spellcheck="false"
+                  aria-label="Raw HTML Code"
+                ></textarea>
+
+                <!-- Live Inbox Preview Frame (Hidden by default) -->
+                <div id="inboxPreviewSurface" class="inbox-preview-surface form-hidden">
+                  <div class="inbox-preview-meta">
+                    <div class="meta-row">
+                      <span class="meta-label">From:</span>
+                      <span class="meta-val">Bhavna Space &lt;connect@bhavnaspace.com&gt;</span>
+                    </div>
+                    <div class="meta-row">
+                      <span class="meta-label">To:</span>
+                      <span class="meta-val" id="previewToDisplay">recipient@example.com</span>
+                    </div>
+                    <div class="meta-row">
+                      <span class="meta-label">Subject:</span>
+                      <span class="meta-val preview-subj" id="previewSubjectDisplay">Bhavna Space — Project Proposal</span>
+                    </div>
+                  </div>
+                  <div class="inbox-preview-body" id="inboxPreviewBody">
+                    <!-- Rendered Template Preview -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- Options -->
+              <div class="composer-options">
+                <label class="checkbox-label">
+                  <input type="checkbox" id="wrapTemplateCheckbox" checked />
+                  <span>Wrap in Bhavna Space Editorial Letterhead (Header, logo, and studio signature)</span>
+                </label>
+              </div>
+
+              <!-- Submit Actions -->
+              <div class="composer-actions">
+                <button type="submit" id="sendEmailBtn" class="btn btn-primary">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                  <span class="btn-text">Send Email via Resend</span>
+                  <span class="btn-spinner" aria-hidden="true"></span>
+                </button>
+
+                <button type="button" id="sendTestBtn" class="btn btn-secondary">
+                  Send Test to Myself
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Sidebar / Sent History Column -->
+        <aside class="history-column">
+          <div class="history-card">
+            <div class="history-header">
+              <h2 class="history-title">Session Dispatch Log</h2>
+              <span class="history-badge" id="historyCount">0 sent</span>
+            </div>
+            <p class="history-desc">Emails dispatched in this administrative session.</p>
+
+            <div id="historyList" class="history-list">
+              <div class="empty-history" id="emptyHistoryState">
+                <span class="empty-icon">✉</span>
+                <p>No emails dispatched yet in this session.</p>
+                <span class="empty-hint">Sent emails with Resend IDs will appear here.</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Studio API Diagnostics Card -->
+          <div class="diagnostics-card">
+            <h3 class="diagnostics-title">Resend API Specification</h3>
+            <div class="diagnostics-row">
+              <span class="diag-key">Endpoint:</span>
+              <span class="diag-val">https://api.resend.com/emails</span>
+            </div>
+            <div class="diagnostics-row">
+              <span class="diag-key">Sender:</span>
+              <span class="diag-val">connect@bhavnaspace.com</span>
+            </div>
+            <div class="diagnostics-row">
+              <span class="diag-key">Format:</span>
+              <span class="diag-val">Normalized HTML / UTF-8</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+</AdminLayout>
+
+<script>
+  import { convertEditorToCleanHtml, wrapInBhavnaEmailTemplate } from '../../scripts/email-html-converter';
+
+  // State
+  let adminEmail = '';
+  let activeTab: 'visual' | 'preview' | 'html' = 'visual';
+  interface SentLogItem {
+    id: string;
+    recipients: string[];
+    subject: string;
+    timestamp: string;
+  }
+  const sentHistory: SentLogItem[] = [];
+
+  // DOM Elements
+  const currentUserEmailEl = document.getElementById('currentUserEmail') as HTMLElement;
+  const quickInsertAdminBtn = document.getElementById('quickInsertAdminBtn') as HTMLButtonElement;
+  const logoutBtn = document.getElementById('logoutBtn') as HTMLButtonElement;
+
+  const emailForm = document.getElementById('emailComposerForm') as HTMLFormElement;
+  const recipientInput = document.getElementById('recipientEmail') as HTMLInputElement;
+  const subjectInput = document.getElementById('emailSubject') as HTMLInputElement;
+  const richTextSurface = document.getElementById('richTextSurface') as HTMLElement;
+  const htmlSourceSurface = document.getElementById('htmlSourceSurface') as HTMLTextAreaElement;
+  const inboxPreviewSurface = document.getElementById('inboxPreviewSurface') as HTMLElement;
+  const inboxPreviewBody = document.getElementById('inboxPreviewBody') as HTMLElement;
+  const previewToDisplay = document.getElementById('previewToDisplay') as HTMLElement;
+  const previewSubjectDisplay = document.getElementById('previewSubjectDisplay') as HTMLElement;
+  const wrapTemplateCheckbox = document.getElementById('wrapTemplateCheckbox') as HTMLInputElement;
+  const sendEmailBtn = document.getElementById('sendEmailBtn') as HTMLButtonElement;
+  const sendTestBtn = document.getElementById('sendTestBtn') as HTMLButtonElement;
+
+  const alertBox = document.getElementById('emailAlert') as HTMLElement;
+  const alertText = document.getElementById('emailAlertText') as HTMLElement;
+  const dismissAlertBtn = document.getElementById('dismissAlertBtn') as HTMLButtonElement;
+
+  const tabVisualBtn = document.getElementById('tabVisualBtn') as HTMLButtonElement;
+  const tabPreviewBtn = document.getElementById('tabPreviewBtn') as HTMLButtonElement;
+  const tabHtmlBtn = document.getElementById('tabHtmlBtn') as HTMLButtonElement;
+  const editorToolbar = document.getElementById('editorToolbar') as HTMLElement;
+
+  const historyList = document.getElementById('historyList') as HTMLElement;
+  const historyCount = document.getElementById('historyCount') as HTMLElement;
+  const emptyHistoryState = document.getElementById('emptyHistoryState') as HTMLElement;
+
+  // Dynamic Route Prefix Detection
+  const pathSegments = window.location.pathname.split('/').filter(Boolean);
+  const dynamicPrefix = pathSegments[0]?.match(/^\d{8}$/) ? `/${pathSegments[0]}` : '';
+  const loginUrl = dynamicPrefix ? `${dynamicPrefix}/login` : '/admin/login';
+  const dashboardUrl = dynamicPrefix ? `${dynamicPrefix}/` : '/admin/';
+
+  const adminBrandLink = document.getElementById('adminBrandLink') as HTMLAnchorElement;
+  if (adminBrandLink) {
+    adminBrandLink.href = dashboardUrl;
+  }
+
+  // Initialize Session via HttpOnly cookie
+  fetch('/api/admin/me', {
+    credentials: 'same-origin',
+  })
+    .then((res) => {
+      if (!res.ok) {
+        window.location.replace(`${loginUrl}?reason=unauthenticated`);
+        return null;
+      }
+      return res.json();
+    })
+    .then((data) => {
+      if (data && data.ok && data.user) {
+        adminEmail = data.user.email;
+        if (currentUserEmailEl) currentUserEmailEl.textContent = adminEmail;
+        if (quickInsertAdminBtn && adminEmail) {
+          quickInsertAdminBtn.textContent = `+ ${adminEmail}`;
+        }
+      }
+    })
+    .catch(() => {});
+
+  // Quick Insert Admin Email
+  quickInsertAdminBtn?.addEventListener('click', () => {
+    if (adminEmail) {
+      insertRecipient(adminEmail);
+    }
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('.quick-pill[data-email]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const email = btn.dataset.email;
+      if (email) insertRecipient(email);
+    });
+  });
+
+  function insertRecipient(email: string) {
+    const current = recipientInput.value.trim();
+    if (!current) {
+      recipientInput.value = email;
+    } else {
+      const parts = current.split(',').map((p) => p.trim());
+      if (!parts.includes(email)) {
+        recipientInput.value = `${current}, ${email}`;
+      }
+    }
+    recipientInput.focus();
+  }
+
+  // Sign Out
+  logoutBtn?.addEventListener('click', async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST', credentials: 'same-origin' });
+    } catch {}
+    try {
+      localStorage.removeItem('bhavna_admin_token');
+    } catch {}
+    window.location.replace(loginUrl);
+  });
+
+  // Alert Banner
+  function showAlert(msg: string, type: 'error' | 'success' | 'info' = 'error') {
+    if (!alertBox || !alertText) return;
+    alertBox.className = `alert-box alert-${type}`;
+    alertText.innerHTML = msg;
+    alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  dismissAlertBtn?.addEventListener('click', () => {
+    if (alertBox) alertBox.className = 'alert-box alert-hidden';
+  });
+
+  // Rich Text Editor Commands
+  document.querySelectorAll<HTMLButtonElement>('.tb-btn[data-cmd]').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const cmd = btn.dataset.cmd;
+      if (!cmd) return;
+      document.execCommand(cmd, false);
+      richTextSurface.focus();
+    });
+  });
+
+  const formatBlockSelect = document.getElementById('formatBlockSelect') as HTMLSelectElement;
+  formatBlockSelect?.addEventListener('change', () => {
+    const val = formatBlockSelect.value;
+    if (val === 'p' || val === 'h2' || val === 'h3' || val === 'blockquote') {
+      document.execCommand('formatBlock', false, `<${val}>`);
+      richTextSurface.focus();
+    }
+  });
+
+  const insertLinkBtn = document.getElementById('insertLinkBtn') as HTMLButtonElement;
+  insertLinkBtn?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const url = prompt('Enter destination link URL (e.g. https://bhavnaspace.com):');
+    if (url) {
+      document.execCommand('createLink', false, url.trim());
+      richTextSurface.focus();
+    }
+  });
+
+  // Starter Templates
+  const templates: Record<string, { subject: string; html: string }> = {
+    proposal: {
+      subject: 'Bhavna Space — Design Proposal & Material Palette',
+      html: `
+        <h2>Bhavna Space &bull; Residential Design Proposal</h2>
+        <p>Dear Client,</p>
+        <p>Following our initial architectural walkthrough, our studio has prepared the comprehensive interior design scope tailored specifically to your home.</p>
+        <blockquote>"Timeless interiors shaped by light, architectural proportions, and artisanal craftsmanship."</blockquote>
+        <h3>Project Scope Highlights</h3>
+        <ul>
+          <li><strong>Spatial Reconfiguration:</strong> Optimized living-dining fluidity and concealed joinery.</li>
+          <li><strong>Material Palette:</strong> Warm limewash walls, natural teak millwork, honed Travertine stone, and textured linen accents.</li>
+          <li><strong>Lighting Architecture:</strong> Warm 2700K ambient cove profiles and sculptural accent lighting.</li>
+        </ul>
+        <p>We look forward to presenting the detailed finish samples during our studio consultation.</p>
+        <p>Warm regards,<br /><strong>Bhavna Space Design Studio</strong></p>
+      `.trim(),
+    },
+    consultation: {
+      subject: 'Bhavna Space — Consultation Follow-Up & Next Steps',
+      html: `
+        <h2>Studio Consultation Follow-Up</h2>
+        <p>Thank you for taking the time to share your vision with Bhavna Space today.</p>
+        <p>It was a pleasure understanding the aspirations for your residence. Here are the key action items agreed upon:</p>
+        <ul>
+          <li>Studio design team review of existing floor plans and structural drawings</li>
+          <li>Drafting preliminary spatial layout and circulation concepts</li>
+          <li>Scheduling on-site laser dimension survey</li>
+        </ul>
+        <p>Feel free to reach out via WhatsApp or email if any thoughts arise in the interim.</p>
+      `.trim(),
+    },
+    materials: {
+      subject: 'Bhavna Space — Curated Material & Joinery Specifications',
+      html: `
+        <h2>Curated Material Palette & Joinery Notes</h2>
+        <p>Please find below the tactile material specifications curated for your project spaces:</p>
+        <ul>
+          <li><strong>Millwork:</strong> Quarter-sawn natural Burmese teak with matte polyurethane protective seal.</li>
+          <li><strong>Stone:</strong> Honed Romano Travertine with soft eased chamfer edging.</li>
+          <li><strong>Hardware:</strong> Patinated antique bronze architectural pulls and concealed soft-close runners.</li>
+          <li><strong>Fabrics:</strong> Heavy textured Belgian linen in warm oatmeal and muted sage.</li>
+        </ul>
+        <p>Physical material swatches are ready for inspection at our studio.</p>
+      `.trim(),
+    },
+    blank: {
+      subject: '',
+      html: '<p>Type your message here...</p>',
+    },
+  };
+
+  document.querySelectorAll<HTMLButtonElement>('.template-btn[data-template]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.template;
+      if (!key || !templates[key]) return;
+      const t = templates[key];
+      if (t.subject) subjectInput.value = t.subject;
+      richTextSurface.innerHTML = t.html;
+      syncEditorToOutputs();
+    });
+  });
+
+  // Tab Switcher (Visual / Preview / HTML)
+  tabVisualBtn?.addEventListener('click', () => switchTab('visual'));
+  tabPreviewBtn?.addEventListener('click', () => switchTab('preview'));
+  tabHtmlBtn?.addEventListener('click', () => switchTab('html'));
+
+  function switchTab(newTab: 'visual' | 'preview' | 'html') {
+    activeTab = newTab;
+
+    tabVisualBtn.classList.toggle('active', newTab === 'visual');
+    tabPreviewBtn.classList.toggle('active', newTab === 'preview');
+    tabHtmlBtn.classList.toggle('active', newTab === 'html');
+
+    if (newTab === 'visual') {
+      // Sync from HTML textarea if user edited raw HTML
+      richTextSurface.innerHTML = htmlSourceSurface.value;
+      richTextSurface.classList.remove('form-hidden');
+      htmlSourceSurface.classList.add('form-hidden');
+      inboxPreviewSurface.classList.add('form-hidden');
+      editorToolbar.style.display = 'flex';
+      richTextSurface.focus();
+    } else if (newTab === 'html') {
+      // Convert visual editor to clean HTML and display in textarea
+      const cleanHtml = convertEditorToCleanHtml(richTextSurface);
+      htmlSourceSurface.value = cleanHtml;
+      richTextSurface.classList.add('form-hidden');
+      htmlSourceSurface.classList.remove('form-hidden');
+      inboxPreviewSurface.classList.add('form-hidden');
+      editorToolbar.style.display = 'none';
+      htmlSourceSurface.focus();
+    } else if (newTab === 'preview') {
+      // Render Preview
+      const cleanHtml = convertEditorToCleanHtml(richTextSurface);
+      const subject = subjectInput.value.trim() || 'Bhavna Space Correspondence';
+      const to = recipientInput.value.trim() || 'recipient@example.com';
+
+      if (previewToDisplay) previewToDisplay.textContent = to;
+      if (previewSubjectDisplay) previewSubjectDisplay.textContent = subject;
+
+      const shouldWrap = wrapTemplateCheckbox.checked;
+      const previewHtml = shouldWrap ? wrapInBhavnaEmailTemplate(cleanHtml, { subject }) : cleanHtml;
+      if (inboxPreviewBody) inboxPreviewBody.innerHTML = previewHtml;
+
+      richTextSurface.classList.add('form-hidden');
+      htmlSourceSurface.classList.add('form-hidden');
+      inboxPreviewSurface.classList.remove('form-hidden');
+      editorToolbar.style.display = 'none';
+    }
+  }
+
+  function syncEditorToOutputs() {
+    if (activeTab === 'html') {
+      htmlSourceSurface.value = convertEditorToCleanHtml(richTextSurface);
+    } else if (activeTab === 'preview') {
+      switchTab('preview');
+    }
+  }
+
+  // Dispatch Email Handler
+  async function dispatchEmail(options: { toOverride?: string } = {}) {
+    // If currently on HTML tab, sync back to rich text surface first
+    if (activeTab === 'html') {
+      richTextSurface.innerHTML = htmlSourceSurface.value;
+    }
+
+    const recipients = options.toOverride || recipientInput.value.trim();
+    const subject = subjectInput.value.trim();
+
+    if (!recipients) {
+      showAlert('Please enter at least one recipient email address.');
+      recipientInput.focus();
+      return;
+    }
+
+    if (!subject) {
+      showAlert('Please enter an email subject line.');
+      subjectInput.focus();
+      return;
+    }
+
+    // Convert rich editor content to clean, email-normalized HTML
+    const cleanHtml = convertEditorToCleanHtml(richTextSurface);
+    if (!cleanHtml || cleanHtml === '<p></p>' || cleanHtml === '<p><br></p>') {
+      showAlert('Email content cannot be empty.');
+      richTextSurface.focus();
+      return;
+    }
+
+    sendEmailBtn.disabled = true;
+    sendEmailBtn.classList.add('loading');
+    if (sendTestBtn) sendTestBtn.disabled = true;
+
+    try {
+      const response = await fetch('/api/admin/send-email', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: recipients,
+          subject,
+          html: cleanHtml,
+          wrapTemplate: wrapTemplateCheckbox.checked,
+        }),
+      });
+
+      if (response.status === 401) {
+        showAlert('Session expired or invalid. Please sign in again.');
+        setTimeout(() => window.location.replace(`${loginUrl}?reason=expired`), 800);
+        return;
+      }
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showAlert(`<strong>Failed to dispatch email:</strong> ${data.error || 'Server error'}`, 'error');
+        return;
+      }
+
+      // Success
+      const resendId = data.id || 'N/A';
+      showAlert(
+        `<strong>Email sent successfully via Resend!</strong><br />
+        Recipient: ${data.recipients.join(', ')}<br />
+        Resend Email ID: <code style="font-family: monospace; background: rgba(0,0,0,0.06); padding: 2px 6px; border-radius: 2px;">${resendId}</code>`,
+        'success'
+      );
+
+      // Add to session log
+      addSentHistoryItem({
+        id: resendId,
+        recipients: data.recipients,
+        subject,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+      });
+    } catch (err) {
+      showAlert('Network error: Unable to contact Bhavna Space email dispatcher service.', 'error');
+    } finally {
+      sendEmailBtn.disabled = false;
+      sendEmailBtn.classList.remove('loading');
+      if (sendTestBtn) sendTestBtn.disabled = false;
+    }
+  }
+
+  emailForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    dispatchEmail();
+  });
+
+  sendTestBtn?.addEventListener('click', () => {
+    if (!adminEmail) {
+      showAlert('Unable to determine administrator email. Please specify recipient manually.', 'error');
+      return;
+    }
+    dispatchEmail({ toOverride: adminEmail });
+  });
+
+  // History List Management
+  function addSentHistoryItem(item: SentLogItem) {
+    sentHistory.unshift(item);
+    renderHistory();
+  }
+
+  function renderHistory() {
+    if (!historyList || !historyCount) return;
+    historyCount.textContent = `${sentHistory.length} sent`;
+
+    if (sentHistory.length === 0) {
+      if (emptyHistoryState) emptyHistoryState.style.display = 'block';
+      return;
+    }
+
+    if (emptyHistoryState) emptyHistoryState.style.display = 'none';
+
+    historyList.innerHTML = sentHistory
+      .map(
+        (item) => `
+        <div class="history-item">
+          <div class="h-item-header">
+            <span class="h-item-time">${item.timestamp}</span>
+            <span class="h-item-badge">Delivered</span>
+          </div>
+          <div class="h-item-to">${item.recipients.join(', ')}</div>
+          <div class="h-item-subject">${item.subject}</div>
+          <div class="h-item-footer">
+            <span class="h-item-id">ID: ${item.id.slice(0, 16)}...</span>
+            <button type="button" class="h-item-copy-btn" data-id="${item.id}" title="Copy Resend ID">Copy ID</button>
+          </div>
+        </div>
+      `
+      )
+      .join('');
+
+    // Attach copy button listeners
+    document.querySelectorAll<HTMLButtonElement>('.h-item-copy-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        if (id) {
+          navigator.clipboard.writeText(id).then(() => {
+            btn.textContent = 'Copied!';
+            setTimeout(() => (btn.textContent = 'Copy ID'), 1500);
+          });
+        }
+      });
+    });
+  }
+</script>
+
+<style>
+  /* Admin Topbar */
+  .admin-topbar {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--color-border);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  .admin-topbar-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0.85rem var(--space-gutter);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+  }
+
+  .topbar-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
+    color: var(--color-text);
+  }
+
+  .brand-name {
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--color-text);
+  }
+
+  .brand-node-tag {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 0.2rem 0.5rem;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-primary-text);
+    font-weight: 600;
+  }
+
+  .topbar-status {
+    display: flex;
+    align-items: center;
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.8125rem;
+    color: var(--color-secondary-text);
+    background-color: #F4F7EF;
+    border: 1px solid #D1DEC3;
+    padding: 0.3rem 0.75rem;
+    border-radius: var(--radius);
+  }
+
+  .status-dot {
+    width: 7px;
+    height: 7px;
+    background-color: var(--color-secondary);
+    border-radius: 50%;
+    box-shadow: 0 0 0 2px rgba(151, 168, 122, 0.3);
+  }
+
+  .topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .user-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8125rem;
+    color: var(--color-text);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius);
+  }
+
+  .user-icon {
+    font-size: 0.85rem;
+  }
+
+  .topbar-link {
+    font-size: 0.8125rem;
+    color: var(--color-primary-text);
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .topbar-link:hover {
+    text-decoration: underline;
+  }
+
+  .logout-btn {
+    background: none;
+    border: 1px solid var(--color-border);
+    padding: 0.35rem 0.8rem;
+    font-size: 0.8125rem;
+    border-radius: var(--radius);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  .logout-btn:hover {
+    background-color: #FDF2EC;
+    color: #8A3E1B;
+    border-color: #E6BFA2;
+  }
+
+  /* Node Navigation Bar */
+  .admin-nodes-nav {
+    background-color: #FFFFFF;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .admin-nodes-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-gutter);
+  }
+
+  .nodes-list {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+  }
+
+  .node-item {
+    margin: 0;
+  }
+
+  .node-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.85rem 1.15rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-muted);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-family: inherit;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+
+  .node-tab.active {
+    color: var(--color-text);
+    border-bottom-color: var(--color-primary);
+    font-weight: 600;
+  }
+
+  .node-tab.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .node-badge {
+    font-size: 0.6875rem;
+    padding: 0.15rem 0.45rem;
+    background-color: #FDF2EC;
+    color: var(--color-primary-text);
+    border-radius: var(--radius);
+    font-weight: 600;
+  }
+
+  .node-badge-muted {
+    background-color: var(--color-background);
+    color: var(--color-text-muted);
+  }
+
+  /* Main Workspace */
+  .admin-workspace {
+    flex: 1;
+    padding: 2.5rem 0 5rem;
+    background-color: var(--color-background);
+  }
+
+  .admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--space-gutter);
+  }
+
+  /* Node Intro */
+  .node-intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.75rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .eyebrow-terracotta {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-primary-text);
+    margin-bottom: 0.4rem;
+  }
+
+  .node-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2rem, 3.5vw, 2.75rem);
+    font-weight: 500;
+    color: var(--color-text);
+    margin: 0 0 0.4rem;
+    line-height: 1.15;
+  }
+
+  .node-lead {
+    font-size: 0.95rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  .sender-info-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.85rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 300px;
+  }
+
+  .sender-label {
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-secondary-text);
+    font-weight: 600;
+  }
+
+  .sender-address {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .sender-note {
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+  }
+
+  /* Email Layout Grid */
+  .email-layout-grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 2rem;
+    align-items: start;
+  }
+
+  @media (max-width: 1024px) {
+    .email-layout-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .composer-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 3.5vw, 2.5rem);
+    box-shadow: 0 4px 20px rgba(43, 42, 38, 0.03);
+  }
+
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .required-star {
+    color: var(--color-primary-text);
+  }
+
+  .field-hint {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  .quick-recipients {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .quick-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .quick-pill {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius);
+    color: var(--color-primary-text);
+    cursor: pointer;
+    font-family: inherit;
+    transition: background-color 0.15s ease;
+  }
+
+  .quick-pill:hover {
+    background-color: #FDF2EC;
+    border-color: var(--color-primary);
+  }
+
+  .form-control {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+    color: var(--color-text);
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .form-control:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(219, 149, 88, 0.15);
+  }
+
+  /* Templates Bar */
+  .templates-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    padding: 0.7rem 0.85rem;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .templates-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-muted);
+  }
+
+  .template-btn {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    padding: 0.3rem 0.65rem;
+    font-size: 0.75rem;
+    border-radius: var(--radius);
+    color: var(--color-text);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s ease;
+  }
+
+  .template-btn:hover {
+    background-color: #FDF2EC;
+    color: var(--color-primary-text);
+    border-color: var(--color-primary);
+  }
+
+  /* Rich Text Editor Container */
+  .editor-group {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: #FFFFFF;
+    overflow: hidden;
+  }
+
+  .editor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.65rem 0.9rem;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .editor-tabs {
+    display: flex;
+    gap: 0.25rem;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    padding: 0.2rem;
+    border-radius: var(--radius);
+  }
+
+  .tab-btn {
+    background: none;
+    border: none;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3rem 0.65rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-family: inherit;
+    color: var(--color-text-muted);
+  }
+
+  .tab-btn.active {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    font-weight: 600;
+  }
+
+  /* Toolbar */
+  .editor-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.45rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    background-color: #FCFBF7;
+    flex-wrap: wrap;
+  }
+
+  .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .toolbar-divider {
+    width: 1px;
+    height: 18px;
+    background-color: var(--color-border);
+    margin: 0 0.3rem;
+  }
+
+  .toolbar-select {
+    font-size: 0.8125rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background-color: #FFFFFF;
+    color: var(--color-text);
+    font-family: inherit;
+  }
+
+  .tb-btn {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8125rem;
+    font-family: inherit;
+    color: var(--color-text);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 28px;
+    transition: background-color 0.15s ease;
+  }
+
+  .tb-btn:hover {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+  }
+
+  /* Editor Surfaces */
+  .rich-text-surface {
+    min-height: 280px;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 1.25rem 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    color: var(--color-text);
+    background-color: #FFFFFF;
+    outline: none;
+  }
+
+  .rich-text-surface h2 {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 1.25rem 0 0.6rem;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .rich-text-surface h3 {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 1rem 0 0.4rem;
+    color: var(--color-primary-text);
+    line-height: 1.3;
+  }
+
+  .rich-text-surface p {
+    margin: 0 0 1rem;
+  }
+
+  .rich-text-surface blockquote {
+    margin: 1.25rem 0;
+    padding: 0.75rem 1.25rem;
+    border-left: 3px solid var(--color-primary);
+    background-color: var(--color-background);
+    font-style: italic;
+    color: var(--color-text-muted);
+    font-family: var(--font-heading);
+    font-size: 1.15rem;
+  }
+
+  .rich-text-surface ul, .rich-text-surface ol {
+    margin: 0 0 1rem 1.5rem;
+    padding: 0;
+  }
+
+  .rich-text-surface li {
+    margin-bottom: 0.35rem;
+  }
+
+  .rich-text-surface a {
+    color: var(--color-primary-text);
+    text-decoration: underline;
+  }
+
+  .rich-text-surface hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 1.5rem 0;
+  }
+
+  .html-source-surface {
+    width: 100%;
+    min-height: 280px;
+    max-height: 500px;
+    padding: 1.25rem;
+    font-family: monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    background-color: #2B2A26;
+    color: #FCF9EA;
+    border: none;
+    outline: none;
+    resize: vertical;
+  }
+
+  .inbox-preview-surface {
+    min-height: 280px;
+    background-color: #F5F3EC;
+    padding: 1.5rem;
+  }
+
+  .inbox-preview-meta {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .meta-label {
+    width: 60px;
+    color: var(--color-text-muted);
+    font-weight: 500;
+  }
+
+  .meta-val {
+    color: var(--color-text);
+    font-weight: 500;
+  }
+
+  .preview-subj {
+    font-weight: 600;
+  }
+
+  .inbox-preview-body {
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .form-hidden {
+    display: none !important;
+  }
+
+  /* Options & Actions */
+  .composer-options {
+    margin-bottom: 1.5rem;
+  }
+
+  .checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .checkbox-label input[type="checkbox"] {
+    accent-color: var(--color-primary);
+    width: 16px;
+    height: 16px;
+  }
+
+  .composer-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.85rem 1.6rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    font-family: var(--font-body);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    border: 1px solid transparent;
+    position: relative;
+    min-height: 48px;
+  }
+
+  .btn-primary {
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border-color: var(--color-primary);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-primary-hover);
+  }
+
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--color-text);
+    border-color: var(--color-border);
+    font-weight: 500;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background-color: var(--color-background);
+  }
+
+  .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .btn.loading .btn-text,
+  .btn.loading svg {
+    visibility: hidden;
+  }
+
+  .btn-spinner {
+    display: none;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(43, 42, 38, 0.2);
+    border-top-color: var(--color-text);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  .btn.loading .btn-spinner {
+    display: block;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* History Column */
+  .history-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .history-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    box-shadow: 0 4px 20px rgba(43, 42, 38, 0.03);
+  }
+
+  .history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+  }
+
+  .history-title {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--color-text);
+  }
+
+  .history-badge {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    padding: 0.15rem 0.5rem;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text-muted);
+  }
+
+  .history-desc {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    margin: 0 0 1.25rem;
+  }
+
+  .history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  .empty-history {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    border: 1px dashed var(--color-border);
+    border-radius: var(--radius);
+    color: var(--color-text-muted);
+  }
+
+  .empty-icon {
+    font-size: 1.75rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    opacity: 0.5;
+  }
+
+  .empty-history p {
+    font-size: 0.8125rem;
+    margin: 0 0 0.25rem;
+    font-weight: 500;
+  }
+
+  .empty-hint {
+    font-size: 0.75rem;
+  }
+
+  .history-item {
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .h-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.6875rem;
+  }
+
+  .h-item-time {
+    color: var(--color-text-muted);
+  }
+
+  .h-item-badge {
+    color: var(--color-secondary-text);
+    background-color: #F4F7EF;
+    border: 1px solid #D1DEC3;
+    padding: 0.1rem 0.35rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+  }
+
+  .h-item-to {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-text);
+    word-break: break-all;
+  }
+
+  .h-item-subject {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .h-item-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.25rem;
+    padding-top: 0.35rem;
+    border-top: 1px dashed var(--color-border);
+    font-size: 0.6875rem;
+  }
+
+  .h-item-id {
+    font-family: monospace;
+    color: var(--color-text-muted);
+  }
+
+  .h-item-copy-btn {
+    background: none;
+    border: none;
+    color: var(--color-primary-text);
+    font-size: 0.6875rem;
+    cursor: pointer;
+    padding: 0;
+    text-decoration: underline;
+    font-family: inherit;
+  }
+
+  /* Diagnostics Card */
+  .diagnostics-card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: 1.25rem;
+    font-size: 0.75rem;
+  }
+
+  .diagnostics-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    margin: 0 0 0.75rem;
+    color: var(--color-text);
+  }
+
+  .diagnostics-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid #F3EFE6;
+  }
+
+  .diagnostics-row:last-child {
+    border-bottom: none;
+  }
+
+  .diag-key {
+    color: var(--color-text-muted);
+  }
+
+  .diag-val {
+    font-family: monospace;
+    color: var(--color-text);
+  }
+
+  /* Alerts */
+  .alert-box {
+    padding: 1rem 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1.75rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid transparent;
+  }
+
+  .alert-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .alert-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .alert-dismiss {
+    background: none;
+    border: none;
+    font-size: 1.25rem;
+    line-height: 1;
+    cursor: pointer;
+    color: inherit;
+    opacity: 0.7;
+    padding: 0 0.25rem;
+  }
+
+  .alert-dismiss:hover {
+    opacity: 1;
+  }
+
+  .alert-hidden {
+    display: none;
+  }
+
+  .alert-error {
+    background-color: #FDF2EC;
+    border-color: #E6BFA2;
+    color: #8A3E1B;
+  }
+
+  .alert-success {
+    background-color: #F2F6ED;
+    border-color: #BFD1B4;
+    color: #3B572B;
+  }
+
+  .alert-info {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+</style>

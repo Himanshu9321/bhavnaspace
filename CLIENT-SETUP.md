@@ -14,9 +14,10 @@ Before production, replace every placeholder below.
 - [ ] Project photography
 - [ ] Project descriptions, areas, years and materials
 - [ ] Turnstile widget for `bhavnaspace.com`
-- [ ] Resend verified sending domain
-- [ ] Resend API key secret in Cloudflare
-- [ ] Contact recipient secret in Cloudflare
+- [ ] Resend verified sending domain (`connect@bhavnaspace.com`)
+- [ ] Resend API key secret in Cloudflare (`RESEND_API_KEY`)
+- [ ] Studio sending sender in Cloudflare (`CONTACT_FROM_EMAIL`)
+- [ ] Admin console authentication credentials (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_SESSION_SECRET`)
 
 ## SEO
 

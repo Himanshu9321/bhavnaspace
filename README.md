@@ -10,6 +10,7 @@ Premium interior-design portfolio built with Astro SSG, GSAP, and Cloudflare Wor
 - Cloudflare Turnstile: bot protection for enquiries; token is always verified server-side.
 - Resend REST API: sends enquiry email from the Worker.
 - Astro image pipeline: use images under `src/assets` with `astro:assets` when adding production photography so responsive formats/sizes are generated at build time.
+- Admin Console & Email Dispatch: complete authentication & Resend flow documented in [`ADMIN-FLOW.md`](file:///var/www/cml-projects/bhavnaspace/ADMIN-FLOW.md).
 - R2 is intentionally not required on day one. If the portfolio grows large, move the original photography to R2 and keep the website code unchanged behind a media URL abstraction.
 
 ## Local development
@@ -40,7 +41,9 @@ npm run preview
 ```bash
 npx wrangler secret put TURNSTILE_SECRET_KEY
 npx wrangler secret put RESEND_API_KEY
-npx wrangler secret put CONTACT_TO_EMAIL
+npx wrangler secret put ADMIN_EMAIL
+npx wrangler secret put ADMIN_PASSWORD
+npx wrangler secret put ADMIN_SESSION_SECRET
 npx wrangler secret put CONTACT_FROM_EMAIL
 ```
 

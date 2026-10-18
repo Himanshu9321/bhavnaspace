@@ -11,17 +11,17 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     <div class="container footer-hero-inner">
       <div class="footer-hero-copy">
         <span class="footer-eyebrow">Studio Inquiries</span>
-        <h2 class="footer-hero-title">Spaces with a sense of place.</h2>
+        <h2 class="footer-hero-title">Spaces with a sense <em>of place.</em></h2>
       </div>
       <a
         href={whatsappUrl}
-        class="footer-cta-circle"
+        class="footer-cta-btn"
         target="_blank"
         rel="noreferrer noopener"
         aria-label="Start conversation on WhatsApp"
       >
-        <span class="circle-text">Start a Project</span>
-        <span class="circle-arrow" aria-hidden="true">↗</span>
+        <span>Start a Project</span>
+        <span class="cta-arrow" aria-hidden="true">&rarr;</span>
       </a>
     </div>
   </div>
@@ -46,7 +46,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
           </div>
         </div>
         <p class="footer-about-text">
-          A bespoke interior architecture and design studio creating considered residential environments, custom furniture pieces, and enduring material stories.
+          A bespoke interior architecture studio creating considered residential environments, custom furniture pieces, and enduring material stories.
         </p>
         <div class="footer-location-tag">
           <span class="status-indicator"></span>
@@ -134,16 +134,17 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
 <style>
   /* ── Footer Container ───────────────────────────────────────────────── */
   .site-footer {
-    background-color: var(--color-teal);
-    color: var(--color-ivory);
+    background-color: var(--color-surface-soft);
+    color: var(--color-text);
     position: relative;
     overflow: hidden;
+    border-top: 1px solid var(--color-border);
   }
 
   /* ── Top Hero Bar ───────────────────────────────────────────────────── */
   .footer-hero-bar {
-    border-bottom: 1px solid var(--color-border-dark);
-    padding: clamp(3.5rem, 7vw, 6.5rem) 0;
+    border-bottom: 1px solid var(--color-border);
+    padding: clamp(3.5rem, 6vw, 5.5rem) 0;
   }
 
   .footer-hero-inner {
@@ -163,7 +164,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
     margin-bottom: 0.75rem;
   }
 
@@ -178,52 +179,59 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
   .footer-hero-title {
     margin: 0;
     font-family: var(--font-heading);
-    font-size: clamp(2.4rem, 5.5vw, 4.5rem);
+    font-size: clamp(2.4rem, 5vw, 4rem);
     font-weight: 300;
     line-height: 1.05;
     letter-spacing: -0.03em;
-    color: var(--color-ivory);
+    color: var(--color-text);
   }
 
-  .footer-cta-circle {
+  .footer-hero-title em {
+    font-style: italic;
+    color: var(--color-primary-text);
+  }
+
+  .footer-cta-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 12px;
-    min-height: 56px;
+    min-height: 52px;
     padding: 0 32px;
-    border: 1px solid var(--color-gold);
-    border-radius: var(--radius-xs);
-    background-color: transparent;
-    color: var(--color-ivory);
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--radius);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: var(--text-xs);
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    transition: all 250ms ease;
+    transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .footer-cta-circle:hover {
-    background-color: var(--color-gold);
-    color: var(--color-teal-dark);
+  .footer-cta-btn:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-text);
     transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(219, 149, 88, 0.22);
   }
 
-  .circle-arrow {
-    font-size: 1.1rem;
+  .cta-arrow {
+    display: inline-block;
     transition: transform 200ms ease;
   }
 
-  .footer-cta-circle:hover .circle-arrow {
-    transform: translate(2px, -2px);
+  .footer-cta-btn:hover .cta-arrow {
+    transform: translateX(4px);
   }
 
   /* ── Main Multi-Column Grid ─────────────────────────────────────────── */
   .footer-main {
-    padding-top: clamp(3.5rem, 6vw, 5.5rem);
-    padding-bottom: clamp(3.5rem, 6vw, 5.5rem);
+    padding-top: clamp(3.5rem, 6vw, 5rem);
+    padding-bottom: clamp(3.5rem, 6vw, 5rem);
   }
 
   .footer-grid {
@@ -239,7 +247,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
   }
 
   /* Brand Column */
@@ -254,16 +262,15 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    filter: brightness(1.05);
   }
 
   .footer-brand-name {
     display: block;
     font-family: var(--font-heading);
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--color-ivory);
+    color: var(--color-text);
     line-height: 1.1;
   }
 
@@ -274,7 +281,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-text-light-muted);
+    color: var(--color-primary-text);
     margin-top: 2px;
   }
 
@@ -282,7 +289,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     font-family: var(--font-body);
     font-size: 0.9375rem;
     line-height: 1.7;
-    color: var(--color-text-light-muted);
+    color: var(--color-text-muted);
     max-width: 380px;
     margin: 0 0 1.75rem 0;
   }
@@ -293,7 +300,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     gap: 8px;
     font-family: var(--font-body);
     font-size: 0.75rem;
-    color: var(--color-text-light-muted);
+    color: var(--color-text-muted);
     letter-spacing: 0.04em;
   }
 
@@ -301,7 +308,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background-color: var(--color-gold);
+    background-color: var(--color-secondary);
     display: inline-block;
   }
 
@@ -318,14 +325,14 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
   .footer-nav-link {
     font-family: var(--font-body);
     font-size: 0.9375rem;
-    color: var(--color-text-light-muted);
+    color: var(--color-text-muted);
     text-decoration: none;
     transition: color 200ms ease, transform 200ms ease;
     display: inline-block;
   }
 
   .footer-nav-link:hover {
-    color: var(--color-ivory);
+    color: var(--color-text);
     transform: translateX(4px);
   }
 
@@ -348,31 +355,30 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-text-light-muted);
-    opacity: 0.7;
+    color: var(--color-text-muted);
   }
 
   .contact-val {
     font-family: var(--font-body);
     font-size: 0.9375rem;
-    color: var(--color-ivory);
+    color: var(--color-text);
     text-decoration: none;
     transition: color 200ms ease;
   }
 
   .contact-val:hover {
-    color: var(--color-gold);
+    color: var(--color-primary-text);
   }
 
   .contact-val--link {
-    border-bottom: 1px solid rgba(246, 242, 234, 0.25);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 2px;
     width: fit-content;
   }
 
   /* ── Bottom Legal Bar ───────────────────────────────────────────────── */
   .footer-bottom-bar {
-    border-top: 1px solid var(--color-border-dark);
+    border-top: 1px solid var(--color-border);
     padding: 24px 0;
   }
 
@@ -384,7 +390,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     gap: 16px;
     font-family: var(--font-body);
     font-size: 0.75rem;
-    color: var(--color-text-light-muted);
+    color: var(--color-text-muted);
     letter-spacing: 0.04em;
   }
 
@@ -403,13 +409,13 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    color: var(--color-ivory);
+    color: var(--color-text);
     text-decoration: none;
     transition: color 200ms ease;
   }
 
   .back-to-top:hover {
-    color: var(--color-gold);
+    color: var(--color-primary-text);
   }
 
   /* ── Responsive Adaptations ─────────────────────────────────────────── */
@@ -432,7 +438,7 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
       flex-direction: column;
       align-items: flex-start;
     }
-    .footer-cta-circle {
+    .footer-cta-btn {
       width: 100%;
     }
     .footer-bottom-inner {

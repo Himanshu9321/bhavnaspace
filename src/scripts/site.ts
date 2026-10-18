@@ -30,7 +30,7 @@ function onScroll() {
 
   // Mobile scroll hide/reveal
   if (isMobile && !menuIsOpen && !reducedMotion) {
-    if (y > lastY && y > 100) {
+    if (y > lastY && y > 120) {
       header.classList.add('is-hidden');
     } else {
       header.classList.remove('is-hidden');
@@ -132,15 +132,15 @@ if (!reducedMotion) {
   gsap.utils.toArray<HTMLElement>('.reveal-up').forEach((elem) => {
     gsap.fromTo(
       elem,
-      { y: 35, opacity: 0 },
+      { y: 30, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 0.9,
+        duration: 0.85,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: elem,
-          start: 'top 88%',
+          start: 'top 90%',
           once: true,
         },
       }
@@ -153,19 +153,24 @@ if (!reducedMotion) {
     if (img) {
       gsap.fromTo(
         img,
-        { scale: 1.06, opacity: 0.9 },
+        { scale: 1.05, opacity: 0.92 },
         {
           scale: 1,
           opacity: 1,
-          duration: 1.2,
+          duration: 1.1,
           ease: 'power2.out',
           scrollTrigger: {
             trigger: elem,
-            start: 'top 90%',
+            start: 'top 92%',
             once: true,
           },
         }
       );
     }
+  });
+
+  // Refresh ScrollTrigger when window loads (ensures layout dimensions are exact)
+  window.addEventListener('load', () => {
+    ScrollTrigger.refresh();
   });
 }

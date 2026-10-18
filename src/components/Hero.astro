@@ -2,100 +2,143 @@
 import { site } from '../data/site';
 
 interface Props {
-  approachUrl?: string;
+  projectsUrl?: string;
   consultationUrl?: string;
+  aboutUrl?: string;
 }
 
-const { approachUrl = '/about/', consultationUrl } = Astro.props;
+const {
+  projectsUrl = '/projects/',
+  aboutUrl = '/about/',
+} = Astro.props;
 ---
 
-<section class="hero-section" id="hero" aria-label="Bhavna Space Hero">
-  <!-- Photograph Column (Desktop Left / Mobile Full-Bleed Background) -->
-  <div class="hero-media-wrapper">
-    <picture class="hero-picture">
-      <source srcset="/images/hero.webp" type="image/webp" />
-      <img
-        src="/images/hero.png"
-        alt="Bhavna Space luxury minimalist living interior with sculptural seating, fluted timber joinery, honed travertine, and sweeping panoramic window landscape"
-        class="hero-image"
-        width="829"
-        height="801"
-        fetchpriority="high"
-        loading="eager"
-        decoding="sync"
-      />
-    </picture>
-    <!-- Mobile bottom dark gradient scrim for crystal clear contrast -->
-    <div class="hero-mobile-scrim" aria-hidden="true"></div>
+<section class="hero-section" id="hero" aria-label="Bhavna Space Architectural Hero">
+  <!-- Desktop & Mobile Architectural Media Canvas -->
+  <div class="hero-media-container" data-hero-media>
+    <div class="hero-image-viewport">
+      <picture class="hero-picture">
+        <source srcset="/images/hero.webp" type="image/webp" />
+        <img
+          src="/images/hero.png"
+          alt="Bhavna Space luxury minimalist living interior featuring sculptural curved seating, fluted timber joinery, honed travertine table, and natural daylight"
+          class="hero-img"
+          width="1800"
+          height="1200"
+          fetchpriority="high"
+          loading="eager"
+          decoding="sync"
+        />
+      </picture>
+      <!-- Subtle mobile scrim for contrast -->
+      <div class="hero-scrim-mobile" aria-hidden="true"></div>
+      <!-- Subtle desktop vignette overlay -->
+      <div class="hero-scrim-desktop" aria-hidden="true"></div>
+    </div>
+
+    <!-- Architectural Badge / Metadata Tag -->
+    <div class="hero-media-meta">
+      <span class="meta-dot"></span>
+      <span class="meta-label">Bhavna Space Studio &bull; Mumbai, Maharashtra</span>
+    </div>
   </div>
 
-  <!-- Editorial Content Column (Desktop Right Ivory Panel / Mobile Lower Overlay) -->
-  <div class="hero-content-wrapper">
-    <div class="hero-content-inner">
-      <!-- Antique Gold Decorative Line Accent (Desktop) -->
-      <div class="hero-accent-mark" aria-hidden="true">
-        <span class="gold-line"></span>
-        <span class="gold-dot"></span>
+  <!-- Editorial Typography & CTA Panel -->
+  <div class="hero-editorial-panel" data-hero-content>
+    <div class="editorial-content-inner">
+      <!-- Top Monogram / Architectural Studio Tag -->
+      <div class="hero-studio-tag">
+        <span class="tag-line"></span>
+        <span class="tag-text">{site.descriptor}</span>
       </div>
 
-      <!-- Eyebrow Tag -->
-      <p class="hero-eyebrow">
-        <span class="hero-eyebrow-text">{site.descriptor}</span>
-      </p>
-
-      <!-- Main Editorial Headline: Semantic H1 -->
-      <h1 class="hero-headline">
-        <span class="headline-row">Spaces that feel</span>
-        <span class="headline-row headline-row--accent"><em>like you.</em></span>
+      <!-- Main Semantic H1 Headline -->
+      <h1 class="hero-title">
+        <span class="title-line">Spaces that feel</span>
+        <span class="title-line title-line--accent"><em>like you.</em></span>
       </h1>
 
-      <!-- Supporting Editorial Narrative -->
-      <p class="hero-description hero-description--desktop">
-        Thoughtfully designed interiors that bring together timeless aesthetics, everyday comfort, and meaningful details.
-      </p>
-      <p class="hero-description hero-description--mobile">
-        Thoughtfully designed interiors that bring together timeless aesthetics, everyday comfort, and meaningful details.
+      <!-- Refined Architectural Narrative -->
+      <p class="hero-lead">
+        Thoughtfully designed residential interiors and tailored furniture shaped by light, enduring proportions, and honest natural materials.
       </p>
 
-      <!-- Action Buttons -->
-      <div class="hero-actions">
-        <a href="/projects/" class="hero-cta-primary">
-          <span>Explore Our Projects</span>
-          <span class="hero-cta-arrow" aria-hidden="true">&rarr;</span>
+      <!-- Primary & Secondary Actions -->
+      <div class="hero-actions-group">
+        <a href={projectsUrl} class="btn btn-hero-primary" id="hero-cta-explore">
+          <span>Explore Our Work</span>
+          <span class="btn-arrow-icon" aria-hidden="true">&rarr;</span>
         </a>
-        <a href={consultationUrl || approachUrl} class="hero-cta-secondary">
-          <span>Discover Our Approach</span>
+        <a href={aboutUrl} class="btn-hero-secondary">
+          <span>Studio Ethos</span>
+          <span class="secondary-arrow" aria-hidden="true">&rarr;</span>
         </a>
+      </div>
+
+      <!-- Studio Details Strip -->
+      <div class="hero-specs-strip">
+        <div class="spec-item">
+          <span class="spec-label">Discipline</span>
+          <span class="spec-value">Interior Architecture</span>
+        </div>
+        <div class="spec-sep" aria-hidden="true"></div>
+        <div class="spec-item">
+          <span class="spec-label">Focus</span>
+          <span class="spec-value">Bespoke Residences</span>
+        </div>
+        <div class="spec-sep" aria-hidden="true"></div>
+        <div class="spec-item">
+          <span class="spec-label">Location</span>
+          <span class="spec-value">Mumbai, India</span>
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- Architectural Minimal Scroll Indicator -->
+  <a href="#featured-projects" class="hero-scroll-cue" aria-label="Scroll down to explore selected works">
+    <span class="scroll-cue-text">Scroll to explore</span>
+    <div class="scroll-cue-track" aria-hidden="true">
+      <span class="scroll-cue-pill"></span>
+    </div>
+  </a>
 </section>
 
 <style>
   /* ==========================================================================
-     HERO SECTION BASE (Mobile-First: Immersive Full-Bleed Photography)
+     HERO SECTION — ASYMMETRICAL EDITORIAL ARCHITECTURE
      ========================================================================== */
   .hero-section {
     position: relative;
     width: 100%;
-    height: 100svh;
     min-height: 100svh;
-    overflow: hidden;
-    background-color: var(--color-ivory);
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    background-color: var(--color-background);
+    overflow: hidden;
+    padding-top: 76px;
+    box-sizing: border-box;
   }
 
-  /* ── Media Wrapper ──────────────────────────────────────────────────────── */
-  .hero-media-wrapper {
+  /* ── Media Container ─────────────────────────────────────────────────── */
+  .hero-media-container {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     z-index: 1;
     overflow: hidden;
-    background-color: #DDD4C6;
+    background-color: #E2DBD0;
+  }
+
+  .hero-image-viewport {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    clip-path: inset(0 0 0 0);
+    animation: heroMaskReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .hero-picture {
@@ -104,354 +147,476 @@ const { approachUrl = '/about/', consultationUrl } = Astro.props;
     height: 100%;
   }
 
-  .hero-image {
+  .hero-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 45% 35%; /* Showcases curved seating, woodwork and daylight */
+    object-position: 50% 35%;
     display: block;
-    transform-origin: center center;
-    animation: heroImageSettle 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    transform: scale(1.06);
+    animation: heroImageScaleSettle 1.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
-  /* Refined dark espresso gradient scrim for mobile reading comfort */
-  .hero-mobile-scrim {
+  /* Mobile gradient scrim: smooth dark gradient for text readability */
+  .hero-scrim-mobile {
     position: absolute;
     inset: 0;
     pointer-events: none;
     z-index: 2;
     background: linear-gradient(
       to top,
-      rgba(16, 47, 45, 0.94) 0%,
-      rgba(21, 63, 59, 0.78) 38%,
-      rgba(21, 63, 59, 0.35) 64%,
-      rgba(21, 63, 59, 0.0) 85%
+      rgba(36, 35, 31, 0.94) 0%,
+      rgba(36, 35, 31, 0.82) 42%,
+      rgba(36, 35, 31, 0.35) 68%,
+      rgba(36, 35, 31, 0.0) 90%
     );
   }
 
-  /* ── Content Panel (Mobile Overlay) ─────────────────────────────────────── */
-  .hero-content-wrapper {
+  /* Desktop scrim: subtle vignette */
+  .hero-scrim-desktop {
+    display: none;
+  }
+
+  .hero-media-meta {
+    display: none;
+  }
+
+  /* ── Editorial Content Panel (Mobile-first lower overlay) ────────────── */
+  .hero-editorial-panel {
     position: relative;
     z-index: 3;
     width: 100%;
-    padding: 0 var(--space-gutter) max(36px, env(safe-area-inset-bottom, 36px));
+    padding: 0 var(--space-gutter) max(32px, env(safe-area-inset-bottom, 32px));
     box-sizing: border-box;
   }
 
-  .hero-content-inner {
-    max-width: 480px;
-    margin: 0;
+  .editorial-content-inner {
+    max-width: 520px;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
   }
 
-  /* Accent detail (desktop only) */
-  .hero-accent-mark {
-    display: none;
+  .hero-studio-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: heroTextFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
   }
 
-  /* ── Eyebrow ────────────────────────────────────────────────────────────── */
-  .hero-eyebrow {
-    margin: 0 0 10px 0;
+  .tag-line {
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background-color: var(--color-primary);
+  }
+
+  .tag-text {
     font-family: var(--font-body);
     font-size: 0.6875rem;
     font-weight: 600;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-gold);
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    opacity: 0;
-    animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 200ms forwards;
+    color: var(--color-primary);
   }
 
-  .hero-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 16px;
-    height: 1px;
-    background-color: currentColor;
-  }
-
-  /* ── Headline ───────────────────────────────────────────────────────────── */
-  .hero-headline {
-    margin: 0 0 14px 0;
+  /* Main Headline */
+  .hero-title {
+    margin: 0 0 16px 0;
     font-family: var(--font-heading);
-    font-size: clamp(2.5rem, 10vw, 3.4rem);
+    font-size: clamp(2.5rem, 9.5vw, 3.6rem);
     font-weight: 400;
     line-height: 1.05;
     letter-spacing: -0.03em;
-    color: #FFFFFF;
+    color: #FCF9EA;
     opacity: 0;
-    animation: heroTextReveal 850ms cubic-bezier(0.16, 1, 0.3, 1) 320ms forwards;
+    animation: heroTextFadeUp 850ms cubic-bezier(0.16, 1, 0.3, 1) 320ms forwards;
   }
 
-  .headline-row {
+  .title-line {
     display: block;
   }
 
-  .headline-row--accent em {
+  .title-line--accent em {
     font-style: italic;
     font-weight: 300;
-    color: var(--color-ivory);
+    color: #FFFFFF;
   }
 
-  /* ── Descriptions ───────────────────────────────────────────────────────── */
-  .hero-description {
-    margin: 0 0 26px 0;
+  /* Lead Description */
+  .hero-lead {
+    margin: 0 0 28px 0;
     font-family: var(--font-body);
     font-size: 0.9375rem;
-    line-height: 1.6;
-    color: rgba(246, 242, 234, 0.92);
-    max-width: 360px;
+    line-height: 1.62;
+    color: rgba(252, 249, 234, 0.88);
+    max-width: 440px;
     opacity: 0;
-    animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 450ms forwards;
+    animation: heroTextFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 440ms forwards;
   }
 
-  .hero-description--desktop {
-    display: none;
-  }
-  .hero-description--mobile {
-    display: block;
-  }
-
-  /* ── Actions / CTAs ─────────────────────────────────────────────────────── */
-  .hero-actions {
+  /* Action Buttons */
+  .hero-actions-group {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     width: 100%;
     opacity: 0;
-    animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 560ms forwards;
+    animation: heroTextFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 560ms forwards;
   }
 
-  .hero-cta-primary {
+  /* Primary CTA: Warm Terracotta with Dark Text (WCAG AA Compliant 5.8:1) */
+  .btn-hero-primary {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 12px;
     height: 52px;
-    min-height: 52px;
-    padding: 0 24px;
-    background-color: var(--color-gold);
-    color: var(--color-teal-dark);
+    min-height: 48px;
+    padding: 0 26px;
+    background-color: var(--color-primary);
+    color: var(--color-text);
     font-family: var(--font-body);
-    font-size: 0.8125rem;
+    font-size: var(--text-xs);
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: var(--radius-xs);
-    border: 1px solid var(--color-gold);
-    transition: all 250ms ease;
-    width: 100%;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-primary);
+    transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
     box-sizing: border-box;
+    width: 100%;
   }
 
-  .hero-cta-primary:hover {
-    background-color: var(--color-gold-hover);
-    border-color: var(--color-gold-hover);
-    transform: translateY(-1px);
+  .btn-hero-primary:hover {
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-text);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(219, 149, 88, 0.3);
   }
 
-  .hero-cta-arrow {
+  .btn-arrow-icon {
     display: inline-block;
-    transition: transform 200ms ease;
+    transition: transform 250ms ease;
   }
 
-  .hero-cta-primary:hover .hero-cta-arrow {
+  .btn-hero-primary:hover .btn-arrow-icon {
     transform: translateX(4px);
   }
 
-  .hero-cta-secondary {
+  .btn-hero-secondary {
+    display: none;
+  }
+
+  .hero-specs-strip {
+    display: none;
+  }
+
+  .hero-scroll-cue {
     display: none;
   }
 
   /* ==========================================================================
-     DESKTOP LAYOUT (>= 900px: Split-Screen Editorial Composition)
+     DESKTOP LAYOUT (>= 960px: Asymmetrical Editorial Architectural Spread)
      ========================================================================== */
-  @media (min-width: 900px) {
+  @media (min-width: 960px) {
     .hero-section {
-      height: 94svh;
-      min-height: 660px;
-      max-height: 1080px;
-      margin-top: 76px; /* Offset fixed header */
       height: calc(100svh - 76px);
+      min-height: 680px;
+      max-height: 1080px;
       flex-direction: row;
       justify-content: stretch;
       align-items: stretch;
-      background-color: var(--color-ivory);
+      padding-top: 0;
+      margin-top: 76px;
+      background-color: var(--color-background);
     }
 
-    /* Left 60%: Architectural Photograph Edge-to-Edge */
-    .hero-media-wrapper {
+    /* Left 62%: Architectural Interior Photograph Edge-to-Edge */
+    .hero-media-container {
       position: relative;
-      flex: 0 0 60%;
-      width: 60%;
+      flex: 0 0 62%;
+      width: 62%;
       height: 100%;
     }
 
-    .hero-image {
-      object-position: center center;
+    .hero-image-viewport {
+      height: 100%;
     }
 
-    .hero-mobile-scrim {
+    .hero-img {
+      object-position: 45% 35%;
+    }
+
+    .hero-scrim-mobile {
       display: none;
     }
 
-    /* Right 40%: Warm Ivory Editorial Content Panel */
-    .hero-content-wrapper {
+    .hero-scrim-desktop {
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 2;
+      background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.0) 80%,
+        rgba(43, 42, 38, 0.05) 100%
+      );
+    }
+
+    .hero-media-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      bottom: 24px;
+      left: var(--space-gutter);
+      z-index: 3;
+      background-color: rgba(252, 249, 234, 0.88);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--color-border);
+      padding: 8px 16px;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.6875rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text);
+      opacity: 0;
+      animation: heroTextFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 600ms forwards;
+    }
+
+    .meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--color-primary);
+      display: inline-block;
+    }
+
+    /* Right 38%: Ivory Editorial Content Column */
+    .hero-editorial-panel {
       position: relative;
-      flex: 0 0 40%;
-      width: 40%;
+      flex: 0 0 38%;
+      width: 38%;
       height: 100%;
-      background-color: var(--color-ivory);
+      background-color: var(--color-background);
       border-left: 1px solid var(--color-border);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: clamp(36px, 5vw, 72px) clamp(36px, 4.5vw, 68px);
+      padding: clamp(36px, 5vw, 64px) clamp(32px, 4vw, 56px);
+      box-sizing: border-box;
     }
 
-    .hero-content-inner {
-      max-width: 480px;
+    .editorial-content-inner {
+      max-width: 460px;
       width: 100%;
     }
 
-    /* Antique Gold Accent Mark */
-    .hero-accent-mark {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 24px;
-      opacity: 0;
-      animation: heroTextReveal 750ms cubic-bezier(0.16, 1, 0.3, 1) 150ms forwards;
+    .tag-line {
+      background-color: var(--color-primary-text);
     }
 
-    .gold-line {
-      display: block;
-      width: 32px;
-      height: 1.5px;
-      background-color: var(--color-gold);
-    }
-
-    .gold-dot {
-      display: block;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background-color: var(--color-gold);
-    }
-
-    .hero-eyebrow {
-      margin-bottom: 16px;
+    .tag-text {
+      color: var(--color-primary-text);
       font-size: 0.75rem;
-      letter-spacing: 0.14em;
-      color: var(--color-teal);
     }
 
-    .hero-headline {
-      margin-bottom: 20px;
-      font-size: clamp(2.8rem, 4.2vw, 4.4rem);
+    .hero-title {
+      color: var(--color-text);
+      font-size: clamp(2.75rem, 4.2vw, 4.2rem);
       line-height: 1.05;
       letter-spacing: -0.035em;
-      color: var(--color-espresso);
+      margin-bottom: 20px;
     }
 
-    .headline-row--accent em {
-      color: var(--color-teal);
+    .title-line--accent em {
+      color: var(--color-primary-text);
     }
 
-    .hero-description {
-      margin-bottom: 36px;
-      font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
-      line-height: 1.65;
+    .hero-lead {
       color: var(--color-text-muted);
-      max-width: 440px;
+      font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+      line-height: 1.68;
+      margin-bottom: 34px;
     }
 
-    .hero-description--desktop {
-      display: block;
-    }
-    .hero-description--mobile {
-      display: none;
-    }
-
-    .hero-actions {
+    .hero-actions-group {
       flex-direction: row;
       align-items: center;
       gap: 16px;
       width: auto;
     }
 
-    .hero-cta-primary {
+    .btn-hero-primary {
       width: auto;
       padding: 0 28px;
-      background-color: var(--color-teal);
-      border-color: var(--color-teal);
-      color: var(--color-ivory);
     }
 
-    .hero-cta-primary:hover {
-      background-color: var(--color-teal-dark);
-      border-color: var(--color-teal-dark);
-      box-shadow: 0 6px 18px rgba(21, 63, 59, 0.18);
-    }
-
-    .hero-cta-secondary {
+    .btn-hero-secondary {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
+      gap: 8px;
       height: 52px;
-      min-height: 52px;
-      padding: 0 24px;
+      padding: 0 22px;
       background-color: transparent;
-      color: var(--color-espresso);
-      border: 1px solid var(--color-espresso);
+      color: var(--color-text);
+      border: 1px solid var(--color-border);
       font-family: var(--font-body);
-      font-size: 0.8125rem;
+      font-size: var(--text-xs);
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       text-decoration: none;
-      border-radius: var(--radius-xs);
-      transition: all 250ms ease;
+      border-radius: var(--radius);
+      transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .hero-cta-secondary:hover {
-      background-color: var(--color-espresso);
-      color: var(--color-ivory);
-      transform: translateY(-1px);
+    .btn-hero-secondary:hover {
+      border-color: var(--color-text);
+      color: var(--color-primary-text);
+      transform: translateY(-2px);
     }
-  }
 
-  @media (min-width: 1280px) {
-    .hero-media-wrapper {
-      flex: 0 0 61%;
-      width: 61%;
+    .secondary-arrow {
+      transition: transform 200ms ease;
     }
-    .hero-content-wrapper {
-      flex: 0 0 39%;
-      width: 39%;
-      padding-left: clamp(48px, 5.5vw, 84px);
-    }
-  }
 
-  /* ── Keyframes & Accessibility ───────────────────────────────────────── */
-  @keyframes heroImageSettle {
-    0% {
+    .btn-hero-secondary:hover .secondary-arrow {
+      transform: translateX(4px);
+    }
+
+    /* Studio Specs Strip */
+    .hero-specs-strip {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-top: clamp(28px, 4vw, 44px);
+      padding-top: 20px;
+      border-top: 1px solid var(--color-border);
+      width: 100%;
       opacity: 0;
-      transform: scale(1.04);
+      animation: heroTextFadeUp 700ms cubic-bezier(0.16, 1, 0.3, 1) 700ms forwards;
+    }
+
+    .spec-item {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .spec-label {
+      font-family: var(--font-body);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    .spec-value {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--color-text);
+    }
+
+    .spec-sep {
+      width: 1px;
+      height: 24px;
+      background-color: var(--color-border);
+    }
+
+    /* Scroll Cue */
+    .hero-scroll-cue {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      position: absolute;
+      bottom: 24px;
+      right: 32px;
+      z-index: 4;
+      text-decoration: none;
+      opacity: 0;
+      animation: heroTextFadeUp 800ms cubic-bezier(0.16, 1, 0.3, 1) 900ms forwards;
+    }
+
+    .scroll-cue-text {
+      font-family: var(--font-body);
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      transition: color 200ms ease;
+    }
+
+    .hero-scroll-cue:hover .scroll-cue-text {
+      color: var(--color-primary-text);
+    }
+
+    .scroll-cue-track {
+      width: 1.5px;
+      height: 32px;
+      background-color: var(--color-border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .scroll-cue-pill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background-color: var(--color-primary);
+      animation: scrollCueBob 2.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    }
+  }
+
+  @media (min-width: 1360px) {
+    .hero-media-container {
+      flex: 0 0 64%;
+      width: 64%;
+    }
+    .hero-editorial-panel {
+      flex: 0 0 36%;
+      width: 36%;
+      padding-left: clamp(48px, 4.5vw, 72px);
+    }
+  }
+
+  /* ── Keyframe Animations ─────────────────────────────────────────────── */
+  @keyframes heroMaskReveal {
+    0% {
+      clip-path: inset(0 0 0 0);
+      opacity: 0.85;
     }
     100% {
+      clip-path: inset(0 0 0 0);
       opacity: 1;
+    }
+  }
+
+  @keyframes heroImageScaleSettle {
+    0% {
+      transform: scale(1.06);
+    }
+    100% {
       transform: scale(1);
     }
   }
 
-  @keyframes heroTextReveal {
+  @keyframes heroTextFadeUp {
     0% {
       opacity: 0;
       transform: translateY(18px);
@@ -462,21 +627,34 @@ const { approachUrl = '/about/', consultationUrl } = Astro.props;
     }
   }
 
+  @keyframes scrollCueBob {
+    0% {
+      transform: translateY(-100%);
+    }
+    50% {
+      transform: translateY(180%);
+    }
+    100% {
+      transform: translateY(180%);
+    }
+  }
+
+  /* Respect reduced motion (AGENTS.md Section 10) */
   @media (prefers-reduced-motion: reduce) {
-    .hero-image,
-    .hero-accent-mark,
-    .hero-eyebrow,
-    .hero-headline,
-    .hero-description,
-    .hero-actions {
+    .hero-image-viewport,
+    .hero-img,
+    .hero-studio-tag,
+    .hero-title,
+    .hero-lead,
+    .hero-actions-group,
+    .hero-media-meta,
+    .hero-specs-strip,
+    .hero-scroll-cue,
+    .scroll-cue-pill {
       animation: none !important;
       opacity: 1 !important;
       transform: none !important;
-    }
-    .hero-cta-primary,
-    .hero-cta-secondary,
-    .hero-cta-arrow {
-      transition: none !important;
+      clip-path: none !important;
     }
   }
 </style>

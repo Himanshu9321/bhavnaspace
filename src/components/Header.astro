@@ -86,7 +86,7 @@ function isActive(href: string) {
 >
   <div class="mobile-panel-inner">
     <div class="mobile-panel-top">
-      <span class="mobile-menu-eyebrow">Navigation</span>
+      <span class="mobile-menu-eyebrow">Bhavna Space</span>
       <span class="mobile-menu-descriptor">{site.descriptor}</span>
     </div>
 
@@ -141,17 +141,17 @@ function isActive(href: string) {
     right: 0;
     z-index: 100;
     height: 76px;
-    background-color: rgba(246, 242, 234, 0.94);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    background-color: rgba(252, 249, 234, 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--color-border);
     transition: height 250ms ease, background-color 250ms ease, box-shadow 250ms ease, transform 300ms ease;
   }
 
   .site-header.is-shrunk {
     height: 64px;
-    background-color: rgba(246, 242, 234, 0.98);
-    box-shadow: 0 4px 20px rgba(48, 42, 37, 0.04);
+    background-color: rgba(252, 249, 234, 0.98);
+    box-shadow: 0 4px 20px rgba(43, 42, 38, 0.05);
   }
 
   .site-header.is-hidden {
@@ -201,7 +201,7 @@ function isActive(href: string) {
     font-size: 1.35rem;
     font-weight: 500;
     letter-spacing: -0.01em;
-    color: var(--color-espresso);
+    color: var(--color-text);
     line-height: 1.1;
   }
 
@@ -211,7 +211,7 @@ function isActive(href: string) {
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
     line-height: 1;
     margin-top: 2px;
   }
@@ -229,7 +229,7 @@ function isActive(href: string) {
     font-weight: 500;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    color: var(--color-espresso);
+    color: var(--color-text);
     text-decoration: none;
     position: relative;
     padding: 6px 0;
@@ -243,14 +243,14 @@ function isActive(href: string) {
     left: 0;
     width: 100%;
     height: 1.5px;
-    background-color: var(--color-teal);
+    background-color: var(--color-primary);
     transform: scaleX(0);
     transform-origin: right;
-    transition: transform 250ms ease;
+    transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .nav-link:hover {
-    color: var(--color-teal);
+    color: var(--color-primary-text);
   }
 
   .nav-link:hover::after,
@@ -260,7 +260,7 @@ function isActive(href: string) {
   }
 
   .nav-link--active {
-    color: var(--color-teal);
+    color: var(--color-primary-text);
     font-weight: 600;
   }
 
@@ -273,26 +273,27 @@ function isActive(href: string) {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    height: 42px;
-    padding: 0 18px;
-    background-color: var(--color-teal);
-    color: var(--color-ivory);
+    height: 44px;
+    padding: 0 20px;
+    background-color: var(--color-primary);
+    color: var(--color-text);
     font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: var(--radius-xs);
-    border: 1px solid var(--color-teal);
-    transition: all 250ms ease;
+    border-radius: var(--radius);
+    border: 1px solid var(--color-primary);
+    transition: all 250ms cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .btn-consultation:hover {
-    background-color: var(--color-teal-dark);
-    border-color: var(--color-teal-dark);
+    background-color: var(--color-primary-hover);
+    border-color: var(--color-primary-hover);
+    color: var(--color-text);
     transform: translateY(-1px);
-    box-shadow: 0 4px 14px rgba(21, 63, 59, 0.2);
+    box-shadow: 0 4px 14px rgba(219, 149, 88, 0.25);
   }
 
   .btn-arrow {
@@ -312,20 +313,21 @@ function isActive(href: string) {
     background: none;
     border: 1px solid var(--color-border);
     padding: 8px 14px;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius);
     cursor: pointer;
     font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--color-espresso);
-    min-height: 42px;
+    color: var(--color-text);
+    min-height: 44px;
+    min-width: 44px;
     transition: background-color 200ms ease, border-color 200ms ease;
   }
 
   .mobile-toggle:hover {
-    border-color: var(--color-teal);
+    border-color: var(--color-primary);
   }
 
   .hamburger-box {
@@ -380,8 +382,8 @@ function isActive(href: string) {
     position: fixed;
     inset: 0;
     z-index: 99;
-    background-color: var(--color-ivory);
-    color: var(--color-espresso);
+    background-color: var(--color-background);
+    color: var(--color-text);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     padding-top: 76px;
@@ -415,7 +417,7 @@ function isActive(href: string) {
     font-weight: 700;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--color-teal);
+    color: var(--color-primary-text);
   }
 
   .mobile-menu-descriptor {
@@ -438,14 +440,14 @@ function isActive(href: string) {
     padding: 18px 0;
     border-bottom: 1px solid var(--color-border);
     text-decoration: none;
-    color: var(--color-espresso);
+    color: var(--color-text);
     transition: color 200ms ease;
   }
 
   .mobile-link-num {
     font-family: var(--font-body);
     font-size: 0.75rem;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
     width: 32px;
     flex-shrink: 0;
   }
@@ -467,11 +469,11 @@ function isActive(href: string) {
 
   .mobile-link:hover .mobile-link-arrow {
     transform: translateX(4px);
-    color: var(--color-teal);
+    color: var(--color-primary-text);
   }
 
   .mobile-link--active .mobile-link-label {
-    color: var(--color-teal);
+    color: var(--color-primary-text);
     font-style: italic;
   }
 
@@ -489,15 +491,15 @@ function isActive(href: string) {
     gap: 10px;
     width: 100%;
     height: 52px;
-    background-color: var(--color-teal);
-    color: var(--color-ivory);
+    background-color: var(--color-primary);
+    color: var(--color-text);
     font-family: var(--font-body);
     font-size: 0.8125rem;
     font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius);
     box-sizing: border-box;
   }
 
@@ -528,7 +530,7 @@ function isActive(href: string) {
   .meta-val {
     font-family: var(--font-body);
     font-size: 0.8125rem;
-    color: var(--color-espresso);
+    color: var(--color-text);
     text-decoration: none;
   }
 

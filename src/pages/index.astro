@@ -1,71 +1,348 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
-import ProjectCard from '../components/ProjectCard.astro';
+import QuotationModal from '../components/QuotationModal.astro';
 import { projects } from '../data/projects';
 import { site } from '../data/site';
 
-const featuredProjects = projects;
+const primaryProject = projects[0];
 const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello Bhavna Space, I would like to discuss an interior architecture project.')}`;
 ---
 
 <Layout
-  title={`${site.name} — Quiet Luxury Interior Architecture & Design`}
-  description="Bhavna Space is an interior architecture and design studio creating bespoke residential spaces, tailored furniture, and thoughtful decor with timeless materiality."
+  title={`${site.name} — Architecture, Interior Design & Furniture`}
+  description="Bhavna Space is an interior architecture and design studio in Mumbai creating bespoke residential spaces, tailored furniture, and thoughtful decor with quiet luxury and timeless materiality."
   preloadImage="/images/hero.webp"
 >
-  <!-- Section 1: Hero -->
-  <Hero consultationUrl={whatsappUrl} />
+  <!-- Section A: Hero Component -->
+  <Hero projectsUrl="#featured-projects" aboutUrl="/about/" consultationUrl={whatsappUrl} />
 
-  <!-- Section 2: Featured Projects ("Spaces with a story.") -->
-  <section class="section-pad theme-ivory" id="featured-projects" aria-labelledby="featured-heading">
+  <!-- Section B: Studio Introduction ("Designing for life, not just photography.") -->
+  <section class="section-pad theme-ivory studio-intro-section" id="studio-intro" aria-labelledby="studio-heading">
     <div class="container">
       <div class="section-divider">
-        <span>01 &bull; Portfolio</span>
-        <span>Selected Works</span>
+        <span>01 &bull; The Studio</span>
+        <span>Mumbai &bull; Architecture &bull; Interiors</span>
+      </div>
+
+      <div class="studio-intro-layout">
+        <!-- Text Column -->
+        <div class="studio-intro-text reveal-up">
+          <span class="eyebrow">Studio Introduction</span>
+          <h2 id="studio-heading" class="section-heading-editorial studio-title">
+            Designing for life, <em>not just photography.</em>
+          </h2>
+          <div class="studio-body-narrative">
+            <p>
+              Based in Mumbai, Bhavna Space approaches interior architecture as an intimate dialogue between inhabitant and space. We create environments centered on natural light, quiet proportions, and honest natural materials.
+            </p>
+            <p>
+              Whether designing a custom residential kitchen, a serene living space, or a complete home, our process is guided by how you move, cook, rest, and gather—creating spaces that feel grounded, tactile, and timeless.
+            </p>
+          </div>
+
+          <div class="studio-points-grid">
+            <div class="studio-point">
+              <span class="point-num">01</span>
+              <div class="point-content">
+                <h3 class="point-title">Spatial Harmony</h3>
+                <p class="point-desc">Proportions calibrated for ease of movement, natural daylight, and acoustic warmth.</p>
+              </div>
+            </div>
+            <div class="studio-point">
+              <span class="point-num">02</span>
+              <div class="point-content">
+                <h3 class="point-title">Tactile Materials</h3>
+                <p class="point-desc">Solid timber, honed limestone, woven linen, and patinated metals that age gracefully.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="studio-action-row">
+            <a href="/about/" class="btn btn-outline">
+              <span>Read Studio Story</span>
+              <span class="btn-icon" aria-hidden="true">&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Image Column -->
+        <div class="studio-intro-media">
+          <div class="studio-image-frame image-reveal">
+            <img
+              src="/images/studio-editorial.jpg"
+              alt="Bhavna Space architectural alcove with natural lime-wash plaster, sculptural ceramic vessel, and warm sunlight"
+              width="900"
+              height="1200"
+              class="studio-image"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="media-caption">
+              <span class="caption-marker">&bull;</span>
+              <span>Bhavna Space Studio &bull; Tactile Plaster &amp; Ceramic Vessel</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section C: Selected Projects ("Spaces with a story.") -->
+  <section class="section-pad theme-cream projects-section" id="featured-projects" aria-labelledby="featured-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>02 &bull; Portfolio</span>
+        <span>Selected Works &bull; 2026</span>
       </div>
 
       <div class="editorial-header-split">
-        <div class="editorial-header-left">
-          <span class="eyebrow eyebrow-teal">Selected Work</span>
+        <div class="editorial-header-left reveal-up">
+          <span class="eyebrow">Selected Work</span>
           <h2 id="featured-heading" class="section-heading-editorial">
             Spaces with <em>a story.</em>
           </h2>
         </div>
-        <div class="editorial-header-right">
+        <div class="editorial-header-right reveal-up">
           <p class="editorial-subhead">
-            Every space begins with a vision. Explore the details, materials, and thoughtful decisions that bring each project to life.
+            Every home begins with a conversation about rituals and materiality. Explore the thoughtful decisions, custom joinery, and architectural details of our latest project.
           </p>
           <a href="/projects/" class="btn-text-link">
-            <span>View All Projects</span>
+            <span>View Complete Project Archive</span>
             <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
       </div>
 
-      <div class="featured-project-grid">
-        {featuredProjects.map((project, index) => (
-          <ProjectCard project={project} featured={index === 0} />
-        ))}
+      <!-- Architectural Featured Project Composition -->
+      {primaryProject && (
+        <article class="featured-project-showcase">
+          <!-- Main Hero Image Frame -->
+          <a
+            href={`/projects/${primaryProject.slug}/`}
+            class="project-hero-link"
+            aria-label={`View full project details: ${primaryProject.title}`}
+          >
+            <div class="project-hero-media-box image-reveal">
+              <img
+                src={primaryProject.hero}
+                alt={`${primaryProject.title} — bespoke cabinetry, stone worktops and stainless hardware by Bhavna Space`}
+                width="1600"
+                height="1000"
+                class="project-hero-img"
+                loading="lazy"
+                decoding="async"
+              />
+              <div class="project-floating-badge">
+                <span class="badge-dot"></span>
+                <span>{primaryProject.category}</span>
+              </div>
+              <div class="project-hover-cta">
+                <span>View Full Case Study</span>
+                <span class="hover-arrow" aria-hidden="true">&rarr;</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Asymmetrical Info & Photo Detail Spread -->
+          <div class="project-detail-spread">
+            <!-- Project Narrative and Specs -->
+            <div class="project-spread-info reveal-up">
+              <div class="project-spread-meta">
+                <span class="project-number">Project № {primaryProject.number}</span>
+                <span class="project-location">{primaryProject.location}</span>
+                <span class="meta-sep">&bull;</span>
+                <span class="project-year">{primaryProject.year}</span>
+              </div>
+              <h3 class="project-spread-title">
+                <a href={`/projects/${primaryProject.slug}/`}>{primaryProject.title}</a>
+              </h3>
+              <p class="project-spread-desc">
+                {primaryProject.description}
+              </p>
+
+              <!-- Materials Palette Tag List -->
+              <div class="project-materials-block">
+                <span class="materials-label">Material Palette:</span>
+                <ul class="materials-list">
+                  {primaryProject.materials.map((mat) => (
+                    <li class="material-tag">{mat}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div class="project-cta-wrap">
+                <a href={`/projects/${primaryProject.slug}/`} class="btn btn-primary">
+                  <span>Explore Kitchen Case Study</span>
+                  <span class="btn-icon" aria-hidden="true">&rarr;</span>
+                </a>
+              </div>
+            </div>
+
+            <!-- Detail Photographs Grid (Authentic project images) -->
+            <div class="project-spread-gallery">
+              <div class="gallery-photo-item image-reveal">
+                <img
+                  src={primaryProject.images[1] || primaryProject.images[0]}
+                  alt="Kalyan Kitchen stone worktop, prep station, and joinery detail"
+                  width="700"
+                  height="500"
+                  class="gallery-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="gallery-photo-caption">Detail &bull; Stone Worktop &amp; Custom Cabinetry</span>
+              </div>
+              <div class="gallery-photo-item image-reveal">
+                <img
+                  src={primaryProject.images[2] || primaryProject.images[0]}
+                  alt="Kalyan Kitchen stainless steel hardware and drawer joinery"
+                  width="700"
+                  height="500"
+                  class="gallery-img"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <span class="gallery-photo-caption">Detail &bull; Integrated Hardware &amp; Organization</span>
+              </div>
+            </div>
+          </div>
+        </article>
+      )}
+    </div>
+  </section>
+
+  <!-- Section D: Services ("From first concept to final detail.") -->
+  <section class="section-pad theme-ivory services-section" id="services" aria-labelledby="services-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>03 &bull; Disciplines</span>
+        <span>Studio Capabilities &bull; Turnkey Practice</span>
+      </div>
+
+      <div class="editorial-header-split">
+        <div class="editorial-header-left reveal-up">
+          <span class="eyebrow">Our Disciplines</span>
+          <h2 id="services-heading" class="section-heading-editorial">
+            From first concept<br />to <em>final detail.</em>
+          </h2>
+        </div>
+        <div class="editorial-header-right reveal-up">
+          <p class="editorial-subhead">
+            We provide comprehensive architectural interior design, custom furniture development, and rigorous project execution for discerning residential clients.
+          </p>
+          <a href="/services/" class="btn-text-link">
+            <span>Discover All Services</span>
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Services List -->
+      <div class="services-list-container">
+        <!-- Service 01 -->
+        <article class="service-row-item reveal-up">
+          <span class="service-row-num">01</span>
+          <div class="service-row-main">
+            <h3 class="service-row-title">Residential Interior Architecture</h3>
+            <p class="service-row-desc">
+              Holistic residential transformations from spatial re-planning to bespoke cabinetry, custom finishes, lighting architecture, and ambient curation.
+            </p>
+          </div>
+          <div class="service-row-tag">
+            <span>Complete Homes</span>
+          </div>
+          <a href="/services/" class="service-row-link" aria-label="Learn more about Residential Interior Architecture">
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Service 02 -->
+        <article class="service-row-item reveal-up">
+          <span class="service-row-num">02</span>
+          <div class="service-row-main">
+            <h3 class="service-row-title">Spatial Planning &amp; Circulation</h3>
+            <p class="service-row-desc">
+              Optimizing flow, natural light orientation, volumetric balance, and architectural circulation to create natural ease in everyday routines.
+            </p>
+          </div>
+          <div class="service-row-tag">
+            <span>Spatial Layouts</span>
+          </div>
+          <a href="/services/" class="service-row-link" aria-label="Learn more about Spatial Planning">
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Service 03 -->
+        <article class="service-row-item reveal-up">
+          <span class="service-row-num">03</span>
+          <div class="service-row-main">
+            <h3 class="service-row-title">Bespoke Furniture &amp; Custom Joinery</h3>
+            <p class="service-row-desc">
+              Curated furniture procurement and studio-designed joinery tailored to the specific proportions and tactile palette of your home.
+            </p>
+          </div>
+          <div class="service-row-tag">
+            <span>Custom Made</span>
+          </div>
+          <a href="/furniture/" class="service-row-link" aria-label="Explore Bespoke Furniture">
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Service 04 -->
+        <article class="service-row-item reveal-up">
+          <span class="service-row-num">04</span>
+          <div class="service-row-main">
+            <h3 class="service-row-title">Material Direction &amp; Lighting</h3>
+            <p class="service-row-desc">
+              Architectural lighting design, tactile material palettes, stone selection, and handcrafted surface finishes that compose a calm atmosphere.
+            </p>
+          </div>
+          <div class="service-row-tag">
+            <span>Atmosphere</span>
+          </div>
+          <a href="/services/" class="service-row-link" aria-label="Learn more about Material Direction">
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
+
+        <!-- Service 05 -->
+        <article class="service-row-item reveal-up">
+          <span class="service-row-num">05</span>
+          <div class="service-row-main">
+            <h3 class="service-row-title">Turnkey Execution &amp; Styling Oversight</h3>
+            <p class="service-row-desc">
+              Rigorous on-site material coordination, vendor management, artisan collaboration, and final styling to ensure uncompromising quality.
+            </p>
+          </div>
+          <div class="service-row-tag">
+            <span>Project Oversight</span>
+          </div>
+          <a href="/services/" class="service-row-link" aria-label="Learn more about Turnkey Execution">
+            <span aria-hidden="true">&rarr;</span>
+          </a>
+        </article>
       </div>
     </div>
   </section>
 
-  <!-- Section 3: Brand Philosophy ("Good design is felt.") -->
-  <section class="section-pad theme-cream philosophy-section" aria-labelledby="philosophy-heading">
+  <!-- Section E: Design Philosophy & Materiality ("Good design is felt.") -->
+  <section class="section-pad theme-cream philosophy-section" id="philosophy" aria-labelledby="philosophy-heading">
     <div class="container">
       <div class="section-divider">
-        <span>02 &bull; Ethos</span>
-        <span>Architecture &bull; Senses</span>
+        <span>04 &bull; Ethos &bull; Materiality</span>
+        <span>Light &bull; Texture &bull; Proportion</span>
       </div>
 
-      <div class="philosophy-layout">
-        <div class="philosophy-text-col reveal-up">
+      <div class="philosophy-editorial-grid">
+        <div class="philosophy-text-column reveal-up">
           <span class="eyebrow">Design Philosophy</span>
-          <h2 id="philosophy-heading" class="philosophy-title">
+          <h2 id="philosophy-heading" class="philosophy-main-title">
             Good design <em>is felt.</em>
           </h2>
-          <div class="philosophy-narrative">
+          <div class="philosophy-editorial-copy">
             <p>
               We believe a home should never demand attention through noise. True luxury is quiet: it is the quality of morning light crossing a plaster wall, the honesty of solid timber joinery beneath your hand, and proportions that give room to breathe.
             </p>
@@ -73,261 +350,173 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
               By balancing architecture, tactile materials, and functional rituals, Bhavna Space builds environments that feel effortlessly grounded—spaces that age gracefully with the people who inhabit them.
             </p>
           </div>
-          <div class="philosophy-signature">
-            <span class="signature-descriptor">Bhavna Space Studio</span>
-            <span class="signature-line">Interiors shaped by light, material, and everyday living.</span>
+
+          <!-- Material Palette Details -->
+          <div class="material-cards-list">
+            <div class="material-card-item">
+              <span class="card-accent-dot">&bull;</span>
+              <div>
+                <strong class="material-name">Solid Walnut &amp; Natural Oak:</strong>
+                <span class="material-desc">Warm organic grain, fluted profiles, and matte oiled finishes that celebrate timber texture.</span>
+              </div>
+            </div>
+            <div class="material-card-item">
+              <span class="card-accent-dot">&bull;</span>
+              <div>
+                <strong class="material-name">Honed Travertine &amp; Limestone:</strong>
+                <span class="material-desc">Subtle sedimentary veining, softly chamfered edges, and tactile earthy surfaces.</span>
+              </div>
+            </div>
+            <div class="material-card-item">
+              <span class="card-accent-dot">&bull;</span>
+              <div>
+                <strong class="material-name">Boucl&eacute; &amp; Belgian Linen:</strong>
+                <span class="material-desc">Curved upholstered silhouettes offering deep comfort, tactile richness, and natural draping.</span>
+              </div>
+            </div>
+            <div class="material-card-item">
+              <span class="card-accent-dot">&bull;</span>
+              <div>
+                <strong class="material-name">Hand-Finished Brass &amp; Bronze:</strong>
+                <span class="material-desc">Living patinated metal accents, refined joinery details, and architectural hardware.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="philosophy-action-row">
+            <a href="/furniture/" class="btn btn-primary">
+              <span>View Furniture &amp; Materials</span>
+              <span class="btn-icon" aria-hidden="true">&rarr;</span>
+            </a>
           </div>
         </div>
 
-        <div class="philosophy-media-col">
-          <div class="philosophy-image-frame image-reveal">
+        <!-- Media Column -->
+        <div class="philosophy-media-column">
+          <div class="philosophy-image-box image-reveal">
             <img
               src="/images/material-craftsmanship.jpg"
               alt="Architectural detail: fluted walnut timber joinery meeting honed travertine stone"
               width="1000"
               height="750"
-              class="philosophy-image"
+              class="philosophy-img"
               loading="lazy"
               decoding="async"
             />
             <div class="media-caption">
-              <span>Figure 01 &bull; Natural Fluted Walnut &amp; Honed Travertine</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 4: Services Preview -->
-  <section class="section-pad theme-ivory services-preview-section" aria-labelledby="services-heading">
-    <div class="container">
-      <div class="section-divider">
-        <span>03 &bull; Disciplines</span>
-        <span>Studio Capabilities</span>
-      </div>
-
-      <div class="editorial-header-split">
-        <div class="editorial-header-left">
-          <span class="eyebrow eyebrow-teal">Our Practice</span>
-          <h2 id="services-heading" class="section-heading-editorial">
-            From first concept<br />to <em>final detail.</em>
-          </h2>
-        </div>
-        <div class="editorial-header-right">
-          <p class="editorial-subhead">
-            We provide comprehensive architectural interior design, custom furniture development, and rigorous project execution for discerning residential clients.
-          </p>
-          <a href="/services/" class="btn-text-link">
-            <span>Explore All Services</span>
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </div>
-      </div>
-
-      <div class="services-curated-list">
-        <!-- Service 01 -->
-        <article class="service-strip-item">
-          <span class="service-strip-num">01</span>
-          <div class="service-strip-content">
-            <h3 class="service-strip-title">Interior Design</h3>
-            <p class="service-strip-desc">
-              Holistic residential transformations from spatial re-planning to bespoke cabinetry, custom finishes, lighting architecture, and ambient curation.
-            </p>
-          </div>
-          <a href="/services/" class="service-strip-arrow" aria-label="Learn about Interior Design">
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </article>
-
-        <!-- Service 02 -->
-        <article class="service-strip-item">
-          <span class="service-strip-num">02</span>
-          <div class="service-strip-content">
-            <h3 class="service-strip-title">Space Planning &amp; Architecture</h3>
-            <p class="service-strip-desc">
-              Optimizing flow, natural light orientation, volumetric balance, and architectural circulation to create natural ease in everyday routines.
-            </p>
-          </div>
-          <a href="/services/" class="service-strip-arrow" aria-label="Learn about Space Planning">
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </article>
-
-        <!-- Service 03 -->
-        <article class="service-strip-item">
-          <span class="service-strip-num">03</span>
-          <div class="service-strip-content">
-            <h3 class="service-strip-title">Furniture &amp; Decor</h3>
-            <p class="service-strip-desc">
-              Curated furniture procurement and bespoke studio-designed joinery tailored to the specific proportions and tactile palette of your home.
-            </p>
-          </div>
-          <a href="/furniture/" class="service-strip-arrow" aria-label="Explore Furniture & Decor">
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </article>
-
-        <!-- Service 04 -->
-        <article class="service-strip-item">
-          <span class="service-strip-num">04</span>
-          <div class="service-strip-content">
-            <h3 class="service-strip-title">Design Consultation &amp; Direction</h3>
-            <p class="service-strip-desc">
-              Strategic one-on-one design sessions providing material palettes, fixture selections, color guidance, and styling vision for ongoing projects.
-            </p>
-          </div>
-          <a href="/services/" class="service-strip-arrow" aria-label="Learn about Design Consultation">
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </article>
-
-        <!-- Service 05 -->
-        <article class="service-strip-item">
-          <span class="service-strip-num">05</span>
-          <div class="service-strip-content">
-            <h3 class="service-strip-title">Execution &amp; Styling Oversight</h3>
-            <p class="service-strip-desc">
-              Rigorous on-site material coordination, vendor management, and final artwork and accessory styling to ensure uncompromising quality.
-            </p>
-          </div>
-          <a href="/services/" class="service-strip-arrow" aria-label="Learn about Execution & Styling">
-            <span aria-hidden="true">&rarr;</span>
-          </a>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 5: Furniture and Material Stories -->
-  <section class="section-pad theme-cream material-story-section" aria-labelledby="material-heading">
-    <div class="container">
-      <div class="section-divider">
-        <span>04 &bull; Materiality</span>
-        <span>Craftsmanship &bull; Finishes</span>
-      </div>
-
-      <div class="material-story-grid">
-        <div class="material-media-panel image-reveal">
-          <img
-            src="/images/furniture-lifestyle.jpg"
-            alt="Bespoke curved cream bouclé armchair, fluted walnut table, and honed stone console by Bhavna Space"
-            width="1200"
-            height="800"
-            class="material-featured-img"
-            loading="lazy"
-            decoding="async"
-          />
-          <div class="material-floating-badge">
-            <span class="badge-title">Studio Collection</span>
-            <span class="badge-sub">Bespoke Residential Commission</span>
-          </div>
-        </div>
-
-        <div class="material-content-panel">
-          <span class="eyebrow">Tactile Quality</span>
-          <h2 id="material-heading" class="section-heading-editorial">
-            Craftsmanship in <em>every curve.</em>
-          </h2>
-          <p class="editorial-subhead">
-            We craft furniture pieces that function as quiet sculptural anchors. Each piece balances natural timber grain, honed stone surfaces, and soft textiles to create enduring comfort.
-          </p>
-
-          <div class="material-breakdown-list">
-            <div class="material-pill-item">
-              <span class="pill-dot-gold">&bull;</span>
-              <strong>Solid Walnut &amp; Oak:</strong>
-              <span>Warm organic grain, fluted profiles, and natural matte oiled finishes.</span>
-            </div>
-            <div class="material-pill-item">
-              <span class="pill-dot-gold">&bull;</span>
-              <strong>Honed Travertine &amp; Marble:</strong>
-              <span>Subtle sedimentary veining, softly chamfered edges, and tactile surfaces.</span>
-            </div>
-            <div class="material-pill-item">
-              <span class="pill-dot-gold">&bull;</span>
-              <strong>Boucl&eacute; &amp; Belgian Linen:</strong>
-              <span>Curved upholstered silhouettes offering deep comfort and textural depth.</span>
-            </div>
-            <div class="material-pill-item">
-              <span class="pill-dot-gold">&bull;</span>
-              <strong>Hand-Finished Brass:</strong>
-              <span>Patinated metal accents, refined hardware, and architectural joinery.</span>
+              <span class="caption-marker">&bull;</span>
+              <span>Tactile Craftsmanship &bull; Natural Fluted Walnut &amp; Honed Travertine</span>
             </div>
           </div>
 
-          <div class="material-action-row">
-            <a href="/furniture/" class="btn btn-teal">
-              <span>View Furniture Stories</span>
-              <span class="btn-icon" aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Section 6: Studio Introduction -->
-  <section class="section-pad theme-ivory studio-intro-section" aria-labelledby="studio-heading">
-    <div class="container">
-      <div class="section-divider">
-        <span>05 &bull; The Studio</span>
-        <span>People &bull; Philosophy</span>
-      </div>
-
-      <div class="studio-intro-split">
-        <div class="studio-intro-copy">
-          <span class="eyebrow eyebrow-teal">About Bhavna Space</span>
-          <h2 id="studio-heading" class="section-heading-editorial">
-            Designing for life, <em>not just photography.</em>
-          </h2>
-          <div class="studio-paragraphs">
-            <p>
-              Based in Mumbai, Bhavna Space approaches interior design as an intimate collaboration between resident and space. We reject disposable trends in favor of enduring architectural proportions, honest natural materials, and tailored comfort.
-            </p>
-            <p>
-              Whether shaping a compact apartment kitchen or an expansive family home, our process is centered on understanding how you move, cook, rest, and gather—crafting environments that feel unmistakably yours.
-            </p>
-          </div>
-          <div class="studio-cta-wrap">
-            <a href="/about/" class="btn btn-outline-dark">
-              <span>Read Studio Story</span>
-              <span class="btn-icon" aria-hidden="true">&rarr;</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="studio-intro-visual">
-          <div class="studio-image-frame image-reveal">
+          <div class="philosophy-secondary-image image-reveal">
             <img
-              src="/images/studio-editorial.jpg"
-              alt="Bhavna Space architectural alcove with natural lime-wash plaster, sculptural ceramic vessel, and warm sunlight"
-              width="800"
-              height="1066"
-              class="studio-image"
+              src="/images/furniture-lifestyle.jpg"
+              alt="Bespoke curved bouclé armchair and studio table"
+              width="900"
+              height="600"
+              class="philosophy-img-secondary"
               loading="lazy"
               decoding="async"
             />
+            <div class="media-caption">
+              <span class="caption-marker">&bull;</span>
+              <span>Bhavna Space Studio Collection &bull; Sculptural Seating &amp; Joinery</span>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Section 7: Consultation CTA ("Let's create a space that feels like yours.") -->
-  <section class="section-pad theme-teal consultation-banner-section" aria-labelledby="cta-heading">
-    <div class="container consultation-banner-inner">
-      <div class="consultation-banner-content">
+  <!-- Section F: The Architectural Design Process -->
+  <section class="section-pad theme-ivory process-section" id="process" aria-labelledby="process-heading">
+    <div class="container">
+      <div class="section-divider">
+        <span>05 &bull; Process</span>
+        <span>Methodology &bull; Concept to Realization</span>
+      </div>
+
+      <div class="editorial-header-split">
+        <div class="editorial-header-left reveal-up">
+          <span class="eyebrow">Our Methodology</span>
+          <h2 id="process-heading" class="section-heading-editorial">
+            An intentional, <em>collaborative journey.</em>
+          </h2>
+        </div>
+        <div class="editorial-header-right reveal-up">
+          <p class="editorial-subhead">
+            Designing a home requires rigorous planning, close listening, and meticulous craftsmanship. Here is how we bring each project from initial vision to finished residence.
+          </p>
+        </div>
+      </div>
+
+      <div class="process-steps-grid">
+        <!-- Step 1 -->
+        <div class="process-step-card reveal-up">
+          <div class="process-step-header">
+            <span class="step-num">01</span>
+            <span class="step-tag">Phase One</span>
+          </div>
+          <h3 class="step-title">Discovery &amp; Spatial Vision</h3>
+          <p class="step-desc">
+            We begin with an in-depth consultation to understand your lifestyle, daily routines, aesthetic affinities, and the architectural parameters of your space.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="process-step-card reveal-up">
+          <div class="process-step-header">
+            <span class="step-num">02</span>
+            <span class="step-tag">Phase Two</span>
+          </div>
+          <h3 class="step-title">Concept &amp; Material Direction</h3>
+          <p class="step-desc">
+            We formulate spatial layouts, 3D architectural studies, and tactile material palettes—selecting woods, stones, textiles, and lighting schemes.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="process-step-card reveal-up">
+          <div class="process-step-header">
+            <span class="step-num">03</span>
+            <span class="step-tag">Phase Three</span>
+          </div>
+          <h3 class="step-title">Bespoke Detailing &amp; Craft</h3>
+          <p class="step-desc">
+            Every piece of cabinetry, joinery, and custom furniture is drawn with millimeter precision and crafted in collaboration with master artisans.
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="process-step-card reveal-up">
+          <div class="process-step-header">
+            <span class="step-num">04</span>
+            <span class="step-tag">Phase Four</span>
+          </div>
+          <h3 class="step-title">On-Site Realization &amp; Styling</h3>
+          <p class="step-desc">
+            We manage on-site installation with uncompromising oversight, followed by art curation, accessories, and complete white-glove styling.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section G: Contact CTA Banner ("Let's create a space that feels like yours.") -->
+  <section class="section-pad theme-cream cta-banner-section" id="contact-cta" aria-labelledby="cta-heading">
+    <div class="container">
+      <div class="cta-card-box reveal-up">
         <span class="eyebrow">Start a Conversation</span>
-        <h2 id="cta-heading" class="consultation-headline">
+        <h2 id="cta-heading" class="cta-headline">
           Let's create a space that<br /><em>feels like yours.</em>
         </h2>
-        <p class="consultation-lead">
-          Tell us a little about your space, your needs, and what you would love to create. We look forward to exploring possibilities together.
+        <p class="cta-lead">
+          Every project begins with a conversation about how you want to live. Tell us about your home, your timeline, and your vision.
         </p>
 
-        <div class="consultation-actions">
-          <a href="/contact/" class="btn btn-gold">
+        <div class="cta-action-row">
+          <a href="/contact/" class="btn btn-primary" id="home-cta-contact">
             <span>Start a Conversation</span>
             <span class="btn-icon" aria-hidden="true">&rarr;</span>
           </a>
@@ -335,98 +524,119 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
             href={whatsappUrl}
             target="_blank"
             rel="noreferrer noopener"
-            class="btn btn-outline-light"
+            class="btn btn-outline"
+            id="home-cta-whatsapp"
           >
             <span>WhatsApp Concierge ↗</span>
           </a>
         </div>
+
+        <div class="cta-footer-meta">
+          <span>Studio based in {site.location}</span>
+          <span class="meta-dot-sep">&bull;</span>
+          <span>{site.phone}</span>
+          <span class="meta-dot-sep">&bull;</span>
+          <span>{site.email}</span>
+        </div>
       </div>
     </div>
   </section>
+
+  <!-- Homepage Instant Free Quotation Modal Popup (triggers on 15-20s pause) -->
+  <QuotationModal delaySeconds={16} />
 </Layout>
 
 <style>
-  /* ── Header Split Layouts ───────────────────────────────────────────── */
+  /* ── Editorial Header Split ─────────────────────────────────────────── */
   .editorial-header-split {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.15fr 0.85fr;
     gap: clamp(2rem, 5vw, 5rem);
     align-items: flex-end;
-    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+    margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
   }
 
-  .featured-project-grid {
+  /* ── Studio Introduction Section ────────────────────────────────────── */
+  .studio-intro-layout {
     display: grid;
-    gap: clamp(3rem, 6vw, 5rem);
-  }
-
-  /* ── Philosophy Section ─────────────────────────────────────────────── */
-  .philosophy-layout {
-    display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: clamp(3rem, 6vw, 6rem);
+    grid-template-columns: 1.25fr 0.95fr;
+    gap: clamp(3rem, 6vw, 6.5rem);
     align-items: center;
   }
 
-  .philosophy-title {
+  .studio-title {
     margin: 0 0 1.5rem 0;
-    font-family: var(--font-heading);
-    font-size: clamp(2.6rem, 5vw, 4.4rem);
-    font-weight: 300;
+    font-size: clamp(2.4rem, 4.8vw, 4.2rem);
     line-height: 1.05;
     letter-spacing: -0.03em;
-    color: var(--color-espresso);
+    color: var(--color-text);
   }
 
-  .philosophy-title em {
+  .studio-title em {
     font-style: italic;
-    color: var(--color-teal);
+    color: var(--color-primary-text);
   }
 
-  .philosophy-narrative {
+  .studio-body-narrative {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
     font-family: var(--font-body);
     font-size: clamp(1rem, 1.2vw, 1.15rem);
-    line-height: 1.75;
+    line-height: 1.72;
     color: var(--color-text-muted);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2.25rem;
   }
 
-  .philosophy-signature {
-    padding-top: 1.5rem;
+  .studio-points-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    padding: 1.75rem 0;
     border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 2.25rem;
+  }
+
+  .studio-point {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
   }
 
-  .signature-descriptor {
+  .point-num {
     font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 700;
     letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
   }
 
-  .signature-line {
+  .point-title {
+    margin: 0;
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 500;
+    color: var(--color-text);
+  }
+
+  .point-desc {
+    margin: 0;
     font-family: var(--font-body);
     font-size: 0.875rem;
-    color: var(--color-espresso);
-    font-style: italic;
+    line-height: 1.55;
+    color: var(--color-text-muted);
   }
 
-  .philosophy-image-frame {
+  .studio-image-frame {
     position: relative;
-    border-radius: var(--radius-xs);
+    border-radius: var(--radius);
     overflow: hidden;
-    background-color: #D6CEC2;
-    aspect-ratio: 4 / 3;
+    background-color: #E2DBD0;
+    aspect-ratio: 3 / 4;
   }
 
-  .philosophy-image {
+  .studio-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -437,168 +647,353 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     bottom: 0;
     left: 0;
     right: 0;
-    background: linear-gradient(to top, rgba(48, 42, 37, 0.85), transparent);
-    color: var(--color-ivory);
-    padding: 18px 20px 14px;
+    background: linear-gradient(to top, rgba(43, 42, 38, 0.88), transparent);
+    color: #FCF9EA;
+    padding: 20px 20px 14px;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .caption-marker {
+    color: var(--color-primary);
+  }
+
+  /* ── Featured Projects Section ──────────────────────────────────────── */
+  .featured-project-showcase {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .project-hero-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .project-hero-media-box {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: #DDD4C6;
+  }
+
+  .project-hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-hero-link:hover .project-hero-img {
+    transform: scale(1.03);
+  }
+
+  .project-floating-badge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+    background-color: rgba(252, 249, 234, 0.94);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--color-border);
+    padding: 8px 16px;
+    border-radius: var(--radius);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text);
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+  }
+
+  .project-hover-cta {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2;
+    background-color: var(--color-primary);
+    color: var(--color-text);
+    padding: 12px 22px;
+    border-radius: var(--radius);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .project-hero-link:hover .project-hover-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .hover-arrow {
+    transition: transform 200ms ease;
+  }
+
+  .project-hero-link:hover .hover-arrow {
+    transform: translateX(4px);
+  }
+
+  /* Project Asymmetrical Spread */
+  .project-detail-spread {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: flex-start;
+  }
+
+  .project-spread-info {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-spread-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-family: var(--font-body);
     font-size: 0.75rem;
     letter-spacing: 0.08em;
     text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 0.75rem;
   }
 
-  /* ── Services Curated List ──────────────────────────────────────────── */
-  .services-curated-list {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--color-border);
-  }
-
-  .service-strip-item {
-    display: grid;
-    grid-template-columns: 60px 1fr 60px;
-    align-items: center;
-    gap: 24px;
-    padding: clamp(1.75rem, 3.5vw, 2.75rem) 0;
-    border-bottom: 1px solid var(--color-border);
-    transition: background-color 200ms ease;
-  }
-
-  .service-strip-item:hover {
-    background-color: rgba(237, 229, 216, 0.4);
-    padding-left: 12px;
-    padding-right: 12px;
-  }
-
-  .service-strip-num {
-    font-family: var(--font-body);
-    font-size: 0.8125rem;
+  .project-number {
     font-weight: 700;
-    letter-spacing: 0.1em;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
   }
 
-  .service-strip-title {
-    margin: 0 0 0.5rem 0;
+  .meta-sep {
+    opacity: 0.4;
+  }
+
+  .project-spread-title {
+    margin: 0 0 1rem 0;
     font-family: var(--font-heading);
-    font-size: clamp(1.6rem, 2.6vw, 2.25rem);
+    font-size: clamp(2rem, 3.5vw, 2.85rem);
     font-weight: 400;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    color: var(--color-espresso);
+    line-height: 1.12;
+    letter-spacing: -0.025em;
   }
 
-  .service-strip-desc {
-    margin: 0;
+  .project-spread-title a {
+    color: var(--color-text);
+    text-decoration: none;
+    transition: color 200ms ease;
+  }
+
+  .project-spread-title a:hover {
+    color: var(--color-primary-text);
+  }
+
+  .project-spread-desc {
+    margin: 0 0 1.75rem 0;
     font-family: var(--font-body);
     font-size: 0.9375rem;
-    line-height: 1.6;
+    line-height: 1.7;
     color: var(--color-text-muted);
-    max-width: 680px;
   }
 
-  .service-strip-arrow {
-    font-size: 1.5rem;
-    color: var(--color-espresso);
-    text-align: right;
-    transition: transform 200ms ease, color 200ms ease;
-  }
-
-  .service-strip-item:hover .service-strip-arrow {
-    transform: translateX(6px);
-    color: var(--color-teal);
-  }
-
-  /* ── Furniture & Material Section ───────────────────────────────────── */
-  .material-story-grid {
-    display: grid;
-    grid-template-columns: 1.1fr 1fr;
-    gap: clamp(3rem, 6vw, 5.5rem);
-    align-items: center;
-  }
-
-  .material-media-panel {
-    position: relative;
-    border-radius: var(--radius-xs);
-    overflow: hidden;
-    background-color: #D3CABF;
-  }
-
-  .material-featured-img {
-    width: 100%;
-    aspect-ratio: 16 / 11;
-    object-fit: cover;
-  }
-
-  .material-floating-badge {
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background-color: rgba(246, 242, 234, 0.94);
-    backdrop-filter: blur(8px);
-    padding: 12px 18px;
-    border-radius: var(--radius-xs);
+  .project-materials-block {
+    padding: 1.25rem 0;
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 1.75rem;
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 8px;
   }
 
-  .badge-title {
+  .materials-label {
     font-family: var(--font-body);
     font-size: 0.6875rem;
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--color-teal);
+    color: var(--color-text);
   }
 
-  .badge-sub {
+  .materials-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .material-tag {
     font-family: var(--font-body);
     font-size: 0.75rem;
     color: var(--color-text-muted);
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: 4px 10px;
+    border-radius: var(--radius);
   }
 
-  .material-breakdown-list {
-    margin: 2rem 0;
+  /* Gallery Detail Photos */
+  .project-spread-gallery {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .gallery-photo-item {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: #D8CFBE;
+    aspect-ratio: 4 / 3;
+  }
+
+  .gallery-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .gallery-photo-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(43, 42, 38, 0.85), transparent);
+    color: #FCF9EA;
+    padding: 12px 14px 8px;
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── Services Section ───────────────────────────────────────────────── */
+  .services-list-container {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    border-top: 1px solid var(--color-border);
   }
 
-  .material-pill-item {
-    display: flex;
-    align-items: baseline;
-    gap: 10px;
+  .service-row-item {
+    display: grid;
+    grid-template-columns: 60px 1fr 140px 60px;
+    align-items: center;
+    gap: 24px;
+    padding: clamp(1.75rem, 3.5vw, 2.5rem) 12px;
+    border-bottom: 1px solid var(--color-border);
+    transition: background-color 220ms ease, padding-left 220ms ease;
+    border-radius: var(--radius);
+  }
+
+  .service-row-item:hover {
+    background-color: var(--color-surface-soft);
+    padding-left: 20px;
+  }
+
+  .service-row-num {
+    font-family: var(--font-body);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--color-primary-text);
+  }
+
+  .service-row-title {
+    margin: 0 0 0.4rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--color-text);
+    transition: color 200ms ease;
+  }
+
+  .service-row-item:hover .service-row-title {
+    color: var(--color-primary-text);
+  }
+
+  .service-row-desc {
+    margin: 0;
     font-family: var(--font-body);
     font-size: 0.9375rem;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--color-text-muted);
+    max-width: 660px;
   }
 
-  .pill-dot-gold {
-    color: var(--color-gold);
-    font-size: 1.25rem;
-    line-height: 1;
-  }
-
-  .material-pill-item strong {
-    color: var(--color-espresso);
+  .service-row-tag {
+    font-family: var(--font-body);
+    font-size: 0.6875rem;
     font-weight: 600;
-    white-space: nowrap;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    text-align: right;
   }
 
-  .material-action-row {
-    margin-top: 2rem;
+  .service-row-link {
+    font-size: 1.5rem;
+    color: var(--color-text);
+    text-align: right;
+    transition: transform 200ms ease, color 200ms ease;
   }
 
-  /* ── Studio Intro Section ───────────────────────────────────────────── */
-  .studio-intro-split {
+  .service-row-item:hover .service-row-link {
+    transform: translateX(6px);
+    color: var(--color-primary-text);
+  }
+
+  /* ── Philosophy & Materiality Section ───────────────────────────────── */
+  .philosophy-editorial-grid {
     display: grid;
-    grid-template-columns: 1.2fr 0.9fr;
+    grid-template-columns: 1.1fr 1fr;
     gap: clamp(3rem, 6vw, 6rem);
     align-items: center;
   }
 
-  .studio-paragraphs {
+  .philosophy-main-title {
+    margin: 0 0 1.5rem 0;
+    font-family: var(--font-heading);
+    font-size: clamp(2.6rem, 5vw, 4.25rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    color: var(--color-text);
+  }
+
+  .philosophy-main-title em {
+    font-style: italic;
+    color: var(--color-primary-text);
+  }
+
+  .philosophy-editorial-copy {
     display: flex;
     flex-direction: column;
     gap: 1.25rem;
@@ -606,109 +1001,280 @@ const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURICompon
     font-size: clamp(1rem, 1.2vw, 1.15rem);
     line-height: 1.75;
     color: var(--color-text-muted);
-    margin-bottom: 2.5rem;
+    margin-bottom: 2rem;
   }
 
-  .studio-image-frame {
-    border-radius: var(--radius-xs);
+  .material-cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 2.25rem;
+  }
+
+  .material-card-item {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  .card-accent-dot {
+    color: var(--color-primary);
+    font-size: 1.25rem;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+
+  .material-name {
+    color: var(--color-text);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+
+  .philosophy-media-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .philosophy-image-box {
+    position: relative;
+    border-radius: var(--radius);
     overflow: hidden;
-    aspect-ratio: 3 / 4;
-    background-color: #D3CABF;
+    background-color: #D6CEC2;
+    aspect-ratio: 4 / 3;
   }
 
-  .studio-image {
+  .philosophy-img {
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
 
-  /* ── Consultation CTA Banner ────────────────────────────────────────── */
-  .consultation-banner-inner {
-    text-align: center;
+  .philosophy-secondary-image {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background-color: #D3CABF;
+    aspect-ratio: 16 / 10;
   }
 
-  .consultation-banner-content {
-    max-width: 820px;
+  .philosophy-img-secondary {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ── Process Section ────────────────────────────────────────────────── */
+  .process-steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .process-step-card {
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    background-color: var(--color-surface-soft);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+  }
+
+  .process-step-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-primary);
+    box-shadow: 0 10px 24px rgba(43, 42, 38, 0.05);
+  }
+
+  .process-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+
+  .step-num {
+    font-family: var(--font-body);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-primary-text);
+  }
+
+  .step-tag {
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  .step-title {
+    margin: 0 0 10px 0;
+    font-family: var(--font-heading);
+    font-size: 1.35rem;
+    font-weight: 500;
+    line-height: 1.2;
+    color: var(--color-text);
+  }
+
+  .step-desc {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  /* ── Contact CTA Banner ─────────────────────────────────────────────── */
+  .cta-banner-section {
+    padding-top: clamp(4rem, 8vw, 7rem);
+    padding-bottom: clamp(4rem, 8vw, 7rem);
+  }
+
+  .cta-card-box {
+    max-width: 900px;
     margin: 0 auto;
+    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: var(--color-background);
+    border: 1px solid var(--color-border);
+    padding: clamp(3rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 36px rgba(43, 42, 38, 0.04);
   }
 
-  .consultation-headline {
-    margin: 0.5rem 0 1.5rem 0;
+  .cta-headline {
+    margin: 0.5rem 0 1.25rem 0;
     font-family: var(--font-heading);
-    font-size: clamp(2.6rem, 5.5vw, 4.75rem);
+    font-size: clamp(2.4rem, 5vw, 4.4rem);
     font-weight: 300;
-    line-height: 1.05;
+    line-height: 1.08;
     letter-spacing: -0.03em;
-    color: var(--color-ivory);
+    color: var(--color-text);
   }
 
-  .consultation-headline em {
+  .cta-headline em {
     font-style: italic;
-    color: var(--color-gold);
+    color: var(--color-primary-text);
   }
 
-  .consultation-lead {
+  .cta-lead {
     font-family: var(--font-body);
-    font-size: clamp(1rem, 1.4vw, 1.2rem);
-    line-height: 1.65;
-    color: var(--color-text-light-muted);
-    max-width: 640px;
-    margin: 0 0 2.5rem 0;
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    line-height: 1.68;
+    color: var(--color-text-muted);
+    max-width: 600px;
+    margin: 0 0 2.25rem 0;
   }
 
-  .consultation-actions {
+  .cta-action-row {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 16px;
     flex-wrap: wrap;
+    margin-bottom: 2.25rem;
   }
 
-  /* ── Responsive Mobile Rules ─────────────────────────────────────────── */
-  @media (max-width: 899px) {
+  .cta-footer-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--color-text-muted);
+    flex-wrap: wrap;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+  }
+
+  .meta-dot-sep {
+    opacity: 0.4;
+  }
+
+  /* ── Responsive Adaptations ─────────────────────────────────────────── */
+  @media (max-width: 1023px) {
     .editorial-header-split {
       grid-template-columns: 1fr;
       gap: 1.5rem;
     }
 
-    .philosophy-layout {
+    .studio-intro-layout {
       grid-template-columns: 1fr;
       gap: 2.5rem;
     }
 
-    .philosophy-media-col {
+    .studio-intro-media {
       order: -1;
     }
 
-    .material-story-grid {
+    .project-detail-spread {
       grid-template-columns: 1fr;
       gap: 2.5rem;
     }
 
-    .studio-intro-split {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-
-    .studio-intro-visual {
-      order: -1;
-    }
-
-    .service-strip-item {
-      grid-template-columns: 36px 1fr 32px;
+    .service-row-item {
+      grid-template-columns: 40px 1fr 40px;
       gap: 16px;
     }
 
-    .consultation-actions {
+    .service-row-tag {
+      display: none;
+    }
+
+    .philosophy-editorial-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .philosophy-media-column {
+      order: -1;
+    }
+
+    .process-steps-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+  }
+
+  @media (max-width: 639px) {
+    .studio-points-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .project-spread-gallery {
+      grid-template-columns: 1fr;
+    }
+
+    .process-steps-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cta-action-row {
       flex-direction: column;
       width: 100%;
     }
 
-    .consultation-actions .btn {
+    .cta-action-row .btn {
       width: 100%;
+    }
+
+    .project-hover-cta {
+      display: none;
     }
   }
 </style>

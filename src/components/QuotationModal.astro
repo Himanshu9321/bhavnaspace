@@ -1,0 +1,798 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  delaySeconds?: number;
+}
+
+const { delaySeconds = 16 } = Astro.props;
+const whatsappUrl = `https://wa.me/${site.whatsappNumber}?text=${encodeURIComponent('Hello Bhavna Space, I would like to get an instant free quotation for my space.')}`;
+---
+
+<!-- Architectural Free Quotation Modal Popup -->
+<div
+  class="quote-modal-backdrop"
+  id="quotation-modal"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="quote-modal-title"
+  aria-describedby="quote-modal-desc"
+  hidden
+>
+  <div class="quote-modal-card" id="quote-modal-dialog">
+    <!-- Close / Dismiss Button -->
+    <button
+      type="button"
+      class="quote-modal-close"
+      id="quote-modal-close-btn"
+      aria-label="Close quotation modal"
+      data-quote-close
+    >
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <!-- State 1: Interactive Quotation Form -->
+    <div class="quote-view" id="quote-form-view">
+      <div class="quote-modal-header">
+        <span class="quote-eyebrow">Instant Consultation &bull; Spatial Planning</span>
+        <h2 id="quote-modal-title" class="quote-modal-title">
+          Get an Instant <em>Free Quotation</em> Now
+        </h2>
+        <p id="quote-modal-desc" class="quote-modal-desc">
+          Select your configuration and location. Our senior architectural team will prepare an estimate tailored to your floor plan and spatial aspirations.
+        </p>
+      </div>
+
+      <form id="quote-form" class="quote-form" novalidate>
+        <!-- Anti-spam Honeypot -->
+        <div class="quote-honeypot" aria-hidden="true">
+          <label for="quote-website">Leave this empty</label>
+          <input type="text" id="quote-website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <!-- 1. Configuration Selection (1 BHK, 2 BHK, 3 BHK, 3 BHK+) -->
+        <div class="quote-form-group">
+          <label class="quote-label" id="bhk-group-label">
+            <span>Select Configuration <span class="quote-req">*</span></span>
+          </label>
+          <div class="quote-bhk-grid" role="radiogroup" aria-labelledby="bhk-group-label">
+            <label class="quote-bhk-pill">
+              <input type="radio" name="bhk" value="1 BHK" required />
+              <span class="bhk-label">1 BHK</span>
+            </label>
+            <label class="quote-bhk-pill">
+              <input type="radio" name="bhk" value="2 BHK" checked />
+              <span class="bhk-label">2 BHK</span>
+            </label>
+            <label class="quote-bhk-pill">
+              <input type="radio" name="bhk" value="3 BHK" />
+              <span class="bhk-label">3 BHK</span>
+            </label>
+            <label class="quote-bhk-pill">
+              <input type="radio" name="bhk" value="3 BHK+" />
+              <span class="bhk-label">3 BHK+</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 2. Location & Mobile Number Inputs -->
+        <div class="quote-inputs-grid">
+          <div class="quote-form-group">
+            <label for="quote-location" class="quote-label">
+              <span>Location / City <span class="quote-req">*</span></span>
+            </label>
+            <input
+              type="text"
+              id="quote-location"
+              name="location"
+              class="quote-input"
+              placeholder="e.g. Bandra, Thane, Kalyan"
+              required
+              maxlength="120"
+              autocomplete="address-level2"
+            />
+          </div>
+
+          <div class="quote-form-group">
+            <label for="quote-mobile" class="quote-label">
+              <span>Mobile Number <span class="quote-req">*</span></span>
+            </label>
+            <input
+              type="tel"
+              id="quote-mobile"
+              name="mobile"
+              class="quote-input"
+              placeholder="e.g. 98765 43210"
+              required
+              pattern="[0-9+\\s-]{10,15}"
+              maxlength="20"
+              autocomplete="tel"
+            />
+          </div>
+        </div>
+
+        <!-- 3. Optional Name -->
+        <div class="quote-form-group">
+          <label for="quote-name" class="quote-label">
+            <span>Your Name</span>
+            <span class="quote-opt">Optional</span>
+          </label>
+          <input
+            type="text"
+            id="quote-name"
+            name="name"
+            class="quote-input"
+            placeholder="e.g. Rahul Sharma"
+            maxlength="80"
+            autocomplete="name"
+          />
+        </div>
+
+        <!-- Feedback / Validation Message -->
+        <div id="quote-form-status" class="quote-status" role="status" aria-live="polite" hidden></div>
+
+        <!-- Submit Button Row -->
+        <div class="quote-action-row">
+          <button type="submit" class="btn btn-quote-submit" id="quote-submit-btn">
+            <span class="quote-btn-text">Get Instant Free Quotation</span>
+            <span class="quote-btn-icon" aria-hidden="true">&rarr;</span>
+          </button>
+        </div>
+
+        <p class="quote-privacy-note">
+          <span>🔒 Strictly confidential. No spam. Tailored estimate sent directly to your phone &amp; email within 24 hours.</span>
+        </p>
+      </form>
+    </div>
+
+    <!-- State 2: Confirmation / Success View -->
+    <div class="quote-view quote-success-view" id="quote-success-view" hidden>
+      <div class="quote-success-badge" aria-hidden="true">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="16 10 11 15 8 12"></polyline>
+        </svg>
+      </div>
+      <span class="quote-eyebrow">Request Confirmed</span>
+      <h3 class="quote-success-title">Your Quotation Request is Received</h3>
+      <p class="quote-success-desc" id="quote-success-desc">
+        Thank you! Our architectural team has received your inquiry. We are reviewing your requirements and will reach out with a personalized estimate.
+      </p>
+
+      <div class="quote-success-actions">
+        <a href={whatsappUrl} target="_blank" rel="noreferrer noopener" class="btn btn-outline quote-wa-btn">
+          <span>Need it Faster? Chat on WhatsApp ↗</span>
+        </a>
+        <button type="button" class="btn btn-quote-dismiss-final" data-quote-close>
+          <span>Done / Close</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ delaySeconds }}>
+  (() => {
+    const STORAGE_KEY = 'bhavna_quote_popup_dismissed_v1';
+    const backdrop = document.getElementById('quotation-modal');
+    if (!backdrop) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceOpen = urlParams.get('quote') === 'test' || urlParams.get('quote') === 'open';
+    const forceReset = urlParams.get('quote') === 'reset';
+
+    if (forceReset) {
+      try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    }
+
+    // 1. Strict Dismissal Check: if already submitted or closed, NEVER show again
+    try {
+      if (!forceOpen && localStorage.getItem(STORAGE_KEY) === 'true') {
+        return;
+      }
+    } catch (e) {
+      // Storage access blocked or restricted
+    }
+
+    const closeButtons = backdrop.querySelectorAll('[data-quote-close]');
+    const form = document.getElementById('quote-form');
+    const formView = document.getElementById('quote-form-view');
+    const successView = document.getElementById('quote-success-view');
+    const statusEl = document.getElementById('quote-form-status');
+    const submitBtn = document.getElementById('quote-submit-btn');
+    const submitText = submitBtn ? submitBtn.querySelector('.quote-btn-text') : null;
+
+    // Record dismissal in localStorage so popup never reappears
+    function markDismissed() {
+      try {
+        localStorage.setItem(STORAGE_KEY, 'true');
+      } catch (e) {}
+    }
+
+    // Dismiss & Close Modal with smooth animation
+    function dismissModal() {
+      backdrop.classList.remove('is-visible');
+      setTimeout(() => {
+        backdrop.hidden = true;
+        document.body.classList.remove('modal-open');
+      }, 300);
+      markDismissed();
+    }
+
+    // Reveal modal after designated pause
+    function showModal() {
+      try {
+        if (!forceOpen && localStorage.getItem(STORAGE_KEY) === 'true') return;
+      } catch (e) {}
+
+      backdrop.hidden = false;
+      // Force layout reflow so CSS transition triggers smoothly
+      void backdrop.offsetWidth;
+      backdrop.classList.add('is-visible');
+      document.body.classList.add('modal-open');
+
+      // Autofocus first input or close button for accessibility
+      const focusTarget = backdrop.querySelector('input[name="bhk"]:checked') || backdrop.querySelector('#quote-location') || backdrop.querySelector('#quote-modal-close-btn');
+      if (focusTarget && typeof focusTarget.focus === 'function') {
+        focusTarget.focus();
+      }
+    }
+
+    // Timer trigger: defaults to 16 seconds (between 15 to 20 seconds), or 0.3s if forceOpen
+    const effectiveDelay = forceOpen ? 0.3 : ((typeof delaySeconds === 'number' && delaySeconds > 0) ? delaySeconds : 16);
+    const timerId = setTimeout(showModal, effectiveDelay * 1000);
+
+    // Close button listeners ('✕' and 'Done / Close')
+    closeButtons.forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        clearTimeout(timerId);
+        dismissModal();
+      });
+    });
+
+    // Close when clicking on backdrop outside modal card
+    backdrop.addEventListener('click', (e) => {
+      if (e.target === backdrop) {
+        clearTimeout(timerId);
+        dismissModal();
+      }
+    });
+
+    // Close when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !backdrop.hidden) {
+        clearTimeout(timerId);
+        dismissModal();
+      }
+    });
+
+    // Form Submission Handling
+    if (form) {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const bhk = String(formData.get('bhk') || '').trim();
+        const location = String(formData.get('location') || '').trim();
+        const mobile = String(formData.get('mobile') || '').trim();
+        const name = String(formData.get('name') || '').trim();
+        const website = String(formData.get('website') || '').trim();
+
+        // Reset status
+        if (statusEl) {
+          statusEl.hidden = true;
+          statusEl.textContent = '';
+          statusEl.className = 'quote-status';
+        }
+
+        // Validation
+        if (!bhk) {
+          showError('Please select your home configuration (1 BHK, 2 BHK, 3 BHK, or 3 BHK+).');
+          return;
+        }
+
+        if (!location) {
+          showError('Please enter your property location / city.');
+          const locInput = document.getElementById('quote-location');
+          locInput?.focus();
+          return;
+        }
+
+        const digitsOnly = mobile.replace(/\D/g, '');
+        if (digitsOnly.length < 10) {
+          showError('Please provide a valid 10-digit mobile number.');
+          const mobInput = document.getElementById('quote-mobile');
+          mobInput?.focus();
+          return;
+        }
+
+        // Submitting state
+        if (submitBtn && submitText) {
+          submitBtn.disabled = true;
+          submitText.textContent = 'Submitting Your Request…';
+        }
+
+        try {
+          const res = await fetch('/api/quote', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ bhk, location, mobile, name, website }),
+          });
+
+          const data = await res.json().catch(() => ({}));
+
+          if (!res.ok) {
+            throw new Error(data.error || 'Unable to process your quotation request right now.');
+          }
+
+          // Mark dismissed permanently in localStorage so it is never shown again
+          markDismissed();
+
+          // Switch to confirmation view
+          if (formView && successView) {
+            formView.hidden = true;
+            successView.hidden = false;
+
+            const descEl = document.getElementById('quote-success-desc');
+            if (descEl) {
+              const safeName = escapeHtml(name);
+              const safeBhk = escapeHtml(bhk);
+              const safeLoc = escapeHtml(location);
+              const safeMob = escapeHtml(mobile);
+
+              descEl.innerHTML = `Thank you${safeName ? `, <strong>${safeName}</strong>` : ''}! We have received your request for <strong>${safeBhk}</strong> in <strong>${safeLoc}</strong>. Our senior team will connect with you at <strong>${safeMob}</strong> shortly.`;
+            }
+          }
+        } catch (err) {
+          const msg = (err && err.message) ? err.message : 'Please check your connection or reach out on WhatsApp.';
+          showError(msg);
+          if (submitBtn && submitText) {
+            submitBtn.disabled = false;
+            submitText.textContent = 'Get Instant Free Quotation';
+          }
+        }
+      });
+    }
+
+    function showError(msg) {
+      if (!statusEl) return;
+      statusEl.hidden = false;
+      statusEl.textContent = msg;
+      statusEl.className = 'quote-status quote-status-error';
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, (tag) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+      }[tag] || tag));
+    }
+  })();
+</script>
+
+<style>
+  /* ── Modal Backdrop Overlay ─────────────────────────────────────────── */
+  .quote-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(1rem, 3vw, 2.5rem);
+    background-color: rgba(30, 29, 26, 0.72);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .quote-modal-backdrop.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* ── Modal Card Container ──────────────────────────────────────────── */
+  .quote-modal-card {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+    background-color: var(--color-background, #FCF9EA);
+    border: 1px solid var(--color-border, #E3DCC4);
+    border-radius: var(--radius-lg, 4px);
+    padding: clamp(1.75rem, 5vw, 2.75rem);
+    box-shadow: 0 32px 80px -15px rgba(25, 23, 18, 0.42), 0 0 0 1px rgba(227, 220, 196, 0.5);
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .quote-modal-backdrop.is-visible .quote-modal-card {
+    transform: translateY(0) scale(1);
+  }
+
+  /* ── Close Button ───────────────────────────────────────────────────── */
+  .quote-modal-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border, #E3DCC4);
+    background-color: rgba(252, 249, 234, 0.95);
+    color: var(--color-text, #2B2A26);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 10;
+  }
+
+  .quote-modal-close:hover {
+    background-color: #F2ECCF;
+    border-color: var(--color-primary, #DB9558);
+    color: var(--color-primary-text, #8A5420);
+    transform: rotate(90deg);
+  }
+
+  .quote-modal-close:focus-visible {
+    outline: 2px solid var(--color-text, #2B2A26);
+    outline-offset: 2px;
+  }
+
+  /* ── Header Typography ─────────────────────────────────────────────── */
+  .quote-modal-header {
+    margin-bottom: 1.5rem;
+    padding-right: 2rem;
+  }
+
+  .quote-eyebrow {
+    display: block;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--color-primary-text, #8A5420);
+    margin-bottom: 0.5rem;
+  }
+
+  .quote-modal-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+    font-size: clamp(1.85rem, 4vw, 2.35rem);
+    font-weight: 400;
+    line-height: 1.12;
+    letter-spacing: -0.015em;
+    color: var(--color-text, #2B2A26);
+    margin: 0 0 0.65rem;
+  }
+
+  .quote-modal-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-primary-text, #8A5420);
+  }
+
+  .quote-modal-desc {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.9rem;
+    line-height: 1.55;
+    color: var(--color-text-muted, #5E5B52);
+    margin: 0;
+  }
+
+  /* ── Form Groups & Controls ────────────────────────────────────────── */
+  .quote-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+
+  .quote-honeypot {
+    position: absolute;
+    left: -9999px;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .quote-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .quote-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-text, #2B2A26);
+  }
+
+  .quote-req {
+    color: var(--color-primary-text, #8A5420);
+  }
+
+  .quote-opt {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: var(--color-text-muted, #5E5B52);
+  }
+
+  /* ── BHK Radio Pill Grid ───────────────────────────────────────────── */
+  .quote-bhk-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin-top: 2px;
+  }
+
+  .quote-bhk-pill {
+    position: relative;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .quote-bhk-pill input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .bhk-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 42px;
+    background-color: #FAF6E8;
+    border: 1px solid var(--color-border, #E3DCC4);
+    border-radius: var(--radius, 2px);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text, #2B2A26);
+    transition: all 0.2s ease;
+  }
+
+  .quote-bhk-pill:hover .bhk-label {
+    border-color: var(--color-primary, #DB9558);
+    background-color: #F4EED8;
+  }
+
+  .quote-bhk-pill input[type="radio"]:checked + .bhk-label {
+    background-color: var(--color-primary, #DB9558);
+    border-color: var(--color-primary, #DB9558);
+    color: var(--color-text, #2B2A26);
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(219, 149, 88, 0.3);
+  }
+
+  .quote-bhk-pill input[type="radio"]:focus-visible + .bhk-label {
+    outline: 2px solid var(--color-text, #2B2A26);
+    outline-offset: 2px;
+  }
+
+  /* ── Inputs Grid ───────────────────────────────────────────────────── */
+  .quote-inputs-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .quote-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 14px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border, #E3DCC4);
+    border-radius: var(--radius, 2px);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.875rem;
+    color: var(--color-text, #2B2A26);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .quote-input::placeholder {
+    color: #9E9A8E;
+  }
+
+  .quote-input:focus {
+    outline: none;
+    border-color: var(--color-primary, #DB9558);
+    box-shadow: 0 0 0 3px rgba(219, 149, 88, 0.18);
+  }
+
+  /* ── Status Messages ───────────────────────────────────────────────── */
+  .quote-status {
+    padding: 10px 14px;
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    border-radius: var(--radius, 2px);
+  }
+
+  .quote-status-error {
+    background-color: rgba(168, 50, 40, 0.08);
+    border-left: 3px solid #A83228;
+    color: #8C251C;
+    font-weight: 500;
+  }
+
+  /* ── Submit Action ─────────────────────────────────────────────────── */
+  .quote-action-row {
+    margin-top: 0.5rem;
+  }
+
+  .btn-quote-submit {
+    width: 100%;
+    height: 48px;
+    background-color: var(--color-primary, #DB9558);
+    color: var(--color-text, #2B2A26);
+    border: none;
+    border-radius: var(--radius, 2px);
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.9375rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+
+  .btn-quote-submit:hover:not(:disabled) {
+    background-color: var(--color-primary-hover, #C9803F);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(201, 128, 63, 0.3);
+  }
+
+  .btn-quote-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+  .btn-quote-submit:focus-visible {
+    outline: 2px solid var(--color-text, #2B2A26);
+    outline-offset: 3px;
+  }
+
+  .quote-privacy-note {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: var(--color-text-muted, #5E5B52);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* ── Success State View ────────────────────────────────────────────── */
+  .quote-success-view {
+    text-align: center;
+    padding: 1.5rem 0.5rem 0.5rem;
+  }
+
+  .quote-success-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background-color: rgba(151, 168, 122, 0.2);
+    border: 1px solid var(--color-secondary, #97A87A);
+    color: var(--color-secondary-text, #4F5E38);
+    margin-bottom: 1.25rem;
+  }
+
+  .quote-success-title {
+    font-family: var(--font-heading, 'Cormorant Garamond', Georgia, serif);
+    font-size: clamp(1.75rem, 4vw, 2.15rem);
+    font-weight: 400;
+    color: var(--color-text, #2B2A26);
+    margin: 0.35rem 0 0.85rem;
+  }
+
+  .quote-success-desc {
+    font-family: var(--font-body, 'Inter', sans-serif);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-text-muted, #5E5B52);
+    max-width: 440px;
+    margin: 0 auto 1.75rem;
+  }
+
+  .quote-success-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .quote-wa-btn {
+    width: 100%;
+    height: 46px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--color-secondary-text, #4F5E38);
+    color: var(--color-secondary-text, #4F5E38);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    border-radius: var(--radius, 2px);
+    transition: all 0.2s ease;
+  }
+
+  .quote-wa-btn:hover {
+    background-color: var(--color-secondary, #97A87A);
+    color: var(--color-text, #2B2A26);
+  }
+
+  .btn-quote-dismiss-final {
+    width: 100%;
+    height: 44px;
+    background: transparent;
+    border: 1px solid var(--color-border, #E3DCC4);
+    color: var(--color-text-muted, #5E5B52);
+    font-family: var(--font-body);
+    font-size: 0.875rem;
+    cursor: pointer;
+    border-radius: var(--radius, 2px);
+    transition: all 0.2s ease;
+  }
+
+  .btn-quote-dismiss-final:hover {
+    background-color: #F4EED8;
+    color: var(--color-text, #2B2A26);
+    border-color: var(--color-text, #2B2A26);
+  }
+
+  /* ── Responsive Behavior ───────────────────────────────────────────── */
+  @media (max-width: 580px) {
+    .quote-modal-card {
+      padding: 1.75rem 1.25rem 1.5rem;
+    }
+
+    .quote-inputs-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .quote-bhk-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+
+    .quote-modal-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quote-modal-backdrop,
+    .quote-modal-card,
+    .quote-modal-close,
+    .bhk-label,
+    .btn-quote-submit {
+      transition: none !important;
+      transform: none !important;
+    }
+  }
+</style>
